@@ -1,0 +1,11 @@
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\majorProject.exe
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\majorProject.pdb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\obj\x86\Debug\ResolveAssemblyReference.cache
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\obj\x86\Debug\majorProject.exe
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\obj\x86\Debug\majorProject.pdb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\player.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\shot1.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\singlepix.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\enemy1.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb
