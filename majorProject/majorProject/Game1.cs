@@ -74,11 +74,14 @@ namespace majorProject
 
             //create enemies
             enemyList = new ArrayList();
-            for (int i = 0; i <= 800; i = i + 40)
-            {
-                Grunt enemy = new Grunt(enemyText, 34, 38, i, i / 2, 20);
-                enemyList.Add(enemy);
-            }
+            //for (int i = 0; i <= 800; i = i + 40)
+            //{
+            //    Grunt enemy = new Grunt(enemyText, 34, 38, i, i / 2, 20);
+            //    enemyList.Add(enemy);
+            //}
+
+            Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20);
+            enemyList.Add(enemy);
 
             //Load effects
             explosionTexture = Content.Load<Texture2D>("explosion");

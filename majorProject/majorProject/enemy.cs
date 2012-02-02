@@ -24,6 +24,7 @@ namespace majorProject
         protected int spriteHeight;
         public bool alive = true;
         public int health;
+        private int rotSpeed;
 
         public Enemy()
         {
@@ -45,6 +46,7 @@ namespace majorProject
             this.yPos = yPos;
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
             this.health = health;
+            this.rotSpeed = 1;
         }
 
         /// <summary>
@@ -94,8 +96,8 @@ namespace majorProject
         {
             float angle = 0;
             //get angle to human need to fix
-            int a = xPos - human.xPos;
-            int b = yPos - human.yPos;
+            int a = xPos + (spriteWidth / 2) - (human.xPos + human.sprite.spriteWidth / 2);
+            int b = yPos + (spriteHeight / 2) - (human.yPos + human.sprite.spriteHeight / 2);
 
             double c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
             angle = (float)Math.Sin(a / c);
@@ -107,7 +109,7 @@ namespace majorProject
             {
                 angle = angle + 90;
             }
-                //if human is down and left of enemy
+            //if human is down and left of enemy
             else if (human.xPos > xPos && human.yPos < yPos)
             {
                 angle = angle + 180;
@@ -117,12 +119,10 @@ namespace majorProject
                 angle = angle + 270;
             }
 
-            // convert angle to radians
-            float convert = MathHelper.Pi * 2;
-            float finangle =  angle % convert;
+            
 
 
-            return finangle;
+            return angle;
         }
 
         public bool moveTo(int tarX, int tarY)

@@ -59,16 +59,42 @@ namespace majorProject
                 }
             }
 
-            rotAngle = getAngleToHuman(human);
+            if (rotAngle >= 360 || rotAngle < 0)
+            {
+                rotAngle = 0;
+            }
+
+            double ang = Math.Round(getAngleToHuman(human),1);
+            double roundang = Math.Round(rotAngle, 1);
+
+            if (Math.Abs(roundang - ang) >= 0.3)
+            {
+                if (ang != roundang)
+                {
+                    // if the player is above the enemy
+                    if (human.yPos < yPos)
+                    {
+                        // if the player is to the right of the enemy
+                        if (human.xPos > xPos)
+                        {
+                            rotAngle = rotAngle - (float)0.1;
+                        }
+                    }
+                }
+                
+            }
         }
 
         public override void draw(SpriteBatch batch)
         {
+            // convert angle to radians
+            float convert = MathHelper.Pi * 2;
+            float finangle = rotAngle % convert;
             Vector2 pos = new Vector2(xPos, yPos);
             int drawx = xPos;
             int drawy = yPos;
             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
-            batch.Draw(sprite, pos, null, Color.White, rotAngle, origin, 1.0f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, pos, null, Color.White, finangle, origin, 1.0f, SpriteEffects.None, 0f);
         }
 
         public void moveForward()
