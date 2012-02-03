@@ -24,7 +24,7 @@ namespace majorProject
         protected int spriteHeight;
         public bool alive = true;
         public int health;
-        private double rotSpeed;
+        public double rotSpeed;
         public int rotAngle;
         public int aimTolerance;
         public double maxRotSpeed;
@@ -52,7 +52,7 @@ namespace majorProject
             this.rotSpeed = 1;
             this.rotAngle = 180;
             this.aimTolerance = 0;
-            this.maxRotSpeed = 0.1;
+            this.maxRotSpeed = 0.5;
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace majorProject
         {
             float angle = 0;
             //get angle to human need to fix
-            int a = xPos + (spriteWidth / 2) - (human.xPos + human.sprite.spriteWidth / 2);
-            int b = yPos + (spriteHeight / 2) - (human.yPos + human.sprite.spriteHeight / 2);
+            int a = Math.Abs(xPos + (spriteWidth / 2) - (human.xPos + human.sprite.spriteWidth / 2));
+            int b = Math.Abs(yPos + (spriteHeight / 2) - (human.yPos + human.sprite.spriteHeight / 2));
 
             double c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
             angle = (float)Math.Sin(a / c);
@@ -129,7 +129,13 @@ namespace majorProject
             return angle;
         }
 
-        public bool moveTo(int tarX, int tarY)
+        /// <summary>
+        /// Moves the enemy to the specified position on the screen at speed 1. Will change to have variable speed later
+        /// </summary>
+        /// <param name="tarX"></param>
+        /// <param name="tarY"></param>
+        /// <returns></returns>
+        public virtual bool moveTo(int tarX, int tarY)
         {
             bool finished = false;
             if (xPos > tarX)
@@ -162,9 +168,10 @@ namespace majorProject
         /// </summary>
         /// <param name="human"></param>
         /// <returns></returns>
-        public bool isAimedAt(Player human, float humanAngle)
+        public virtual bool isAimedAt(Player human, float humanAngle)
         {
-            if (rotAngle <= humanAngle + aimTolerance || rotAngle >= humanAngle - aimTolerance)
+            //if (rotAngle <= humanAngle + aimTolerance || rotAngle >= humanAngle - aimTolerance)
+            if (rotAngle == humanAngle)
             {
                 return true;
             }
@@ -174,7 +181,7 @@ namespace majorProject
             }
         }
 
-        public bool aim(Player human)
+        public virtual bool aim(Player human)
         {
             float humanAngle = getAngleToHuman(human);
             
@@ -183,18 +190,18 @@ namespace majorProject
             {
                 if (rotAngle <= humanAngle)
                 {
-                    rotSpeed = maxRotSpeed;
+                    this.rotSpeed = maxRotSpeed;
                     return false;
                 }
                 else
                 {
-                    rotSpeed = -1 * maxRotSpeed;
+                    this.rotSpeed = -1 * maxRotSpeed;
                     return false;
                 }
             }
             else
             {
-                rotSpeed = 0;
+                this.rotSpeed = 0;
                 return true;
             }
         }

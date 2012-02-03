@@ -19,7 +19,7 @@ namespace majorProject
     {
         private Vector2 origin;
         public float rotAngle = 0;
-        private double rotSpeed;
+        public double rotSpeed;
         private double maxRotSpeed;
 
         private short moveID = 0;
@@ -66,11 +66,12 @@ namespace majorProject
             }
 
             // Aiming Code
+            moveID = 1;
 
-            if (rotAngle >= 360 || rotAngle < 0)
-            {
-                rotAngle = 0;
-            }
+            //if (rotAngle >= 360 || rotAngle < 0)
+            //{
+            //    rotAngle = 0;
+            //}
         
             if (moveID == 0)
             {
@@ -87,8 +88,46 @@ namespace majorProject
             }
 
             //handle rotation
-            rotAngle = rotAngle + (float)rotSpeed;
+            this.rotAngle = rotAngle + (float)rotSpeed;
             
+        }
+
+        public virtual bool aim(Player human)
+        {
+            float humanAngle = getAngleToHuman(human);
+
+            //if not aimed at human
+            if (!isAimedAt(human, humanAngle))
+            {
+                if (rotAngle <= humanAngle)
+                {
+                    rotSpeed = maxRotSpeed;
+                    return false;
+                }
+                else
+                {
+                    rotSpeed = -1 * maxRotSpeed;
+                    return false;
+                }
+            }
+            else
+            {
+                rotSpeed = 0;
+                return true;
+            }
+        }
+
+        public override bool isAimedAt(Player human, float humanAngle)
+        {
+            //if (rotAngle <= humanAngle + aimTolerance || rotAngle >= humanAngle - aimTolerance)
+            if (rotAngle == humanAngle)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override void draw(SpriteBatch batch)
