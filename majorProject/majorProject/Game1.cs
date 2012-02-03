@@ -80,7 +80,7 @@ namespace majorProject
             //    enemyList.Add(enemy);
             //}
 
-            Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20);
+            Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20, 0.1);
             enemyList.Add(enemy);
 
             //Load effects
@@ -151,7 +151,12 @@ namespace majorProject
             removeEnemies(spriteBatch);
 
             //hit box for debugging
-            //spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
+            spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
+            // hit box for enemies
+            foreach(Enemy enemy in enemyList)
+            {
+                //spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

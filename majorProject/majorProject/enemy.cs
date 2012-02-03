@@ -24,7 +24,10 @@ namespace majorProject
         protected int spriteHeight;
         public bool alive = true;
         public int health;
-        private int rotSpeed;
+        private double rotSpeed;
+        public int rotAngle;
+        public int aimTolerance;
+        public double maxRotSpeed;
 
         public Enemy()
         {
@@ -47,6 +50,9 @@ namespace majorProject
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
             this.health = health;
             this.rotSpeed = 1;
+            this.rotAngle = 180;
+            this.aimTolerance = 0;
+            this.maxRotSpeed = 0.1;
         }
 
         /// <summary>
@@ -120,36 +126,77 @@ namespace majorProject
             }
 
             
-
-
             return angle;
         }
 
         public bool moveTo(int tarX, int tarY)
         {
+            bool finished = false;
             if (xPos > tarX)
             {
-                xPos = xPos - 3;
-                return false;
+                xPos = xPos - 1;
             }
             else if (xPos < tarX)
             {
-                xPos = xPos + 3;
-                return false;
+                xPos = xPos + 1;
             }
 
             if (yPos < tarY)
             {
-                yPos = yPos - 3;
-                return false;
+                yPos = yPos + 1;
             }
             else if (yPos > tarY)
             {
-                yPos = yPos + 3;
-                return false;
+                yPos = yPos - 1;
+            }
+            else
+            {
+                finished = true;
             }
 
-            return true;
+            return finished;
+        }
+
+        /// <summary>
+        /// Returns if the enemy is aimed within the tolerance 
+        /// </summary>
+        /// <param name="human"></param>
+        /// <returns></returns>
+        public bool isAimedAt(Player human, float humanAngle)
+        {
+            if (rotAngle <= humanAngle + aimTolerance || rotAngle >= humanAngle - aimTolerance)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool aim(Player human)
+        {
+            float humanAngle = getAngleToHuman(human);
+            
+            //if not aimed at human
+            if (!isAimedAt(human, humanAngle))
+            {
+                if (rotAngle <= humanAngle)
+                {
+                    rotSpeed = maxRotSpeed;
+                    return false;
+                }
+                else
+                {
+                    rotSpeed = -1 * maxRotSpeed;
+                    return false;
+                }
+            }
+            else
+            {
+                rotSpeed = 0;
+                return true;
+            }
         }
     }
 }

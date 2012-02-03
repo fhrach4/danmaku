@@ -1,1 +1,2 @@
 e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProjectContent\obj\x86\Debug\ResolveAssemblyReference.cache

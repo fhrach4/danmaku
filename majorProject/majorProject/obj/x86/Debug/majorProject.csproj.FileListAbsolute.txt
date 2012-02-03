@@ -9,3 +9,14 @@ e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\
 e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\singlepix.xnb
 e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\enemy1.xnb
 e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\shot1.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\singlepix.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\player.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\enemy1.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\majorProject.exe
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\majorProject.pdb
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\majorProject.exe
+D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\majorProject.pdb

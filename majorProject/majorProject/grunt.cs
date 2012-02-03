@@ -19,6 +19,10 @@ namespace majorProject
     {
         private Vector2 origin;
         public float rotAngle = 0;
+        private double rotSpeed;
+        private double maxRotSpeed;
+
+        private short moveID = 0;
 
         private delegate void Del();
         
@@ -26,7 +30,7 @@ namespace majorProject
         {
         }
 
-        public Grunt(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health)
+        public Grunt(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
         {
             this.alive = true;
             this.sprite = sprite;
@@ -35,8 +39,10 @@ namespace majorProject
             this.xPos = xPos;
             this.yPos = yPos;
             this.health = health;
+            this.hitBox = new Rectangle(xPos - spriteWidth / 2, yPos - spriteHeight / 2, spriteWidth, spriteHeight);
             this.origin = new Vector2(spriteWidth / 2, spriteHeight / 2);
-            this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
+            this.rotSpeed = 0;
+            this.maxRotSpeed = 0.1;
         }
 
         public override void update(Player human)
@@ -59,30 +65,30 @@ namespace majorProject
                 }
             }
 
+            // Aiming Code
+
             if (rotAngle >= 360 || rotAngle < 0)
             {
                 rotAngle = 0;
             }
-
-            double ang = Math.Round(getAngleToHuman(human),1);
-            double roundang = Math.Round(rotAngle, 1);
-
-            if (Math.Abs(roundang - ang) >= 0.3)
+        
+            if (moveID == 0)
             {
-                if (ang != roundang)
+                if(moveTo(0,0))
+                 {
+                    moveID++;
+                 }
+            }else if(moveID == 1)
+            {
+                if (aim(human))
                 {
-                    // if the player is above the enemy
-                    if (human.yPos < yPos)
-                    {
-                        // if the player is to the right of the enemy
-                        if (human.xPos > xPos)
-                        {
-                            rotAngle = rotAngle - (float)0.1;
-                        }
-                    }
+                    moveID++;
                 }
-                
             }
+
+            //handle rotation
+            rotAngle = rotAngle + (float)rotSpeed;
+            
         }
 
         public override void draw(SpriteBatch batch)
@@ -94,7 +100,7 @@ namespace majorProject
             int drawx = xPos;
             int drawy = yPos;
             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
-            batch.Draw(sprite, pos, null, Color.White, finangle, origin, 1.0f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, pos, null, Color.White, rotAngle, origin, 1.0f, SpriteEffects.None, 0f);
         }
 
         public void moveForward()
