@@ -24,6 +24,8 @@ namespace majorProject
 
         private short moveID = 0;
 
+        public int appearTime;
+
         private delegate void Del();
         
         public Grunt()

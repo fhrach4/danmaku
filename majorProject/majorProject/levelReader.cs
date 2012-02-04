@@ -28,6 +28,9 @@ namespace majorProject
 
         int currentLevel;
 
+        /// <summary>
+        /// Cretes a new instance of a LevelReader, and loads the ements of the first level
+        /// </summary>
         public LevelReader()
         {
             this.currentLevel = 0;
@@ -36,7 +39,8 @@ namespace majorProject
             string[] files = Directory.GetFiles(workingDirectory);
 
             // set regular expression to check for only files that end in '.lvl'
-            Regex reg = new Regex("$.lvl");
+            //TODO get help with regex
+            Regex reg = new Regex("$lvl");
 
             // check all files in the working directory to see if any end with .lvl,
             // if they do, add them to the list of level files
@@ -49,7 +53,14 @@ namespace majorProject
             }
 
             // load items for first level
-            getNextLevel();
+            if (levelFiles.Count > 0)
+            {
+                getNextLevel();
+            }
+            else
+            {
+                Console.Error.WriteLine("Error: could not find any level files in: " + workingDirectory);
+            }
         }
 
         /// <summary>
@@ -75,19 +86,17 @@ namespace majorProject
             string line = reader.ReadLine();
             while (line != null)
             {
-                //TODO: figure out how to concatonate strings
+                string[] output = line.Split(';');
+
                 //First entry will be the enemy type
-                string type = "";
+                string type = output[0];
 
                 //Second entry will be the time;
-                string time = "";
-                //TODO: extract number from string
-                int appearTime = 0;
+                int appearTime = Convert.ToInt32(output[1]);
 
                 //Third will the the appear x
-                string X = "";
-                //TODO: extract number from string
-                int xpos = 0;
+                int xpos = Convert.ToInt32(output[2]);
+
 
                 if (type == "Grunt")
                 {
@@ -95,6 +104,7 @@ namespace majorProject
                     Grunt grunt = new Grunt();
                     grunt.xPos = 0;
                     grunt.appearTime = appearTime;
+                    enemyList.Add(grunt);
                 }
                 /*
                  * Additional types go here

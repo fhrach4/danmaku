@@ -64,6 +64,8 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            // Create Level Reader
+            LevelReader reader = new LevelReader(); 
             //create player
             singlePix = Content.Load<Texture2D>("singlePix");
             Texture2D enemyText = Content.Load<Texture2D>("Enemy1");

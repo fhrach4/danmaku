@@ -112,6 +112,7 @@
     <Compile Include="enemy.cs" />
     <Compile Include="expolsion.cs" />
     <Compile Include="grunt.cs" />
+    <Compile Include="levelReader.cs" />
     <Compile Include="player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
