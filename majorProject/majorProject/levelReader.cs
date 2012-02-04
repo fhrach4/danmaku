@@ -106,7 +106,7 @@ namespace majorProject
                 {
                     // Do nothing and print error
                     Console.Error.WriteLine("Error unrecognized enemy type: <" + type + ">");
-
+                }
             }
         }
     }
