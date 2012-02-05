@@ -24,7 +24,7 @@ namespace majorProject
         //public globals
         public string background;               //background stored as string to load in Load in Game1.cs
         public string levelSong;                //song stored as string to load in Game1.cs
-        public ArrayList enemyList;
+        public List<Enemy> enemyList;
 
         int currentLevel;
 
@@ -40,7 +40,7 @@ namespace majorProject
 
             // set regular expression to check for only files that end in '.lvl'
             //TODO get help with regex
-            Regex reg = new Regex("$lvl");
+            Regex reg = new Regex("^.*lvl");
 
             // check all files in the working directory to see if any end with .lvl,
             // if they do, add them to the list of level files
@@ -104,6 +104,7 @@ namespace majorProject
                     Grunt grunt = new Grunt();
                     grunt.xPos = 0;
                     grunt.appearTime = appearTime;
+                    //TODO figure out weird null exception
                     enemyList.Add(grunt);
                 }
                 /*
