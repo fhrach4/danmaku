@@ -110,6 +110,7 @@
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="control.cs" />
     <Compile Include="enemy.cs" />
+    <Compile Include="enemyShot.cs" />
     <Compile Include="expolsion.cs" />
     <Compile Include="grunt.cs" />
     <Compile Include="levelReader.cs" />
@@ -122,6 +123,7 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="shot2.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\majorProjectContent\majorProjectContent.contentproj">

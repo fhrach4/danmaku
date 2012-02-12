@@ -29,7 +29,7 @@ namespace majorProject
         protected int maxSpeed;
         protected int shotDelay = 100;
         protected double timeSinceLastShot = 0;
-        protected Stopwatch shotTimer;
+        protected Stopwatch shotTimer = new Stopwatch();
 
         //## public values
         public AnimatedSprite sprite;
@@ -46,6 +46,17 @@ namespace majorProject
         //collision variables
         public Rectangle hitBox;
         private int hitBoxOffset;
+        public bool hit = false;
+        protected Stopwatch respawnTimer = new Stopwatch();
+
+        //Spawn point
+        private int spawnX;
+        private int spawnY;
+
+        //Other
+        public int lives;
+        public int score;
+        public bool respawn = false;
 
         public enum input
         {
@@ -61,6 +72,8 @@ namespace majorProject
         {
             this.xPos = xPos;
             this.yPos = yPos;
+            this.spawnX = xPos;
+            this.spawnY = yPos;
             this.sprite = sprite;
             this.shotSprite = shotSprite;
             this.currentXSpeed = 0;
@@ -68,77 +81,50 @@ namespace majorProject
             this.maxSpeed = maxSpeed;
             hitBoxOffset = this.xPos + 10;
             this.hitBox = new Rectangle(hitBoxOffset, yPos, sprite.spriteWidth - 10, sprite.spriteHeight - 10);
+            this.lives = 3;
 
-            shotTimer = new Stopwatch();
             shotTimer.Start();
 
             //eventually change so player  can define keys
         }
 
-        public Vector2 updateState(GameTime time)
+        public Vector2 updateState(GameTime time, ArrayList enemyList)
         {
+            Vector2 update;
             //get a list of pressed keys
             KeyboardState KBstate = Keyboard.GetState();
 
-            // if shooting
-            if (KBstate.IsKeyDown((Keys)input.fire) && shotTimer.ElapsedMilliseconds >= shotDelay)
+            //if not respawning, handle collisions
+            if (!respawn)
             {
-                int shot1x = xPos + Math.Abs(sprite.currentFrame  - 6);
-                int shot1y = yPos + 20;
-
-                int shot2x = xPos + Math.Abs(sprite.currentFrame - 6) + 25;
-                int shot2y = yPos + 20;
-                Shot shot = new Shot(shotSprite, shot1x, shot1y, 10, 15);
-                Shot shot2 = new Shot(shotSprite, shot2x, shot2y, 10, 15);
-                shotList.Add(shot);
-                shotList.Add(shot2);
-
-                shotTimer.Restart();
-            }
-
-            //if up key is hit
-            if (KBstate.IsKeyDown((Keys)input.up) && currentYSpeed >= maxSpeed * -1)
-            {
-                currentYSpeed--;
-            }
-
-            //if down key is hit
-            if (KBstate.IsKeyDown((Keys)input.down) && currentYSpeed <= maxSpeed)
-            {
-                currentYSpeed++;
-            }
-
-            // if neither up nor down are hit
-            if (! (KBstate.IsKeyDown((Keys)input.down) || KBstate.IsKeyDown((Keys)input.up)))
-            {
-                currentYSpeed = 0;
-            }
-
-            // if left key is hit
-            if (KBstate.IsKeyDown((Keys)input.left) && currentXSpeed >= maxSpeed * -1)
-            {
-
-                currentXSpeed--;
-            }
-
-            // if right key is hit
-            if (KBstate.IsKeyDown((Keys)input.right) && currentXSpeed <= maxSpeed)
-            {
-                currentXSpeed++;
-            }
-
-            // if neither left nor right are hit
-            if (!(KBstate.IsKeyDown((Keys)input.left) || KBstate.IsKeyDown((Keys)input.right)))
-            {
-                currentXSpeed = 0;
-                if(!(KBstate.IsKeyDown((Keys)input.focus)))
+                foreach (Enemy enemy in enemyList)
                 {
-                    sprite.returnToNeutral();
+                    if (hitBox.Intersects(enemy.hitBox))
+                    {
+                        hit = true;
+                    }
                 }
             }
 
-            //update each shot, and clear it if it is out of bounds
+            if (hit)
+            {
+                update = new Vector2(xPos, yPos);
+                respawn = true;
+                respawnTimer.Start();
+                lives--;
+            }
+            else if (respawn)
+            {
+                keyboardMovement(KBstate);
+            }
+            else
+            {
 
+                keyboardMovement(KBstate);
+                keyboardShoot(KBstate);
+            }
+            //update each shot, and clear it if it is out of bounds
+            
             foreach(Shot shot in shotList)
             {
                 shot.update();
@@ -153,27 +139,92 @@ namespace majorProject
                 shotList.Remove(shot);
             }
             
-            // change speed based off focus state
-            if (KBstate.IsKeyDown((Keys)input.focus))
-            {
-                xPos = xPos + currentXSpeed / 3;
-                yPos = yPos + currentYSpeed / 3;
-            }
-            else
-            {
-                xPos = xPos + currentXSpeed;
-                yPos = yPos + currentYSpeed;
-            }
+
 
             //update hitbox
             hitBox.X = xPos + 5;
             hitBox.Y = yPos + 10;
 
-            Vector2 update = new Vector2(xPos, yPos);
+            update = new Vector2(xPos, yPos);
 
             //handle sprite animation
             sprite.handleMovement(currentXSpeed);
-            return update;
+        return update;
+        }
+
+        public void keyboardShoot(KeyboardState KBstate)
+        {
+            // if shooting
+            if (KBstate.IsKeyDown((Keys)input.fire) && shotTimer.ElapsedMilliseconds >= shotDelay)
+            {
+                int shot1x = xPos + Math.Abs(sprite.currentFrame - 6);
+                int shot1y = yPos + 20;
+
+                int shot2x = xPos + Math.Abs(sprite.currentFrame - 6) + 25;
+                int shot2y = yPos + 20;
+                Shot shot = new Shot(shotSprite, shot1x, shot1y, 10, 15);
+                Shot shot2 = new Shot(shotSprite, shot2x, shot2y, 10, 15);
+                shotList.Add(shot);
+                shotList.Add(shot2);
+
+                shotTimer.Restart();
+            }
+        }
+
+        public void keyboardMovement(KeyboardState KBstate)
+        {
+            //if up key is hit
+                if (KBstate.IsKeyDown((Keys)input.up) && currentYSpeed >= maxSpeed * -1)
+                {
+                    currentYSpeed--;
+                }
+
+                //if down key is hit
+                if (KBstate.IsKeyDown((Keys)input.down) && currentYSpeed <= maxSpeed)
+                {
+                    currentYSpeed++;
+                }
+
+                // if neither up nor down are hit
+                if (! (KBstate.IsKeyDown((Keys)input.down) || KBstate.IsKeyDown((Keys)input.up)))
+                {
+                    currentYSpeed = 0;
+                }
+
+                // if left key is hit
+                if (KBstate.IsKeyDown((Keys)input.left) && currentXSpeed >= maxSpeed * -1)
+                {
+
+                    currentXSpeed--;
+                }
+
+                // if right key is hit
+                if (KBstate.IsKeyDown((Keys)input.right) && currentXSpeed <= maxSpeed)
+                {
+                    currentXSpeed++;
+                }
+
+                // if neither left nor right are hit
+                if (!(KBstate.IsKeyDown((Keys)input.left) || KBstate.IsKeyDown((Keys)input.right)))
+                {
+                    currentXSpeed = 0;
+                    if(!(KBstate.IsKeyDown((Keys)input.focus)))
+                    {
+                        sprite.returnToNeutral();
+                    }
+                }
+
+                // change speed based off focus state
+                if (KBstate.IsKeyDown((Keys)input.focus))
+                {
+                    xPos = xPos + currentXSpeed / 3;
+                    yPos = yPos + currentYSpeed / 3;
+                }
+                else
+                {
+                    xPos = xPos + currentXSpeed;
+                    yPos = yPos + currentYSpeed;
+                }
         }
 
         public void drawShots(SpriteBatch batch)
@@ -183,6 +234,44 @@ namespace majorProject
                 shot.draw(batch);
             }
         }
-   
+
+        public void die(Expolsion explosion, SpriteBatch batch)
+        {
+            explosion.xPos = xPos;
+            explosion.yPos = yPos;
+        }
+        
+        public void respawnUpdate()
+        {
+            if (lives >= 0)
+            {
+                if (hit)
+                {
+                    if (xPos != spawnX)
+                    {
+                        xPos = spawnX;
+                    }
+
+                    if (yPos != spawnY)
+                    {
+                        yPos = spawnY;
+                    }
+
+                    hit = false;
+                }
+
+
+                if (respawnTimer.ElapsedMilliseconds >= 3000)
+                {
+                    respawn = false;
+                    respawnTimer.Stop();
+                    respawnTimer.Reset();
+                }
+            }
+            else
+            {
+                //TODO:GAME OVER CODE
+            }
+        }
     }
 }

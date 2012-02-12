@@ -29,8 +29,8 @@ namespace majorProject
         protected int HUMAN_SPRITE_HEIGHT = 38;
         protected int HUMAN_NEUTRAL_FRAME = 5;
         //Human position constants
-        protected int HUMAN_START_X = 200;
-        protected int HUMAN_START_Y = 200;
+        protected int HUMAN_START_X = 300;
+        protected int HUMAN_START_Y = 500;
         //Globals
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -48,6 +48,7 @@ namespace majorProject
 
         // Sprites
         Texture2D enemyText;
+        Texture2D enemyShot;
         Texture2D shotTexture;
         Texture2D humanTexture;
         AnimatedSprite humanAnimatedTexture;
@@ -166,16 +167,36 @@ namespace majorProject
                 }
             }
             //handle player movement
-            Vector2 humanPos = human.updateState(gameTime);
-            human.drawShots(spriteBatch);
-            human.sprite.draw(spriteBatch, humanPos);
+            if (!human.respawn)
+            {
+                Vector2 humanPos = human.updateState(gameTime, enemyList);
+                human.drawShots(spriteBatch);
+                human.sprite.draw(spriteBatch, humanPos);
+
+                // handle player explosions
+                if (human.hit)
+                {
+                    Expolsion exp = new Expolsion(explosionTexture, 128, 128, 20);
+                    explosionList.Add(exp);
+                    human.die(exp, spriteBatch);
+                }
+            }
+            else
+            {
+                human.respawnUpdate();
+                human.drawShots(spriteBatch);
+                Vector2 humanPos = human.updateState(gameTime, enemyList);
+                human.sprite.drawInvincible(spriteBatch,humanPos);
+            }
+
+
 
             //draw effects and remove players/enemies
             updateEffects(spriteBatch);
             removeEnemies(spriteBatch);
 
             //hit box for debugging
-            spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
+            //spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
             // hit box for enemies
             foreach(Enemy enemy in enemyList)
             {

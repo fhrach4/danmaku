@@ -90,6 +90,16 @@ namespace majorProject
             batch.Draw(texture, drawrect, spriterect, Color.White);
         }
 
+        public void drawInvincible(SpriteBatch batch, Vector2 vect)
+        {
+            int drawx = currentFrame * spriteWidth;
+            int drawy = 0;
+            Rectangle spriterect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
+            Rectangle drawrect = new Rectangle((int)vect.X, (int)vect.Y, spriteWidth, spriteHeight);
+
+            batch.Draw(texture, drawrect, Color.Gray);
+        }
+
         public void returnToNeutral()
         {
             if (currentFrame > neutralFrame)

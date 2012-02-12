@@ -149,6 +149,7 @@ namespace majorProject
         /// <returns></returns>
         public virtual bool moveTo(int tarX, int tarY)
         {
+            //set finished to false
             bool finished = false;
             if (xPos > tarX)
             {
@@ -167,10 +168,15 @@ namespace majorProject
             {
                 yPos = yPos - (1 * moveSpeed);
             }
+            //Otherwise, destiniation is reached, so finished is true
             else
             {
                 finished = true;
             }
+
+            //update hitbox
+            hitBox.X = xPos;
+            hitBox.Y = yPos;
 
             return finished;
         }

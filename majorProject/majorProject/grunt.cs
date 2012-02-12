@@ -17,6 +17,7 @@ namespace majorProject
 {
     class Grunt : Enemy
     {
+        private Texture2D shot;
         private Vector2 origin;
         public float rotAngle = 0;
         public double rotSpeed;
@@ -25,18 +26,25 @@ namespace majorProject
         public int tarx;
         public int tary;
 
+        public int shotSpeed;
+
         private short moveID = 0;
 
         private delegate void Del();
+
+        public ArrayList shotList = new ArrayList();
+
+        public ArrayList removeList = new ArrayList();
         
         public Grunt()
         {
         }
 
-        public Grunt(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
+        public Grunt(Texture2D sprite, Texture2D shot, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
         {
             this.alive = true;
             this.sprite = sprite;
+            this.shot = shot;
             this.spriteWidth = spriteWidth;
             this.spriteHeight = spriteHeight;
             this.xPos = xPos;
@@ -46,6 +54,7 @@ namespace majorProject
             this.origin = new Vector2(spriteWidth / 2, spriteHeight / 2);
             this.rotSpeed = 0;
             this.maxRotSpeed = 0.1;
+            this.shotSpeed = 3;
         }
 
         public override void update(Player human)
@@ -105,7 +114,26 @@ namespace majorProject
             }
             //handle rotation
             this.rotAngle = rotAngle + (float)rotSpeed;
+
+            //update shots
+
             
+        }
+
+        public void updateShots()
+        {
+            foreach (EnemyShot shot in shotList)
+            {
+                if (shot.isOutOfPlay() || shot.hit)
+                {
+                    removeList.Add(shot);
+                }
+            }
+
+            foreach (EnemyShot shot in removeList)
+            {
+                shotList.Remove(shot);
+            }
         }
 
         public virtual bool aim(Player human)

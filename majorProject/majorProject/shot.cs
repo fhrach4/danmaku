@@ -29,6 +29,10 @@ namespace majorProject
         public bool hit = false;
         public Rectangle hitBox;
 
+        public Shot()
+        {
+        }
+
         public Shot(Texture2D sprite, int xPos, int yPos, int damage, int maxSpeed)
         {
             this.sprite = sprite;
@@ -41,7 +45,7 @@ namespace majorProject
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
         }
 
-        public void update()
+        public virtual void update()
         {
             yPos = yPos - maxSpeed;
             hitBox.Y = yPos;
@@ -49,7 +53,7 @@ namespace majorProject
 
         public bool isOutOfPlay()
         {
-            if (yPos < 0)
+            if (yPos < 0 || yPos > 600 || xPos < 0 || xPos > 800)
             {
                 return true;
             }
