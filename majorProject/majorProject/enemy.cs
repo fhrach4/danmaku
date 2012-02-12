@@ -16,9 +16,11 @@ namespace majorProject
 {
     class Enemy
     {
+        public bool start = false;
+        public int appearTime = 0;
         public int xPos;
         public int yPos;
-        protected Texture2D sprite;
+        public Texture2D sprite;
         public Rectangle hitBox;
         protected int spriteWidth;
         protected int spriteHeight;
@@ -28,6 +30,7 @@ namespace majorProject
         public int rotAngle;
         public int aimTolerance;
         public double maxRotSpeed;
+        public int moveSpeed;
 
         public Enemy()
         {
@@ -40,7 +43,7 @@ namespace majorProject
         /// <param name="spriteHeight"></param>
         /// <param name="xPos"></param>
         /// <param name="yPos"></param>
-        public Enemy(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health)
+        public Enemy(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, int moveSpeed)
         {
             this.sprite = sprite;
             this.spriteHeight = spriteHeight;
@@ -53,6 +56,15 @@ namespace majorProject
             this.rotAngle = 180;
             this.aimTolerance = 0;
             this.maxRotSpeed = 0.5;
+            this.moveSpeed = moveSpeed;
+        }
+
+        public void init(Texture2D sprite, int spriteHeight, int spriteWidth)
+        {
+            this.sprite = sprite;
+            this.spriteHeight = spriteHeight;
+            this.spriteWidth = spriteWidth;
+            this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
         }
 
         /// <summary>
@@ -140,20 +152,20 @@ namespace majorProject
             bool finished = false;
             if (xPos > tarX)
             {
-                xPos = xPos - 1;
+                xPos = xPos - (1 * moveSpeed);
             }
             else if (xPos < tarX)
             {
-                xPos = xPos + 1;
+                xPos = xPos + (1 * moveSpeed);
             }
 
             if (yPos < tarY)
             {
-                yPos = yPos + 1;
+                yPos = yPos + (1 * moveSpeed);
             }
             else if (yPos > tarY)
             {
-                yPos = yPos - 1;
+                yPos = yPos - (1 * moveSpeed);
             }
             else
             {

@@ -24,7 +24,7 @@ namespace majorProject
         //public globals
         public string background;               //background stored as string to load in Load in Game1.cs
         public string levelSong;                //song stored as string to load in Game1.cs
-        public List<Enemy> enemyList;
+        public List<Enemy> enemyList = new List<Enemy>();
 
         int currentLevel;
 
@@ -90,20 +90,32 @@ namespace majorProject
 
                 //First entry will be the enemy type
                 string type = output[0];
-
+                
                 //Second entry will be the time;
                 int appearTime = Convert.ToInt32(output[1]);
 
-                //Third will the the appear x
-                int xpos = Convert.ToInt32(output[2]);
+                // Third will be the appear x
+                int appx = Convert.ToInt32(output[2]);
 
+                //Third will the the tar x
+                int xpos = Convert.ToInt32(output[3]);
+
+                // Forth will be the tar y
+                int ypos = Convert.ToInt32(output[4]);
+
+                // Fifth will be the moveSpeed
+                int speed = Convert.ToInt32(output[5]);
 
                 if (type == "Grunt")
                 {
                     //Create a blank grunt
                     Grunt grunt = new Grunt();
-                    grunt.xPos = 0;
+                    grunt.xPos = appx;
+                    grunt.yPos = -10;
+                    grunt.tarx = xpos;
+                    grunt.tary = ypos;
                     grunt.appearTime = appearTime;
+                    grunt.moveSpeed = speed;
                     //TODO figure out weird null exception
                     enemyList.Add(grunt);
                 }
@@ -118,6 +130,7 @@ namespace majorProject
                     // Do nothing and print error
                     Console.Error.WriteLine("Error unrecognized enemy type: <" + type + ">");
                 }
+                line = reader.ReadLine();
             }
         }
     }

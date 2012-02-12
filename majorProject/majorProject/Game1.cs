@@ -43,8 +43,14 @@ namespace majorProject
         Player human;
 
         //enemy list
-        public ArrayList enemyList;
+        public ArrayList enemyList = new ArrayList();
         public ArrayList removeList = new ArrayList();
+
+        // Sprites
+        Texture2D enemyText;
+        Texture2D shotTexture;
+        Texture2D humanTexture;
+        AnimatedSprite humanAnimatedTexture;
 
         public Game1()
         {
@@ -64,29 +70,41 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
-            // Create Level Reader
-            LevelReader reader = new LevelReader(); 
-            //create player
             singlePix = Content.Load<Texture2D>("singlePix");
-            Texture2D enemyText = Content.Load<Texture2D>("Enemy1");
-            Texture2D shotTexture = Content.Load<Texture2D>("shot1");
-            Texture2D humanTexture = Content.Load<Texture2D>("player");
-            AnimatedSprite humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
+            enemyText = Content.Load<Texture2D>("Enemy1");
+            shotTexture = Content.Load<Texture2D>("shot1");
+            humanTexture = Content.Load<Texture2D>("player");
+            explosionTexture = Content.Load<Texture2D>("explosion");
+            // Create Level Reader
+            LevelReader reader = new LevelReader();
+
+            // Load Background
+            
+
+            foreach (Enemy enemy in reader.enemyList)
+            {
+                if (enemy is Grunt)
+                {
+                    enemy.init(enemyText, 34, 38);
+                    enemyList.Add(enemy);
+                }
+            }
+            //create player
+            humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
+           
             human = new Player(humanAnimatedTexture, shotTexture, HUMAN_START_X, HUMAN_START_Y, MAX_HUMAN_SPEED);
 
-            //create enemies
-            enemyList = new ArrayList();
             //for (int i = 0; i <= 800; i = i + 40)
             //{
             //    Grunt enemy = new Grunt(enemyText, 34, 38, i, i / 2, 20);
             //    enemyList.Add(enemy);
             //}
 
-            Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20, 0.1);
-            enemyList.Add(enemy);
+            //Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20, 0.1);
+            //enemyList.Add(enemy);
 
             //Load effects
-            explosionTexture = Content.Load<Texture2D>("explosion");
+            
     
             base.Initialize();
         }
@@ -99,9 +117,8 @@ namespace majorProject
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
 
-            // TODO: use this.Content to load your game content here
+
         }
 
         /// <summary>
@@ -141,7 +158,12 @@ namespace majorProject
             //draw enemies
             foreach (Enemy enemy in enemyList)
             {
-                enemy.draw(spriteBatch);
+                Console.Out.WriteLine(gameTime.TotalGameTime.TotalSeconds);
+                if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                {
+                    enemy.start = true;
+                    enemy.draw(spriteBatch);
+                }
             }
             //handle player movement
             Vector2 humanPos = human.updateState(gameTime);
@@ -168,10 +190,13 @@ namespace majorProject
             // check to see if each enemy is alive
             foreach (Enemy enemy in enemyList)
             {
-                enemy.update(human);
-                if (!enemy.alive)
+                if (enemy.start)
                 {
-                    removeList.Add(enemy);
+                    enemy.update(human);
+                    if (!enemy.alive)
+                    {
+                        removeList.Add(enemy);
+                    }
                 }
             }
         }

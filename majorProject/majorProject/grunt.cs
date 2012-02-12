@@ -22,9 +22,10 @@ namespace majorProject
         public double rotSpeed;
         private double maxRotSpeed;
 
-        private short moveID = 0;
+        public int tarx;
+        public int tary;
 
-        public int appearTime;
+        private short moveID = 0;
 
         private delegate void Del();
         
@@ -68,7 +69,7 @@ namespace majorProject
             }
 
             // Aiming Code
-            moveID = 1;
+            //moveID = 1;
 
             //if (rotAngle >= 360 || rotAngle < 0)
             //{
@@ -77,7 +78,7 @@ namespace majorProject
         
             if (moveID == 0)
             {
-                if(moveTo(0,0))
+                if(moveTo(tarx, tary))
                  {
                     moveID++;
                  }
@@ -85,10 +86,23 @@ namespace majorProject
             {
                 if (aim(human))
                 {
+                    //moveID++;
+                }
+
+                moveID++;
+
+            }
+            else if (moveID == 2)
+            {
+                if (moveTo(tarx, -110))
+                {
                     moveID++;
                 }
             }
-
+            else
+            {
+                alive = false;
+            }
             //handle rotation
             this.rotAngle = rotAngle + (float)rotSpeed;
             
