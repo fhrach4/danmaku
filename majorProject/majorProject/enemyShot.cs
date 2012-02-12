@@ -25,12 +25,15 @@ namespace majorProject
         public int radius;
         private Vector2 origin;
 
-        public EnemyShot(Texture2D sprite, int radius, int angle, int maxSpeed)
+        public EnemyShot(Texture2D sprite, int radius, int angle, int maxSpeed, int xPos, int yPos)
         {
             this.sprite = sprite;
             this.radius = radius;
             this.angle = angle;
-            this.maxSpeed = maxSpeed;
+            xSpeed = (int)(maxSpeed * Math.Sin(maxSpeed));
+            xSpeed = (int)(maxSpeed * Math.Cos(maxSpeed));
+            this.xPos = xPos;
+            this.yPos = yPos;
         }
 
          public override void update()
@@ -56,5 +59,14 @@ namespace majorProject
                  return false;
              }
          }
+
+         public override void draw(SpriteBatch batch)
+         {
+             int drawx = xPos;
+             int drawy = yPos;
+             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
+             batch.Draw(sprite, drawrect, Color.White);
+         }
+
     }
 }

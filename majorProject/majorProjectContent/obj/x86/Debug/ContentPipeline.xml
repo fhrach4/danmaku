@@ -46,16 +46,25 @@
       <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb</Output>
       <Time>2012-01-29T14:56:20.12391-05:00</Time>
     </Item>
+    <Item>
+      <Source>shot2.png</Source>
+      <Name>shot2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb</Output>
+      <Time>2012-02-12T01:37:56.811576-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\</RootDirectory>
-      <LoggerRootDirectory>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\</LoggerRootDirectory>
-      <IntermediateDirectory>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\</RootDirectory>
+      <LoggerRootDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\</LoggerRootDirectory>
+      <IntermediateDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

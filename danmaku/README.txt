@@ -1,5 +1,5 @@
 This is my attempt at making a bullet-hell / Damnaku game.
-I currently do not have the ability to make sprites, so if anyone can pleas
+I currently do not have the ability to make sprites, so if anyone can please
 help
 
 Sprites used are from the spriter's resource

@@ -71,6 +71,7 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            enemyShot = Content.Load<Texture2D>("shot2");
             singlePix = Content.Load<Texture2D>("singlePix");
             enemyText = Content.Load<Texture2D>("Enemy1");
             shotTexture = Content.Load<Texture2D>("shot1");
@@ -86,7 +87,7 @@ namespace majorProject
             {
                 if (enemy is Grunt)
                 {
-                    enemy.init(enemyText, 34, 38);
+                    enemy.init(enemyText, enemyShot, 34, 38);
                     enemyList.Add(enemy);
                 }
             }
@@ -164,6 +165,7 @@ namespace majorProject
                 {
                     enemy.start = true;
                     enemy.draw(spriteBatch);
+                    enemy.drawShots(spriteBatch);
                 }
             }
             //handle player movement
@@ -219,6 +221,11 @@ namespace majorProject
                         removeList.Add(enemy);
                     }
                 }
+
+                foreach (EnemyShot shot in enemy.shotList)
+                {
+                    shot.update();
+                }
             }
         }
 
@@ -233,6 +240,8 @@ namespace majorProject
                 enemy.die(exp, batch);
 
                 enemyList.Remove(enemy);
+
+               
             }
 
             removeList.Clear();

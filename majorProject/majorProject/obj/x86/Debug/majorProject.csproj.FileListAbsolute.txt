@@ -20,3 +20,4 @@ D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorP
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\majorProject.exe
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\obj\x86\Debug\majorProject.pdb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb

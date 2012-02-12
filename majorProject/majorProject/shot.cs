@@ -18,7 +18,7 @@ namespace majorProject
     {
         //Procteced Values
         protected int maxSpeed;
-        protected Texture2D sprite;
+        public Texture2D sprite;
         protected int spriteWidth;
         protected int spriteHeight;
 
@@ -63,7 +63,7 @@ namespace majorProject
             }
         }
 
-        public void draw(SpriteBatch batch)
+        public virtual void draw(SpriteBatch batch)
         {
             int drawx = xPos;
             int drawy = yPos;

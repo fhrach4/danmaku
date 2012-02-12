@@ -17,7 +17,6 @@ namespace majorProject
 {
     class Grunt : Enemy
     {
-        private Texture2D shot;
         private Vector2 origin;
         public float rotAngle = 0;
         public double rotSpeed;
@@ -32,7 +31,7 @@ namespace majorProject
 
         private delegate void Del();
 
-        public ArrayList shotList = new ArrayList();
+        //public ArrayList shotList = new ArrayList();
 
         public ArrayList removeList = new ArrayList();
         
@@ -40,11 +39,11 @@ namespace majorProject
         {
         }
 
-        public Grunt(Texture2D sprite, Texture2D shot, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
+        public Grunt(Texture2D sprite, Texture2D shotSprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
         {
             this.alive = true;
             this.sprite = sprite;
-            this.shot = shot;
+            this.shotSprite = shotSprite;
             this.spriteWidth = spriteWidth;
             this.spriteHeight = spriteHeight;
             this.xPos = xPos;
@@ -90,6 +89,7 @@ namespace majorProject
                 if(moveTo(tarx, tary))
                  {
                     moveID++;
+                    shoot();
                  }
             }else if(moveID == 1)
             {
@@ -135,6 +135,14 @@ namespace majorProject
                 shotList.Remove(shot);
             }
         }
+
+        public void shoot()
+        {
+            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, 5, xPos, yPos);
+            shotList.Add(shot);
+        }
+
+
 
         public virtual bool aim(Player human)
         {

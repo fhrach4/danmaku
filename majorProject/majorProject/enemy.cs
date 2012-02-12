@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace majorProject
 {
     class Enemy
     {
+        public Texture2D shotSprite;
         public bool start = false;
         public int appearTime = 0;
         public int xPos;
@@ -31,6 +33,7 @@ namespace majorProject
         public int aimTolerance;
         public double maxRotSpeed;
         public int moveSpeed;
+        public ArrayList shotList = new ArrayList();
 
         public Enemy()
         {
@@ -59,9 +62,10 @@ namespace majorProject
             this.moveSpeed = moveSpeed;
         }
 
-        public void init(Texture2D sprite, int spriteHeight, int spriteWidth)
+        public void init(Texture2D sprite, Texture2D shotSprite, int spriteHeight, int spriteWidth)
         {
             this.sprite = sprite;
+            this.shotSprite = shotSprite;
             this.spriteHeight = spriteHeight;
             this.spriteWidth = spriteWidth;
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
@@ -101,6 +105,14 @@ namespace majorProject
             int drawy = yPos;
             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
             batch.Draw(sprite, drawrect, Color.White);
+        }
+
+        public void drawShots(SpriteBatch batch)
+        {
+            foreach (EnemyShot shot in shotList)
+            {
+                shot.draw(batch);
+            }
         }
 
         public void die(Expolsion explosion, SpriteBatch batch)
