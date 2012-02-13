@@ -17,7 +17,7 @@ namespace majorProject
 {
     class EnemyShot : Shot
     {
-        protected Texture2D sprite;
+        //protected Texture2D sprite;
         public int xSpeed;
         public int ySpeed;
         public int angle;

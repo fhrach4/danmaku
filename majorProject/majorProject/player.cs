@@ -88,7 +88,7 @@ namespace majorProject
             //eventually change so player  can define keys
         }
 
-        public Vector2 updateState(GameTime time, ArrayList enemyList)
+        public Vector2 updateState(GameTime time, Enemy[] enemyList)
         {
             Vector2 update;
             //get a list of pressed keys
@@ -99,7 +99,7 @@ namespace majorProject
             {
                 foreach (Enemy enemy in enemyList)
                 {
-                    if (hitBox.Intersects(enemy.hitBox))
+                    if (enemy != null && hitBox.Intersects(enemy.hitBox))
                     {
                         hit = true;
                     }

@@ -32,8 +32,8 @@ namespace majorProject
         protected int HUMAN_START_X = 300;
         protected int HUMAN_START_Y = 500;
         //Globals
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
 
         //Effects
         public ArrayList explosionList = new ArrayList();
@@ -44,6 +44,7 @@ namespace majorProject
 
         //enemy list
         public ArrayList enemyList = new ArrayList();
+        private Enemy[] activeList;
         public ArrayList removeList = new ArrayList();
 
         // Sprites
@@ -71,6 +72,7 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            activeList = new Enemy[20];
             enemyShot = Content.Load<Texture2D>("shot2");
             singlePix = Content.Load<Texture2D>("singlePix");
             enemyText = Content.Load<Texture2D>("Enemy1");
@@ -139,7 +141,7 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            updateEnemies();
+            updateEnemies(gameTime);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -158,20 +160,23 @@ namespace majorProject
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             //draw enemies
-            foreach (Enemy enemy in enemyList)
+            foreach (Enemy enemy in activeList)
             {
-                Console.Out.WriteLine(gameTime.TotalGameTime.TotalSeconds);
-                if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                if (enemy != null)
                 {
-                    enemy.start = true;
-                    enemy.draw(spriteBatch);
-                    enemy.drawShots(spriteBatch);
+                    Console.Out.WriteLine(gameTime.TotalGameTime.TotalSeconds);
+                    if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                    {
+                        enemy.start = true;
+                        enemy.draw(spriteBatch);
+                        enemy.drawShots(spriteBatch);
+                    }
                 }
             }
             //handle player movement
             if (!human.respawn)
             {
-                Vector2 humanPos = human.updateState(gameTime, enemyList);
+                Vector2 humanPos = human.updateState(gameTime, activeList);
                 human.drawShots(spriteBatch);
                 human.sprite.draw(spriteBatch, humanPos);
 
@@ -187,7 +192,7 @@ namespace majorProject
             {
                 human.respawnUpdate();
                 human.drawShots(spriteBatch);
-                Vector2 humanPos = human.updateState(gameTime, enemyList);
+                Vector2 humanPos = human.updateState(gameTime, activeList);
                 human.sprite.drawInvincible(spriteBatch,humanPos);
             }
 
@@ -200,7 +205,7 @@ namespace majorProject
             //hit box for debugging
             //spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
             // hit box for enemies
-            foreach(Enemy enemy in enemyList)
+            foreach(Enemy enemy in activeList)
             {
                 //spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
             }
@@ -208,23 +213,52 @@ namespace majorProject
             base.Draw(gameTime);
         }
 
-        protected void updateEnemies()
+        protected void updateEnemies(GameTime gameTime)
         {
-            // check to see if each enemy is alive
+            // Add enemies to the active list
+            ArrayList removeList = new ArrayList();
             foreach (Enemy enemy in enemyList)
             {
-                if (enemy.start)
+                if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
                 {
-                    enemy.update(human);
-                    if (!enemy.alive)
+                    // check for open spot in active list
+                    for (int i = 0; i < activeList.Length; i++)
                     {
-                        removeList.Add(enemy);
+                        if (activeList[i] == null)
+                        {
+                            activeList[i] = enemy;
+                        }
                     }
-                }
 
-                foreach (EnemyShot shot in enemy.shotList)
+                    // remove enemy even if no spots were found
+                    removeList.Add(enemy);
+                }
+            }
+
+            // Once added to the active list, remove it from the extensive list
+            foreach (Enemy enemy in removeList)
+            {
+                enemyList.Remove(enemy);
+            }
+
+            // check to see if each enemy is alive
+            foreach (Enemy enemy in activeList)
+            {
+                if (enemy != null)
                 {
-                    shot.update();
+                    if (enemy.start)
+                    {
+                        enemy.update(human);
+                        if (!enemy.alive)
+                        {
+                            removeList.Add(enemy);
+                        }
+                    }
+
+                    foreach (EnemyShot shot in enemy.shotList)
+                    {
+                        shot.update();
+                    }
                 }
             }
         }
@@ -239,9 +273,13 @@ namespace majorProject
                 explosionList.Add(exp);
                 enemy.die(exp, batch);
 
-                enemyList.Remove(enemy);
-
-               
+                for (int i = 0; i < activeList.Length; i++)
+                {
+                    if (activeList[i] == enemy)
+                    {
+                        activeList[i] = null;
+                    }
+                }
             }
 
             removeList.Clear();

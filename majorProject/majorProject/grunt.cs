@@ -19,8 +19,8 @@ namespace majorProject
     {
         private Vector2 origin;
         public float rotAngle = 0;
-        public double rotSpeed;
-        private double maxRotSpeed;
+        //public double rotSpeed;
+        //private double maxRotSpeed;
 
         public int tarx;
         public int tary;
