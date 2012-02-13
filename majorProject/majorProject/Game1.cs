@@ -56,6 +56,7 @@ namespace majorProject
         Texture2D enemyShot;
         Texture2D shotTexture;
         Texture2D humanTexture;
+        Texture2D backgroundTexture;
         AnimatedSprite humanAnimatedTexture;
 
         public bool levelComplete = false;
@@ -99,10 +100,18 @@ namespace majorProject
                     enemyList.Add(enemy);
                 }
             }
-            Uri uri = new Uri(reader.levelSong,UriKind.Relative);
-            bsong = Song.FromUri(reader.levelSong, uri);
-            MediaPlayer.Play(bsong);
-            
+
+            if (reader.levelSong != "none")
+            {
+                Uri uri = new Uri(reader.levelSong,UriKind.Relative);
+                bsong = Song.FromUri(reader.levelSong, uri);
+                MediaPlayer.Play(bsong);
+            }
+
+            if (reader.background != "none")
+            {
+                backgroundTexture = Texture2D.FromStream(GraphicsDevice,File.OpenRead(reader.background));
+            }
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
            
@@ -178,6 +187,8 @@ namespace majorProject
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
+            //Draw background
+            spriteBatch.Draw(backgroundTexture, new Rectangle(0,0,800,600), Color.White);
             //draw enemies
             foreach (Enemy enemy in activeList)
             {
