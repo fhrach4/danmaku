@@ -17,7 +17,7 @@ namespace majorProject
 {
     class Enemy
     {
-        public Texture2D shotSprite;
+        private Texture2D shotSprite;
         public bool start = false;
         public int appearTime = 0;
         public int xPos;
