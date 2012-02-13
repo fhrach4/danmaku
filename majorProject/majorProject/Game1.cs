@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,9 @@ namespace majorProject
         //Effects
         public ArrayList explosionList = new ArrayList();
         Texture2D explosionTexture;
+
+        // Music
+        public Song bsong;
 
         //player
         Player human;
@@ -95,6 +99,10 @@ namespace majorProject
                     enemyList.Add(enemy);
                 }
             }
+            Uri uri = new Uri(reader.levelSong,UriKind.Relative);
+            bsong = Song.FromUri(reader.levelSong, uri);
+            MediaPlayer.Play(bsong);
+            
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
            
@@ -155,6 +163,7 @@ namespace majorProject
             // TODO: add code to advance level
             if (levelComplete)
             {
+                MediaPlayer.Stop();
                 this.Exit();
             }
 
