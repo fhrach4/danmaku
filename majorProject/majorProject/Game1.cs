@@ -216,7 +216,7 @@ namespace majorProject
         protected void updateEnemies(GameTime gameTime)
         {
             // Add enemies to the active list
-            ArrayList removeList = new ArrayList();
+            ArrayList localRemove = new ArrayList();
             foreach (Enemy enemy in enemyList)
             {
                 if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
@@ -227,16 +227,17 @@ namespace majorProject
                         if (activeList[i] == null)
                         {
                             activeList[i] = enemy;
+                            break;
                         }
                     }
 
-                    // remove enemy even if no spots were found
-                    removeList.Add(enemy);
+                    // add to local remove list
+                    localRemove.Add(enemy);
                 }
             }
 
-            // Once added to the active list, remove it from the extensive list
-            foreach (Enemy enemy in removeList)
+            // Once added to the active list, remove it from the global list
+            foreach (Enemy enemy in localRemove)
             {
                 enemyList.Remove(enemy);
             }
@@ -244,17 +245,19 @@ namespace majorProject
             // check to see if each enemy is alive
             foreach (Enemy enemy in activeList)
             {
+                // if enemy is in active list, and not null
                 if (enemy != null)
                 {
-                    if (enemy.start)
+                    // update the enemy
+                    enemy.update(human);
+
+                    // if enemy is not alive, have it set to be removed
+                    if (!enemy.alive)
                     {
-                        enemy.update(human);
-                        if (!enemy.alive)
-                        {
-                            removeList.Add(enemy);
-                        }
+                        removeList.Add(enemy);
                     }
 
+                    // update shots
                     foreach (EnemyShot shot in enemy.shotList)
                     {
                         shot.update();
@@ -265,6 +268,7 @@ namespace majorProject
 
         protected void removeEnemies(SpriteBatch batch)
         {
+
             //remove each enemy in the remove list from the main enemy list
             foreach (Enemy enemy in removeList)
             {
@@ -273,6 +277,7 @@ namespace majorProject
                 explosionList.Add(exp);
                 enemy.die(exp, batch);
 
+                // re-open slot in active list 
                 for (int i = 0; i < activeList.Length; i++)
                 {
                     if (activeList[i] == enemy)
@@ -283,6 +288,7 @@ namespace majorProject
             }
 
             removeList.Clear();
+            
         }
 
         // update all effects on screen

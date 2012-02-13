@@ -95,7 +95,7 @@ namespace majorProject
             {
                 if (aim(human))
                 {
-                    //moveID++;
+                    moveID++;
                 }
 
                 moveID++;
