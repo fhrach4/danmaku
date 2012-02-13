@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\shot1.xnb</Output>
-      <Time>2012-01-28T18:55:03.6606205-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\shot1.xnb</Output>
+      <Time>2012-01-30T17:56:39.0583488-05:00</Time>
     </Item>
     <Item>
       <Source>singlepix.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\singlepix.xnb</Output>
-      <Time>2012-01-28T20:21:28.0551509-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\singlepix.xnb</Output>
+      <Time>2012-01-30T17:56:39.0583488-05:00</Time>
     </Item>
     <Item>
       <Source>player.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\player.xnb</Output>
-      <Time>2012-01-28T21:15:24.23925-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\player.xnb</Output>
+      <Time>2012-01-30T17:56:39.0583488-05:00</Time>
     </Item>
     <Item>
       <Source>enemy1.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\enemy1.xnb</Output>
-      <Time>2012-01-28T22:26:40.3258282-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\enemy1.xnb</Output>
+      <Time>2012-01-30T17:56:39.0427488-05:00</Time>
     </Item>
     <Item>
       <Source>explosion.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb</Output>
-      <Time>2012-01-29T14:56:20.12391-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\explosion.xnb</Output>
+      <Time>2012-01-30T17:56:39.0427488-05:00</Time>
     </Item>
     <Item>
       <Source>shot2.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb</Output>
-      <Time>2012-02-12T01:37:56.811576-05:00</Time>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb</Output>
+      <Time>2012-02-12T23:29:35.4993639-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -61,10 +61,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\</RootDirectory>
-      <LoggerRootDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\</LoggerRootDirectory>
-      <IntermediateDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProjectContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProjectContent\</RootDirectory>
+      <LoggerRootDirectory>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProjectContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -93,7 +93,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-01-18T22:15:16.0747486-05:00</Value>
+        <Value>2012-01-30T17:13:54.2877045-05:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
