@@ -119,15 +119,21 @@ namespace majorProject
             // Load background
             if (reader.background != "none")
             {
-                try{
+                try
+                {
                     Stream str = File.OpenRead(reader.background);
                     backgroundTexture = Texture2D.FromStream(GraphicsDevice, str);
-                }catch (System.IO.DirectoryNotFoundException)
+                }
+                catch (System.IO.DirectoryNotFoundException)
                 {
                     Console.Error.WriteLine("Could not locate file: " + (string)reader.background + " Using default.");
                     backgroundTexture = singlePix;
                 }
 
+            }
+            else
+            {
+                backgroundTexture = singlePix;
             }
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
