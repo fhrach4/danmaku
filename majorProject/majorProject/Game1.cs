@@ -101,16 +101,33 @@ namespace majorProject
                 }
             }
 
+            // load background song
             if (reader.levelSong != "none")
             {
                 Uri uri = new Uri(reader.levelSong,UriKind.Relative);
-                bsong = Song.FromUri(reader.levelSong, uri);
-                MediaPlayer.Play(bsong);
+                try
+                {
+                    bsong = Song.FromUri(reader.levelSong, uri);
+                    MediaPlayer.Play(bsong);
+                }
+                catch (System.ArgumentException)
+                {
+                    Console.Error.WriteLine("Error loading file: " + (string)reader.levelSong + " ... Ignoring");            
+                }
             }
 
+            // Load background
             if (reader.background != "none")
             {
-                backgroundTexture = Texture2D.FromStream(GraphicsDevice,File.OpenRead(reader.background));
+                try{
+                    Stream str = File.OpenRead(reader.background);
+                    backgroundTexture = Texture2D.FromStream(GraphicsDevice, str);
+                }catch (System.IO.DirectoryNotFoundException)
+                {
+                    Console.Error.WriteLine("Could not locate file: " + (string)reader.background + " Using default.");
+                    backgroundTexture = singlePix;
+                }
+
             }
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
@@ -194,7 +211,6 @@ namespace majorProject
             {
                 if (enemy != null)
                 {
-                    Console.Out.WriteLine(gameTime.TotalGameTime.TotalSeconds);
                     if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
                     {
                         enemy.start = true;
