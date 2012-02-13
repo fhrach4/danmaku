@@ -54,6 +54,8 @@ namespace majorProject
         Texture2D humanTexture;
         AnimatedSprite humanAnimatedTexture;
 
+        public bool levelComplete = false;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -141,12 +143,20 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // update enemies
             updateEnemies(gameTime);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here
+
+
+            // TODO: add code to advance level
+            if (levelComplete)
+            {
+                this.Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -222,17 +232,22 @@ namespace majorProject
                 if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
                 {
                     // check for open spot in active list
+                    bool placed = false;
                     for (int i = 0; i < activeList.Length; i++)
                     {
                         if (activeList[i] == null)
                         {
                             activeList[i] = enemy;
+                            placed = true;
                             break;
                         }
                     }
 
-                    // add to local remove list
-                    localRemove.Add(enemy);
+                    // add to local remove list if unable to place
+                    //if (!placed)
+                    //{
+                        localRemove.Add(enemy);
+                    //}
                 }
             }
 
@@ -254,6 +269,7 @@ namespace majorProject
                     // if enemy is not alive, have it set to be removed
                     if (!enemy.alive)
                     {
+                        //enemyList.Remove(enemy);
                         removeList.Add(enemy);
                     }
 
