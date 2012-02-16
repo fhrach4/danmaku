@@ -19,19 +19,6 @@ namespace majorProject
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         public Texture2D singlePix;
-        //####Constants
-        //##Human Constants
-        //Speed constantes
-        protected int MAX_HUMAN_SPEED = 7;
-        //Animation constants
-        protected int MAX_HUMAN_FRAMES = 10;
-        protected int MIN_HUMAN_FRAMES = 0;
-        protected int HUMAN_SPRITE_WIDTH = 34;
-        protected int HUMAN_SPRITE_HEIGHT = 38;
-        protected int HUMAN_NEUTRAL_FRAME = 5;
-        //Human position constants
-        protected int HUMAN_START_X = 300;
-        protected int HUMAN_START_Y = 500;
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -79,6 +66,7 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            Constants constants = new Constants();
             activeList = new Enemy[20];
             enemyShot = Content.Load<Texture2D>("shot2");
             singlePix = Content.Load<Texture2D>("singlePix");
@@ -96,7 +84,7 @@ namespace majorProject
             {
                 if (enemy is Grunt)
                 {
-                    enemy.init(enemyText, enemyShot, 34, 38);
+                    enemy.init(enemyText, enemyShot, constants.GRUNT_SPRITE_WIDTH, constants.GRUNT_SPRITE_HEIGHT);
                     enemyList.Add(enemy);
                 }
             }
@@ -136,9 +124,9 @@ namespace majorProject
                 backgroundTexture = singlePix;
             }
             //create player
-            humanAnimatedTexture = new AnimatedSprite(humanTexture, HUMAN_NEUTRAL_FRAME, HUMAN_NEUTRAL_FRAME, MAX_HUMAN_FRAMES, HUMAN_SPRITE_WIDTH, HUMAN_SPRITE_HEIGHT);
+            humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME, constants.HUMAN_NEUTRAL_FRAME, constants.MAX_HUMAN_FRAMES, constants.HUMAN_SPRITE_WIDTH, constants.HUMAN_SPRITE_HEIGHT);
            
-            human = new Player(humanAnimatedTexture, shotTexture, HUMAN_START_X, HUMAN_START_Y, MAX_HUMAN_SPEED);
+            human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y, constants.MAX_HUMAN_SPEED);
 
             //for (int i = 0; i <= 800; i = i + 40)
             //{
@@ -274,13 +262,11 @@ namespace majorProject
                 if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
                 {
                     // check for open spot in active list
-                    bool placed = false;
                     for (int i = 0; i < activeList.Length; i++)
                     {
                         if (activeList[i] == null)
                         {
                             activeList[i] = enemy;
-                            placed = true;
                             break;
                         }
                     }

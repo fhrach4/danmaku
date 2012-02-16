@@ -17,21 +17,21 @@ namespace majorProject
 {
     class Grunt : Enemy
     {
+        //private sprite vaibles
         private Vector2 origin;
-        public float rotAngle = 0;
         //public double rotSpeed;
         //private double maxRotSpeed;
 
+        //private shot variables
+        private int shotSpeed;
+
+        //private movement and rotation variables
+        private short moveID = 0;
+        private float rotAngle = 0;
+
+        //public movememt variables
         public int tarx;
         public int tary;
-
-        public int shotSpeed;
-
-        private short moveID = 0;
-
-        private delegate void Del();
-
-        //public ArrayList shotList = new ArrayList();
 
         public ArrayList removeList = new ArrayList();
         

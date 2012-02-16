@@ -17,18 +17,23 @@ namespace majorProject
 {
     class Enemy
     {
+        //Protected Sprite Variables
         protected Texture2D shotSprite;
+        protected Texture2D sprite;
+        protected int spriteWidth;
+        protected int spriteHeight;
+
+        //protected  movemebt variables
+        protected double rotSpeed;
+
+
         public bool start = false;
         public int appearTime = 0;
         public int xPos;
         public int yPos;
-        protected Texture2D sprite;
         public Rectangle hitBox;
-        protected int spriteWidth;
-        protected int spriteHeight;
         public bool alive = true;
         public int health;
-        public double rotSpeed;
         protected int rotAngle;
         protected int aimTolerance;
         protected double maxRotSpeed;

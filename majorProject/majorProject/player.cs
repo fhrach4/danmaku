@@ -31,7 +31,7 @@ namespace majorProject
         protected double timeSinceLastShot = 0;
         protected Stopwatch shotTimer = new Stopwatch();
 
-        //## public values
+        //public sprite values
         public AnimatedSprite sprite;
         public Texture2D shotSprite;
         

@@ -26,16 +26,18 @@ namespace majorProject
         
         public int maxFrame;
 
-        //public class variables
-        public Texture2D texture;
+        //protected sprite variables
+        protected Texture2D texture;
+
+        // public sprite variables
         public int spriteWidth;
         public int spriteHeight;
         public int currentFrame;
         public int neutralFrame;
 
         //keyboard states
-        KeyboardState currentKBState;
-        KeyboardState previousKBState;
+        protected KeyboardState currentKBState;
+        protected KeyboardState previousKBState;
 
         //constructor
         public AnimatedSprite(Texture2D texture, int currentFrame, int neutralFrame, int maxFrame, int spriteWidth, int spriteHeight)
