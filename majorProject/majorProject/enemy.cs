@@ -17,21 +17,21 @@ namespace majorProject
 {
     class Enemy
     {
-        public Texture2D shotSprite;
+        protected Texture2D shotSprite;
         public bool start = false;
         public int appearTime = 0;
         public int xPos;
         public int yPos;
-        public Texture2D sprite;
+        protected Texture2D sprite;
         public Rectangle hitBox;
         protected int spriteWidth;
         protected int spriteHeight;
         public bool alive = true;
         public int health;
         public double rotSpeed;
-        public int rotAngle;
-        public int aimTolerance;
-        public double maxRotSpeed;
+        protected int rotAngle;
+        protected int aimTolerance;
+        protected double maxRotSpeed;
         public int moveSpeed;
         public ArrayList shotList = new ArrayList();
 

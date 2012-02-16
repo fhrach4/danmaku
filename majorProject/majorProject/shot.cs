@@ -18,7 +18,7 @@ namespace majorProject
     {
         //Procteced Values
         protected int maxSpeed;
-        public Texture2D sprite;
+        protected Texture2D sprite;
         protected int spriteWidth;
         protected int spriteHeight;
 
