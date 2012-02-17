@@ -22,11 +22,21 @@ namespace majorProject
 
         public bool finished = false;
 
+        /// <summary>
+        /// Creates a new explosion
+        /// </summary>
+        /// <param name="sprite">animated sprite to use</param>
+        /// <param name="spriteWidth">the frame width</param>
+        /// <param name="spriteHeight">the frame height</param>
+        /// <param name="frames">the number of frames</param>
         public Expolsion(Texture2D sprite, int spriteWidth, int spriteHeight, int frames)
         {
             this.sprite = new AnimatedSprite(sprite, 0, 0, frames, spriteWidth, spriteHeight);
         }
 
+        /// <summary>
+        /// Updates the explosion animation
+        /// </summary>
         public void update()
         {
             if (sprite.currentFrame <= sprite.maxFrame)
@@ -39,6 +49,10 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Draws the explosion in the world
+        /// </summary>
+        /// <param name="batch">current sprite batch</param>
         public void draw(SpriteBatch batch)
         {
             int drawX = sprite.currentFrame * sprite.spriteWidth;

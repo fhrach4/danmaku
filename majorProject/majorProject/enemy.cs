@@ -15,6 +15,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace majorProject
 {
+    /// <summary>
+    /// A generic enemy object, not very useful, shoud probablly be extended rather than be used on it's own
+    /// </summary>
     class Enemy
     {
         //Protected Sprite Variables
@@ -39,18 +42,21 @@ namespace majorProject
         protected double maxRotSpeed;
         public int moveSpeed;
         public ArrayList shotList = new ArrayList();
-
+        
+        /// <summary>
+        /// Blank constructor
+        /// </summary>
         public Enemy()
         {
         }
         /// <summary>
         /// Creates a new instance of an Enemy
         /// </summary>
-        /// <param name="sprite"></param>
-        /// <param name="spriteWidth"></param>
-        /// <param name="spriteHeight"></param>
-        /// <param name="xPos"></param>
-        /// <param name="yPos"></param>
+        /// <param name="sprite">The non-animated sprite to be used</param>
+        /// <param name="spriteWidth">the width of the sprite (note the hitbox will be the entire sprite)</param>
+        /// <param name="spriteHeight">the height of the sprite</param>
+        /// <param name="xPos">The starting x position of the sprite</param>
+        /// <param name="yPos">The starting y position of the sprite</param>
         public Enemy(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, int moveSpeed)
         {
             this.sprite = sprite;
@@ -67,6 +73,13 @@ namespace majorProject
             this.moveSpeed = moveSpeed;
         }
 
+        /// <summary>
+        /// Sets important values if created using the blank constructor
+        /// </summary>
+        /// <param name="sprite">The sprite to be used</param>
+        /// <param name="shotSprite">The sprite to be used for shots</param>
+        /// <param name="spriteHeight">The sprite height</param>
+        /// <param name="spriteWidth">The sprite width</param>
         public void init(Texture2D sprite, Texture2D shotSprite, int spriteHeight, int spriteWidth)
         {
             this.sprite = sprite;
@@ -100,6 +113,7 @@ namespace majorProject
                 }
             }
         }
+
         /// <summary>
         /// Draws the enemy on to the screen
         /// </summary>
@@ -112,6 +126,10 @@ namespace majorProject
             batch.Draw(sprite, drawrect, Color.White);
         }
 
+        /// <summary>
+        /// Draws the enemy's shots
+        /// </summary>
+        /// <param name="batch">sprite batch</param>
         public void drawShots(SpriteBatch batch)
         {
             foreach (EnemyShot shot in shotList)
@@ -120,15 +138,26 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Creates an explosion at the current location
+        /// </summary>
+        /// <param name="explosion"></param>
+        /// <param name="batch"></param>
         public void die(Expolsion explosion, SpriteBatch batch)
         {
             explosion.xPos = xPos;
             explosion.yPos = yPos;
-            //explosion.draw(batch);
         }
 
+        /// <summary>
+        /// Gets the angle to the player
+        /// </summary>
+        /// <param name="human">player to get angle to</param>
+        /// <returns>the angle to the human</returns>
         public virtual float getAngleToHuman(Player human)
         {
+            // TOTO: fix this up, it's still derpy
+
             float angle = 0;
             //get angle to human need to fix
             int a = Math.Abs(xPos + (spriteWidth / 2) - (human.xPos + human.sprite.spriteWidth / 2));
@@ -216,6 +245,11 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Sets the enemy's rotation angle so it has a clean shot at the player
+        /// </summary>
+        /// <param name="human">Target to fire at</param>
+        /// <returns>True if aimed at target, otherwise false</returns>
         public virtual bool aim(Player human)
         {
             float humanAngle = getAngleToHuman(human);

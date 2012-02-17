@@ -17,6 +17,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace majorProject
 {
+    /// <summary>
+    /// Object that reads .lvl files
+    /// </summary>
     class LevelReader
     {
         private ArrayList levelFiles = new ArrayList();

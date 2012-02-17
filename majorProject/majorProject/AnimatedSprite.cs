@@ -22,24 +22,27 @@ namespace majorProject
     /// </summary>
     public class AnimatedSprite
     {
-        //protected class variables
-        
-        public int maxFrame;
-
-        //protected sprite variables
-        protected Texture2D texture;
-
         // public sprite variables
         public int spriteWidth;
         public int spriteHeight;
         public int currentFrame;
         public int neutralFrame;
+        public int maxFrame;
+        public Texture2D texture;
 
         //keyboard states
         protected KeyboardState currentKBState;
         protected KeyboardState previousKBState;
 
-        //constructor
+        /// <summary>
+        /// Creates a new AnimatedSprite
+        /// </summary>
+        /// <param name="texture">the sprite sheet to use</param>
+        /// <param name="currentFrame">The starting frame of the sprite</param>
+        /// <param name="neutralFrame">The frame to be used when there is no other actions</param>
+        /// <param name="maxFrame">The final frame</param>
+        /// <param name="spriteWidth">The width of each frame</param>
+        /// <param name="spriteHeight">The height of each frame</param>
         public AnimatedSprite(Texture2D texture, int currentFrame, int neutralFrame, int maxFrame, int spriteWidth, int spriteHeight)
         {
             this.texture = texture;
@@ -51,6 +54,10 @@ namespace majorProject
 
         }
 
+        /// <summary>
+        /// Updates the sprite based off of speed
+        /// </summary>
+        /// <param name="speed"></param>
         public void handleMovement(int speed)
         {
             //Update the keyboard states
@@ -82,6 +89,11 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Draws the sprite with the current frame
+        /// </summary>
+        /// <param name="batch">current sprite batch</param>
+        /// <param name="vect">Current location</param>
         public void draw(SpriteBatch batch, Vector2 vect)
         {
             int drawx = currentFrame * spriteWidth;
@@ -92,6 +104,11 @@ namespace majorProject
             batch.Draw(texture, drawrect, spriterect, Color.White);
         }
 
+        /// <summary>
+        /// Same as draw, but draws the player gray to indicate that they are respawning, should only be used with a human player
+        /// </summary>
+        /// <param name="batch">current sprite batch</param>
+        /// <param name="vect">current location</param>
         public void drawInvincible(SpriteBatch batch, Vector2 vect)
         {
             int drawx = currentFrame * spriteWidth;
@@ -102,6 +119,9 @@ namespace majorProject
             batch.Draw(texture, drawrect, Color.Gray);
         }
 
+        /// <summary>
+        /// smoothly returns the sprite to its neutral frame
+        /// </summary>
         public void returnToNeutral()
         {
             if (currentFrame > neutralFrame)

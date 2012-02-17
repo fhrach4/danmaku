@@ -253,6 +253,10 @@ namespace majorProject
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Updates active enemies
+        /// </summary>
+        /// <param name="gameTime">The current game time</param>
         protected void updateEnemies(GameTime gameTime)
         {
             // Add enemies to the active list
@@ -310,6 +314,10 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Removes all defeated enemies from active lists
+        /// </summary>
+        /// <param name="batch">current sprite batch</param>
         protected void removeEnemies(SpriteBatch batch)
         {
 
@@ -335,7 +343,10 @@ namespace majorProject
             
         }
 
-        // update all effects on screen
+        /// <summary>
+        /// Update all effects on screen
+        /// </summary>
+        /// <param name="batch">current sprite batch</param>
         protected void updateEffects(SpriteBatch batch)
         {
             ArrayList expRemoveList = new ArrayList();

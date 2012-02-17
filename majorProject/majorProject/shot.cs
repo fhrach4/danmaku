@@ -14,6 +14,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace majorProject
 {
+    /// <summary>
+    /// Base class for shots
+    /// </summary>
     class Shot
     {
         //Procteced Values
@@ -29,10 +32,21 @@ namespace majorProject
         public bool hit = false;
         public Rectangle hitBox;
 
+        /// <summary>
+        /// Blank constructor
+        /// </summary>
         public Shot()
         {
         }
 
+        /// <summary>
+        /// Creates a new shot
+        /// </summary>
+        /// <param name="sprite">The sprite (non animated) to use for the shot</param>
+        /// <param name="xPos">The starting x position of the sprite</param>
+        /// <param name="yPos">The starting y position of the sprite</param>
+        /// <param name="damage">The damage the shot will cause on impact</param>
+        /// <param name="maxSpeed">The maximum travel speed of the shot</param>
         public Shot(Texture2D sprite, int xPos, int yPos, int damage, int maxSpeed)
         {
             this.sprite = sprite;
@@ -45,12 +59,19 @@ namespace majorProject
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
         }
 
+        /// <summary>
+        /// Updates the shot
+        /// </summary>
         public virtual void update()
         {
             yPos = yPos - maxSpeed;
             hitBox.Y = yPos;
         }
 
+        /// <summary>
+        /// Checks to see if the shot is out of play
+        /// </summary>
+        /// <returns>True if shot is out of play, otherwise false</returns>
         public bool isOutOfPlay()
         {
             if (yPos < 0 || yPos > 600 || xPos < 0 || xPos > 800)
@@ -63,6 +84,10 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Draws the shot
+        /// </summary>
+        /// <param name="batch">Current Sprite Batch</param>
         public virtual void draw(SpriteBatch batch)
         {
             int drawx = xPos;

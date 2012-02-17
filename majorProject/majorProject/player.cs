@@ -21,6 +21,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace majorProject
 {
+    /// <summary>
+    /// A human controlled player
+    /// </summary>
     class Player
     {
         //## protected values
@@ -58,6 +61,7 @@ namespace majorProject
         public int score;
         public bool respawn = false;
 
+        // control interfaces
         public enum input
         {
             up      = Keys.Up,
@@ -68,26 +72,50 @@ namespace majorProject
             fire    = Keys.Z
         };
 
+        /// <summary>
+        /// Creates a new human controlled player
+        /// </summary>
+        /// <param name="sprite">The animatedSprite to be used</param>
+        /// <param name="shotSprite">The sprite to be used for shots</param>
+        /// <param name="xPos">The starting x position of the player</param>
+        /// <param name="yPos">The starting y position of the player</param>
+        /// <param name="maxSpeed">The maximum moving speed of the player</param>
         public Player(AnimatedSprite sprite,Texture2D shotSprite, int xPos, int yPos, int maxSpeed)
         {
+            //set location variables
             this.xPos = xPos;
             this.yPos = yPos;
             this.spawnX = xPos;
             this.spawnY = yPos;
+            
+            // handle shots
             this.sprite = sprite;
             this.shotSprite = shotSprite;
+
+            // handle speed
             this.currentXSpeed = 0;
             this.currentYSpeed = 0;
             this.maxSpeed = maxSpeed;
+
+            // create hitbox
             hitBoxOffset = this.xPos + 10;
             this.hitBox = new Rectangle(hitBoxOffset, yPos, sprite.spriteWidth - 10, sprite.spriteHeight - 10);
+
+            // set lives
             this.lives = 3;
 
+            // start timer
             shotTimer.Start();
 
             //eventually change so player  can define keys
         }
 
+        /// <summary>
+        /// Updates the player's state in the world
+        /// </summary>
+        /// <param name="time">The current gametime</param>
+        /// <param name="enemyList">The current list onf enemies</param>
+        /// <returns>new position of the player</returns>
         public Vector2 updateState(GameTime time, Enemy[] enemyList)
         {
             Vector2 update;
@@ -140,7 +168,6 @@ namespace majorProject
             }
             
 
-
             //update hitbox
             hitBox.X = xPos + 5;
             hitBox.Y = yPos + 10;
@@ -154,23 +181,34 @@ namespace majorProject
 
         public void keyboardShoot(KeyboardState KBstate)
         {
-            // if shooting
+            // if shooting and shot timer is ok
             if (KBstate.IsKeyDown((Keys)input.fire) && shotTimer.ElapsedMilliseconds >= shotDelay)
             {
+                // #Shot 1
+                // Chnage shot origin based on rotation
+                // TODO: fix this, it's still broken
                 int shot1x = xPos + Math.Abs(sprite.currentFrame - 6);
                 int shot1y = yPos + 20;
+                Shot shot = new Shot(shotSprite, shot1x, shot1y, 10, 15);
 
+                // #Shot 2
                 int shot2x = xPos + Math.Abs(sprite.currentFrame - 6) + 25;
                 int shot2y = yPos + 20;
-                Shot shot = new Shot(shotSprite, shot1x, shot1y, 10, 15);
                 Shot shot2 = new Shot(shotSprite, shot2x, shot2y, 10, 15);
+                
+                // add shots to the shot list
                 shotList.Add(shot);
                 shotList.Add(shot2);
 
+                // reset the shot timer
                 shotTimer.Restart();
             }
         }
 
+        /// <summary>
+        /// Handles keyboard input from the player
+        /// </summary>
+        /// <param name="KBstate">The current Keyboard state</param>
         public void keyboardMovement(KeyboardState KBstate)
         {
             //if up key is hit
@@ -227,6 +265,10 @@ namespace majorProject
                 }
         }
 
+        /// <summary>
+        /// Draws the player's shots
+        /// </summary>
+        /// <param name="batch">Current sprite batch</param>
         public void drawShots(SpriteBatch batch)
         {
             foreach (Shot shot in shotList)
@@ -235,16 +277,26 @@ namespace majorProject
             }
         }
 
+        /// <summary>
+        /// Creates an explosion at the player's position
+        /// </summary>
+        /// <param name="explosion"></param>
+        /// <param name="batch"></param>
         public void die(Expolsion explosion, SpriteBatch batch)
         {
             explosion.xPos = xPos;
             explosion.yPos = yPos;
         }
         
+        /// <summary>
+        /// Handles player respawns
+        /// </summary>
         public void respawnUpdate()
         {
+            // If the player has lives left
             if (lives >= 0)
             {
+                // if hit, return to spawn position
                 if (hit)
                 {
                     if (xPos != spawnX)
@@ -260,7 +312,7 @@ namespace majorProject
                     hit = false;
                 }
 
-
+                // If respwan period is over, set the player back to normal
                 if (respawnTimer.ElapsedMilliseconds >= 3000)
                 {
                     respawn = false;
