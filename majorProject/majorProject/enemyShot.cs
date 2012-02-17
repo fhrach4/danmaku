@@ -42,10 +42,12 @@ namespace majorProject
             this.sprite = sprite;
             this.radius = radius;
             this.angle = angle;
-            //ySpeed = (int)(maxSpeed * Math.Sin(maxSpeed));
-            //xSpeed = (int)(maxSpeed * Math.Cos(maxSpeed));
-            ySpeed = 1;
-            xSpeed = 0;
+            ySpeed = (int)(maxSpeed * Math.Cos(angle));
+            xSpeed = (int)(maxSpeed * Math.Sin(angle));
+            //ySpeed = (int)(maxSpeed * angle);
+            //xSpeed = (int)(maxSpeed * angle);
+            //ySpeed = 2;
+            //xSpeed = 0;
             this.xPos = xPos;
             this.yPos = yPos;
             this.spriteHeight = spriteHeight;
@@ -69,8 +71,40 @@ namespace majorProject
         /// <returns>True if there is a collision, otherwise false</returns>
          public bool collidsWith(Player player)
          {
-             int xDif = player.xPos - (xPos + (int)origin.X);
-             int yDif = player.yPos - (yPos + (int)origin.Y);
+             //get the distance to the sides of the player's hitbox
+             int xDif1 = player.hitBox.X - (xPos + (int)origin.X);
+             int xDif2 = (player.hitBox.X + player.hitBox.Width) - (xPos + (int)origin.X);
+
+             int yDif1 = player.hitBox.Y - (yPos + (int)origin.Y);
+             int yDif2 = (player.hitBox.Y + player.hitBox.Width) - (yPos + (int)origin.Y);
+             
+             // choose the smallest distance for x and y
+             int xDif;
+             int yDif;
+
+             if (Math.Abs(xDif1) > Math.Abs(xDif2))
+             {
+                 xDif = xDif2;
+             }else
+             {
+                 xDif = xDif1;
+             }
+
+             if (Math.Abs(yDif1) > Math.Abs(yDif2))
+             {
+                 yDif = yDif2;
+             }
+             else
+             {
+                 yDif = yDif1;
+             }
+             //int xDif = player.xPos - (xPos + (int)origin.X);
+             //int yDif = player.yPos - (yPos + (int)origin.Y);
+
+             if (-20 < xDif && xDif < 20 && -20 < yDif && yDif < 20)
+             {
+                 int i = 0;
+             }
 
              double line = Math.Pow(xDif, 2) + Math.Pow(yDif, 2);
 

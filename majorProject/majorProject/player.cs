@@ -130,6 +130,7 @@ namespace majorProject
                     if (enemy != null && hitBox.Intersects(enemy.hitBox))
                     {
                         hit = true;
+                        enemy.alive = false;
                     }
                 }
             }

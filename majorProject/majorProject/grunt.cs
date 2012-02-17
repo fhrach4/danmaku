@@ -99,7 +99,7 @@ namespace majorProject
                     moveID++;
                 }
 
-                moveID++;
+                //moveID++;
 
             }
             else if (moveID == 2)
@@ -140,7 +140,8 @@ namespace majorProject
         public void shoot(EnemyShot[] shotlist)
         {
             //rotAngle = 2;
-            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, 5, xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
+            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, constants.ENEMY_SHOT_MAXSPEED  - 1,
+                xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_HEIGHT);
             for (int i = 0; i < shotlist.Length; i++)
             {
                 if (shotlist[i] == null)

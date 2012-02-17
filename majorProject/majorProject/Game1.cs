@@ -185,7 +185,7 @@ namespace majorProject
             {
                 if (shotList[i] != null)
                 {
-                    if (shotList[i].collidsWith(human))
+                    if (shotList[i].collidsWith(human) && human.respawn == false)
                     {
                         human.hit = true;
                     }
