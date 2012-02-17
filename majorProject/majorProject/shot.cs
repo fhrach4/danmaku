@@ -74,7 +74,7 @@ namespace majorProject
         /// <returns>True if shot is out of play, otherwise false</returns>
         public bool isOutOfPlay()
         {
-            if (yPos < 0 || yPos > 600 || xPos < 0 || xPos > 800)
+            if (yPos < -10 || yPos > 610 || xPos < -10 || xPos > 810)
             {
                 return true;
             }

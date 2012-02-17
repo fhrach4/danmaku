@@ -37,15 +37,20 @@ namespace majorProject
         /// <param name="maxSpeed">the maximum traveling speed of the shot</param>
         /// <param name="xPos">The starting x position</param>
         /// <param name="yPos">The starting y position</param>
-        public EnemyShot(Texture2D sprite, int radius, int angle, int maxSpeed, int xPos, int yPos)
+        public EnemyShot(Texture2D sprite, int radius, int angle, int maxSpeed, int xPos, int yPos, int spriteHeight, int spriteWidth)
         {
             this.sprite = sprite;
             this.radius = radius;
             this.angle = angle;
-            xSpeed = (int)(maxSpeed * Math.Sin(maxSpeed));
-            xSpeed = (int)(maxSpeed * Math.Cos(maxSpeed));
+            //ySpeed = (int)(maxSpeed * Math.Sin(maxSpeed));
+            //xSpeed = (int)(maxSpeed * Math.Cos(maxSpeed));
+            ySpeed = 1;
+            xSpeed = 0;
             this.xPos = xPos;
             this.yPos = yPos;
+            this.spriteHeight = spriteHeight;
+            this.spriteWidth = spriteWidth;
+            this.origin = new Vector2(spriteWidth / 2, spriteHeight / 2);
         }
 
         /// <summary>
@@ -64,12 +69,12 @@ namespace majorProject
         /// <returns>True if there is a collision, otherwise false</returns>
          public bool collidsWith(Player player)
          {
-             int xDif = player.xPos - xPos;
-             int yDif = player.yPos - yPos;
+             int xDif = player.xPos - (xPos + (int)origin.X);
+             int yDif = player.yPos - (yPos + (int)origin.Y);
 
              double line = Math.Pow(xDif, 2) + Math.Pow(yDif, 2);
 
-             if (line > radius * radius)
+             if (line < radius * radius)
              {
                  return true;
              }

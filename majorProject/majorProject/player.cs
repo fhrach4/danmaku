@@ -214,13 +214,13 @@ namespace majorProject
             //if up key is hit
                 if (KBstate.IsKeyDown((Keys)input.up) && currentYSpeed >= maxSpeed * -1)
                 {
-                    currentYSpeed--;
+                    currentYSpeed = maxSpeed * -1;
                 }
 
                 //if down key is hit
                 if (KBstate.IsKeyDown((Keys)input.down) && currentYSpeed <= maxSpeed)
                 {
-                    currentYSpeed++;
+                    currentYSpeed = maxSpeed;
                 }
 
                 // if neither up nor down are hit
@@ -233,13 +233,13 @@ namespace majorProject
                 if (KBstate.IsKeyDown((Keys)input.left) && currentXSpeed >= maxSpeed * -1)
                 {
 
-                    currentXSpeed--;
+                    currentXSpeed = maxSpeed * -1;
                 }
 
                 // if right key is hit
                 if (KBstate.IsKeyDown((Keys)input.right) && currentXSpeed <= maxSpeed)
                 {
-                    currentXSpeed++;
+                    currentXSpeed = maxSpeed;
                 }
 
                 // if neither left nor right are hit

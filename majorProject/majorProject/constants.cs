@@ -25,6 +25,11 @@ namespace majorProject
         public readonly int GRUNT_SPRITE_WIDTH = 34;
         public readonly int GRUNT_SPRITE_HEIGHT = 38;
 
+        //# shot constants
+        //enemy shot
+        public readonly int ENEMY_SHOT_HEIGHT = 30;
+        public readonly int ENEMY_SHOT_WIDTH = 30;
+
         public Constants()
         {
         }

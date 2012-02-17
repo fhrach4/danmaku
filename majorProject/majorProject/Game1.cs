@@ -38,6 +38,8 @@ namespace majorProject
         private Enemy[] activeList;
         public ArrayList removeList = new ArrayList();
 
+        private EnemyShot[] shotList;
+
         // Sprites
         Texture2D enemyText;
         Texture2D enemyShot;
@@ -68,6 +70,7 @@ namespace majorProject
         {
             Constants constants = new Constants();
             activeList = new Enemy[20];
+            shotList = new EnemyShot[100];
             enemyShot = Content.Load<Texture2D>("shot2");
             singlePix = Content.Load<Texture2D>("singlePix");
             enemyText = Content.Load<Texture2D>("Enemy1");
@@ -84,7 +87,7 @@ namespace majorProject
             {
                 if (enemy is Grunt)
                 {
-                    enemy.init(enemyText, enemyShot, constants.GRUNT_SPRITE_WIDTH, constants.GRUNT_SPRITE_HEIGHT);
+                    enemy.init(enemyText, enemyShot, constants);
                     enemyList.Add(enemy);
                 }
             }
@@ -178,6 +181,16 @@ namespace majorProject
                 this.Exit();
 
             // TODO: Add your update logic here
+            for (int i = 0; i < shotList.Length; i++)
+            {
+                if (shotList[i] != null)
+                {
+                    if (shotList[i].collidsWith(human))
+                    {
+                        human.hit = true;
+                    }
+                }
+            }
 
 
             // TODO: add code to advance level
@@ -201,6 +214,15 @@ namespace majorProject
             //Draw background
             spriteBatch.Draw(backgroundTexture, new Rectangle(0,0,800,600), Color.White);
             //draw enemies
+
+            foreach (EnemyShot shot in shotList)
+            {
+                if (shot != null)
+                {
+                    shot.draw(spriteBatch);
+                }
+            }
+
             foreach (Enemy enemy in activeList)
             {
                 if (enemy != null)
@@ -209,10 +231,10 @@ namespace majorProject
                     {
                         enemy.start = true;
                         enemy.draw(spriteBatch);
-                        enemy.drawShots(spriteBatch);
                     }
                 }
             }
+
             //handle player movement
             if (!human.respawn)
             {
@@ -243,11 +265,14 @@ namespace majorProject
             removeEnemies(spriteBatch);
 
             //hit box for debugging
-            //spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
+            spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
             // hit box for enemies
             foreach(Enemy enemy in activeList)
             {
-                //spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
+                if (enemy != null)
+                {
+                    spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
+                }
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -296,7 +321,7 @@ namespace majorProject
                 if (enemy != null)
                 {
                     // update the enemy
-                    enemy.update(human);
+                    enemy.update(human, shotList);
 
                     // if enemy is not alive, have it set to be removed
                     if (!enemy.alive)
@@ -306,10 +331,44 @@ namespace majorProject
                     }
 
                     // update shots
-                    foreach (EnemyShot shot in enemy.shotList)
+                    ArrayList shotRemoveList = new ArrayList();
+                    
+                    /*foreach (EnemyShot shot in enemy.shotList)
                     {
-                        shot.update();
-                    }
+                        for (int i = 0; i < shotList.Length; i++)
+                        {
+                            if (shotList[i] == null)
+                            {
+                                shotList[i] = shot;
+                                break;
+                            }
+                        }
+
+                        shotRemoveList.Add(shot);
+                    }*/
+
+                    /*foreach (EnemyShot shot in shotRemoveList)
+                    {
+                        enemy.shotList.Remove(shot);
+                    }*/
+
+                    for (int i = 0; i < shotList.Length; i++)
+                    {
+                        EnemyShot shot = shotList[i];
+                        if (shot != null)
+                        {
+                            shot.update();
+
+                            if (shot.isOutOfPlay())
+                            {
+                                shotList[i] = null;
+                            }
+                            else
+                            {
+                                shotList[i] = shot;
+                            }
+                        }
+                    } 
                 }
             }
         }

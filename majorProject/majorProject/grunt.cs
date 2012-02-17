@@ -39,7 +39,7 @@ namespace majorProject
         {
         }
 
-        public Grunt(Texture2D sprite, Texture2D shotSprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed)
+        public Grunt(Texture2D sprite, Texture2D shotSprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed, Constants constants)
         {
             this.alive = true;
             this.sprite = sprite;
@@ -54,9 +54,10 @@ namespace majorProject
             this.rotSpeed = 0;
             this.maxRotSpeed = 0.1;
             this.shotSpeed = 3;
+            this.constants = constants;
         }
 
-        public override void update(Player human)
+        public override void update(Player human, EnemyShot[] shotList)
         {
             foreach (Shot shot in human.shotList)
             {
@@ -89,7 +90,7 @@ namespace majorProject
                 if(moveTo(tarx, tary))
                  {
                     moveID++;
-                    shoot();
+                    shoot(shotList);
                  }
             }else if(moveID == 1)
             {
@@ -136,10 +137,18 @@ namespace majorProject
             }
         }
 
-        public void shoot()
+        public void shoot(EnemyShot[] shotlist)
         {
-            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, 5, xPos, yPos);
-            shotList.Add(shot);
+            //rotAngle = 2;
+            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, 5, xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
+            for (int i = 0; i < shotlist.Length; i++)
+            {
+                if (shotlist[i] == null)
+                {
+                    shotlist[i] = shot;
+                    break;
+                }
+            }
         }
 
 

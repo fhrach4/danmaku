@@ -42,6 +42,7 @@ namespace majorProject
         protected double maxRotSpeed;
         public int moveSpeed;
         public ArrayList shotList = new ArrayList();
+        protected Constants constants;
         
         /// <summary>
         /// Blank constructor
@@ -80,12 +81,13 @@ namespace majorProject
         /// <param name="shotSprite">The sprite to be used for shots</param>
         /// <param name="spriteHeight">The sprite height</param>
         /// <param name="spriteWidth">The sprite width</param>
-        public void init(Texture2D sprite, Texture2D shotSprite, int spriteHeight, int spriteWidth)
+        public void init(Texture2D sprite, Texture2D shotSprite, Constants constants)
         {
             this.sprite = sprite;
             this.shotSprite = shotSprite;
-            this.spriteHeight = spriteHeight;
-            this.spriteWidth = spriteWidth;
+            this.constants = constants;
+            this.spriteHeight = constants.GRUNT_SPRITE_HEIGHT;
+            this.spriteWidth = constants.GRUNT_SPRITE_WIDTH;
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
         }
 
@@ -93,7 +95,7 @@ namespace majorProject
         /// Updates the enemy's position, damage, and alive statues
         /// </summary>
         /// <param name="human"></param>
-        public virtual void update(Player human)
+        public virtual void update(Player human, EnemyShot[] shotList)
         {
             foreach (Shot shot in human.shotList)
             {
