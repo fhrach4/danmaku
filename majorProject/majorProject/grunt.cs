@@ -90,16 +90,16 @@ namespace majorProject
                 if(moveTo(tarx, tary))
                  {
                     moveID++;
-                    shoot(shotList);
+                    shoot(ref shotList);
                  }
             }else if(moveID == 1)
             {
                 if (aim(human))
                 {
-                    moveID++;
+                    //moveID++;
                 }
 
-                //moveID++;
+                moveID++;
 
             }
             else if (moveID == 2)
@@ -137,7 +137,7 @@ namespace majorProject
             }
         }
 
-        public void shoot(EnemyShot[] shotlist)
+        public void shoot(ref EnemyShot[] shotlist)
         {
             //rotAngle = 2;
             EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, constants.ENEMY_SHOT_MAXSPEED  - 1,

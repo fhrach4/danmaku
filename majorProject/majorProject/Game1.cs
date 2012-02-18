@@ -176,6 +176,7 @@ namespace majorProject
         {
             // update enemies
             updateEnemies(gameTime);
+            updateBullets();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -282,6 +283,28 @@ namespace majorProject
         /// Updates active enemies
         /// </summary>
         /// <param name="gameTime">The current game time</param>
+        /// 
+
+        protected void updateBullets()
+        {
+            for (int i = 0; i < shotList.Length; i++)
+            {
+                EnemyShot shot = shotList[i];
+                if (shot != null)
+                {
+                    shot.update();
+
+                    if (shot.isOutOfPlay())
+                    {
+                        shotList[i] = null;
+                    }
+                    else
+                    {
+                        shotList[i] = shot;
+                    }
+                }
+            }
+        }
         protected void updateEnemies(GameTime gameTime)
         {
             // Add enemies to the active list
@@ -352,23 +375,7 @@ namespace majorProject
                         enemy.shotList.Remove(shot);
                     }*/
 
-                    for (int i = 0; i < shotList.Length; i++)
-                    {
-                        EnemyShot shot = shotList[i];
-                        if (shot != null)
-                        {
-                            shot.update();
-
-                            if (shot.isOutOfPlay())
-                            {
-                                shotList[i] = null;
-                            }
-                            else
-                            {
-                                shotList[i] = shot;
-                            }
-                        }
-                    } 
+                    
                 }
             }
         }

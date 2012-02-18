@@ -101,14 +101,14 @@ namespace majorProject
              //int xDif = player.xPos - (xPos + (int)origin.X);
              //int yDif = player.yPos - (yPos + (int)origin.Y);
 
-             if (-20 < xDif && xDif < 20 && -20 < yDif && yDif < 20)
+             if (-20 < xDif && xDif < 20 && -5 < yDif && yDif < 5)
              {
                  int i = 0;
              }
 
              double line = Math.Pow(xDif, 2) + Math.Pow(yDif, 2);
 
-             if (line < radius * radius)
+             if (line < radius * radius * radius)
              {
                  return true;
              }

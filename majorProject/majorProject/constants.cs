@@ -29,7 +29,7 @@ namespace majorProject
         //enemy shot
         public readonly int ENEMY_SHOT_HEIGHT = 30;
         public readonly int ENEMY_SHOT_WIDTH = 30;
-        public readonly int ENEMY_SHOT_MAXSPEED = 3;
+        public readonly int ENEMY_SHOT_MAXSPEED = 2;
 
         public Constants()
         {
