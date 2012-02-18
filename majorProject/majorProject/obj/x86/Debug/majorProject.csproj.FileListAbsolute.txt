@@ -24,3 +24,5 @@ e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\titleFont.xnb
 D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\font.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\titleFont.xnb
+e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\font.xnb

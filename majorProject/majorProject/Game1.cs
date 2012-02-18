@@ -108,6 +108,7 @@ namespace majorProject
                 try
                 {
                     bsong = Song.FromUri(reader.levelSong, uri);
+                    //MediaPlayer.Play(bsong);
                 }
                 catch (System.ArgumentException)
                 {
@@ -196,6 +197,10 @@ namespace majorProject
             }
             else
             {
+                if (MediaPlayer.State == MediaState.Stopped)
+                {
+                    MediaPlayer.Play(bsong);
+                }
                 // update enemies
                 updateEnemies(gameTime);
                 updateBullets();
