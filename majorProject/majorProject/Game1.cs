@@ -18,6 +18,8 @@ namespace majorProject
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        //menu variables
+        private bool displayMenu = true;
         public Texture2D singlePix;
         //Globals
         public GraphicsDeviceManager graphics;
@@ -81,7 +83,6 @@ namespace majorProject
             LevelReader reader = new LevelReader();
 
             // Load Background
-            
 
             foreach (Enemy enemy in reader.enemyList)
             {
@@ -99,7 +100,6 @@ namespace majorProject
                 try
                 {
                     bsong = Song.FromUri(reader.levelSong, uri);
-                    MediaPlayer.Play(bsong);
                 }
                 catch (System.ArgumentException)
                 {
@@ -154,8 +154,6 @@ namespace majorProject
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
         }
 
         /// <summary>
@@ -174,25 +172,31 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // update enemies
-            updateEnemies(gameTime);
-            updateBullets();
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            // TODO: Add your update logic here
-            for (int i = 0; i < shotList.Length; i++)
+            if (displayMenu)
             {
-                if (shotList[i] != null)
+            }
+            else
+            {
+                // update enemies
+                updateEnemies(gameTime);
+                updateBullets();
+                // Allows the game to exit
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    this.Exit();
+
+                // TODO: Add your update logic here
+                for (int i = 0; i < shotList.Length; i++)
                 {
-                    if (shotList[i].collidsWith(human) && human.respawn == false)
+                    if (shotList[i] != null)
                     {
-                        human.hit = true;
+                        if (shotList[i].collidsWith(human) && human.respawn == false)
+                        {
+                            human.hit = true;
+                        }
                     }
                 }
-            }
 
+            }
 
             // TODO: add code to advance level
             if (levelComplete)
@@ -204,6 +208,16 @@ namespace majorProject
             base.Update(gameTime);
         }
 
+        protected void drawMenu(SpriteBatch batch)
+        {
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Space))
+            {
+                displayMenu = false;
+            }
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -212,69 +226,78 @@ namespace majorProject
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            //Draw background
-            spriteBatch.Draw(backgroundTexture, new Rectangle(0,0,800,600), Color.White);
-            //draw enemies
 
-            foreach (EnemyShot shot in shotList)
+            if (displayMenu)
             {
-                if (shot != null)
-                {
-                    shot.draw(spriteBatch);
-                }
+                drawMenu(spriteBatch);
             }
+            else
+            {    
+                //Draw background
+                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
+                //draw enemies
 
-            foreach (Enemy enemy in activeList)
-            {
-                if (enemy != null)
+                foreach (EnemyShot shot in shotList)
                 {
-                    if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                    if (shot != null)
                     {
-                        enemy.start = true;
-                        enemy.draw(spriteBatch);
+                        shot.draw(spriteBatch);
+                    }
+                }
+
+                foreach (Enemy enemy in activeList)
+                {
+                    if (enemy != null)
+                    {
+                        if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                        {
+                            enemy.start = true;
+                            enemy.draw(spriteBatch);
+                        }
+                    }
+                }
+
+                //handle player movement
+                if (!human.respawn)
+                {
+                    Vector2 humanPos = human.updateState(gameTime, activeList);
+                    human.drawShots(spriteBatch);
+                    human.sprite.draw(spriteBatch, humanPos);
+
+                    // handle player explosions
+                    if (human.hit)
+                    {
+                        Expolsion exp = new Expolsion(explosionTexture, 128, 128, 20);
+                        explosionList.Add(exp);
+                        human.die(exp, spriteBatch);
+                    }
+                }
+                else
+                {
+                    human.respawnUpdate();
+                    human.drawShots(spriteBatch);
+                    Vector2 humanPos = human.updateState(gameTime, activeList);
+                    human.sprite.drawInvincible(spriteBatch, humanPos);
+                }
+
+
+
+                //draw effects and remove players/enemies
+                updateEffects(spriteBatch);
+                removeEnemies(spriteBatch);
+
+                //hit box for debugging
+                spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
+                // hit box for enemies
+                foreach (Enemy enemy in activeList)
+                {
+                    if (enemy != null)
+                    {
+                        spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
                     }
                 }
             }
 
-            //handle player movement
-            if (!human.respawn)
-            {
-                Vector2 humanPos = human.updateState(gameTime, activeList);
-                human.drawShots(spriteBatch);
-                human.sprite.draw(spriteBatch, humanPos);
-
-                // handle player explosions
-                if (human.hit)
-                {
-                    Expolsion exp = new Expolsion(explosionTexture, 128, 128, 20);
-                    explosionList.Add(exp);
-                    human.die(exp, spriteBatch);
-                }
-            }
-            else
-            {
-                human.respawnUpdate();
-                human.drawShots(spriteBatch);
-                Vector2 humanPos = human.updateState(gameTime, activeList);
-                human.sprite.drawInvincible(spriteBatch,humanPos);
-            }
-
-
-
-            //draw effects and remove players/enemies
-            updateEffects(spriteBatch);
-            removeEnemies(spriteBatch);
-
-            //hit box for debugging
-            spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
-            // hit box for enemies
-            foreach(Enemy enemy in activeList)
-            {
-                if (enemy != null)
-                {
-                    spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
-                }
-            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
