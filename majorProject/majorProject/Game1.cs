@@ -20,14 +20,19 @@ namespace majorProject
     {
         //menu variables
         private bool displayMenu = true;
+        private bool subMenu = false;
         public Texture2D singlePix;
+        private int selected = 0;
+        private bool move = true;
+        private bool select = true;
+
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
         //Effects
         public ArrayList explosionList = new ArrayList();
-        Texture2D explosionTexture;
+        
 
         // Music
         public Song bsong;
@@ -48,7 +53,14 @@ namespace majorProject
         Texture2D shotTexture;
         Texture2D humanTexture;
         Texture2D backgroundTexture;
+        Texture2D explosionTexture;
+
+         
         AnimatedSprite humanAnimatedTexture;
+
+        // Fonts
+        SpriteFont titleFont;
+        SpriteFont font;
 
         public bool levelComplete = false;
 
@@ -70,15 +82,11 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            LoadContent();
             Constants constants = new Constants();
             activeList = new Enemy[20];
             shotList = new EnemyShot[100];
-            enemyShot = Content.Load<Texture2D>("shot2");
-            singlePix = Content.Load<Texture2D>("singlePix");
-            enemyText = Content.Load<Texture2D>("Enemy1");
-            shotTexture = Content.Load<Texture2D>("shot1");
-            humanTexture = Content.Load<Texture2D>("player");
-            explosionTexture = Content.Load<Texture2D>("explosion");
+
             // Create Level Reader
             LevelReader reader = new LevelReader();
 
@@ -154,6 +162,17 @@ namespace majorProject
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Load fonts
+            titleFont = Content.Load<SpriteFont>("titleFont");
+            font = Content.Load<SpriteFont>("font");
+
+            enemyShot = Content.Load<Texture2D>("shot2");
+            singlePix = Content.Load<Texture2D>("singlePix");
+            enemyText = Content.Load<Texture2D>("Enemy1");
+            shotTexture = Content.Load<Texture2D>("shot1");
+            humanTexture = Content.Load<Texture2D>("player");
+            explosionTexture = Content.Load<Texture2D>("explosion");
         }
 
         /// <summary>
@@ -195,7 +214,6 @@ namespace majorProject
                         }
                     }
                 }
-
             }
 
             // TODO: add code to advance level
@@ -208,13 +226,98 @@ namespace majorProject
             base.Update(gameTime);
         }
 
-        protected void drawMenu(SpriteBatch batch)
+        protected void drawSubMenu(SpriteBatch batch)
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Space))
+            batch.DrawString(titleFont, "Controls", new Vector2(200, 100), Color.Green);
+            batch.DrawString(font, "Move:", new Vector2(200, 300), Color.Green);
+            batch.DrawString(font, "Arrow Keys", new Vector2(400, 300), Color.Green);
+            batch.DrawString(font, "Shoot:", new Vector2(200, 350), Color.Green);
+            batch.DrawString(font, "z", new Vector2(400, 350), Color.Green);
+
+            if (state.IsKeyDown(Keys.Space) && select)
             {
-                displayMenu = false;
+                select = false;
+                subMenu = false;
+                displayMenu = true;
+            }
+
+            if (state.IsKeyUp(Keys.Space))
+            {
+                select = true;
+            }
+        }
+
+        protected void drawMenu(SpriteBatch batch)
+        {
+            int maxSelection = 2;
+            int minSelection = 0;
+
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
+            {
+                move = true;
+            }
+
+            if (state.IsKeyUp(Keys.Space))
+            {
+                select = true;
+            }
+
+            if (state.IsKeyDown(Keys.Down))
+            {
+                if(selected < maxSelection && move)
+                {
+                    selected++;
+                    move = false;
+                }
+            }else if (state.IsKeyDown(Keys.Up))
+            {
+                if (selected > minSelection && move)
+                {
+                    selected--;
+                    move = false;
+                }
+            }
+
+            spriteBatch.DrawString(titleFont, "Danmaku", new Vector2(200 , 100), Color.Green);
+            spriteBatch.DrawString(font, "Version: Alpha 1.0", new Vector2(200, 210), Color.Green);
+
+            if (selected == 0)
+            {
+                spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.White);
+                spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.Green);
+                spriteBatch.DrawString(font, "Quit", new Vector2(200, 400), Color.Green);
+            }
+            else if (selected == 1)
+            {
+                spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.Green);
+                spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.White);
+                spriteBatch.DrawString(font, "Quit", new Vector2(200, 400), Color.Green);
+            }else if (selected == 2)
+            {
+                spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.Green);
+                spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.Green);
+                spriteBatch.DrawString(font, "Quit", new Vector2(200, 400), Color.White);
+                if (state.IsKeyDown(Keys.Space))
+                {
+                    this.Exit();
+                }
+            }
+            if (state.IsKeyDown(Keys.Space) && select)
+            {
+                select = false;
+                if (selected == 0)
+                {
+                    displayMenu = false;
+                }
+                else if (selected == 1)
+                {
+                    displayMenu = false;
+                    subMenu = true;
+                }
             }
         }
 
@@ -226,13 +329,16 @@ namespace majorProject
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-
-            if (displayMenu)
+            if (subMenu)
+            {
+                drawSubMenu(spriteBatch);
+            }
+            else if (displayMenu)
             {
                 drawMenu(spriteBatch);
             }
             else
-            {    
+            {
                 //Draw background
                 spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
                 //draw enemies

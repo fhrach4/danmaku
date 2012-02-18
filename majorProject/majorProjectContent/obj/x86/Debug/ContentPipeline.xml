@@ -55,6 +55,24 @@
       <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\shot2.xnb</Output>
       <Time>2012-02-12T23:29:35.4993639-05:00</Time>
     </Item>
+    <Item>
+      <Source>titleFont.spritefont</Source>
+      <Name>titleFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\titleFont.xnb</Output>
+      <Time>2012-02-17T21:56:33.4025689-05:00</Time>
+    </Item>
+    <Item>
+      <Source>font.spritefont</Source>
+      <Name>font</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2012-02-17T22:03:08.9401924-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -201,7 +201,7 @@ namespace majorProject
             int drawx = xPos;
             int drawy = yPos;
             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
-            batch.Draw(sprite, pos, null, Color.White, rotAngle, origin, 1.0f, SpriteEffects.None, 0f);
+            batch.Draw(sprite, pos, null, Color.White, rotAngle, origin, 1.0f, SpriteEffects.None, 0);
         }
 
         public void moveForward()
