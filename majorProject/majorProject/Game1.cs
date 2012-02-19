@@ -363,6 +363,7 @@ namespace majorProject
                     }
                 }
 
+                //
                 if (boss.appearTime >= gameTime.TotalGameTime.TotalSeconds)
                 {
                     boss.yPos = 400;
