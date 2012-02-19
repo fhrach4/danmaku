@@ -27,7 +27,7 @@ namespace majorProject
 
         //private movement and rotation variables
         private short moveID = 0;
-        private float rotAngle = 0;
+        private new float rotAngle = 0;
 
         //public movememt variables
         public int tarx;
@@ -154,7 +154,7 @@ namespace majorProject
 
 
 
-        public virtual bool aim(Player human)
+        public new bool aim(Player human)
         {
             float humanAngle = getAngleToHuman(human);
 

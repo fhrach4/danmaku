@@ -1,12 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -25,6 +20,8 @@ namespace majorProject
         private int selected = 0;
         private bool move = true;
         private bool select = true;
+        private int maxSelection = 2;
+        private int minSelection = 0;
 
         //Globals
         public GraphicsDeviceManager graphics;
@@ -55,7 +52,8 @@ namespace majorProject
         Texture2D backgroundTexture;
         Texture2D explosionTexture;
 
-         
+
+        Boss boss;
         AnimatedSprite humanAnimatedTexture;
 
         // Fonts
@@ -92,6 +90,8 @@ namespace majorProject
 
             // Load Background
 
+            ArrayList tmpRemoveLst = new ArrayList();
+
             foreach (Enemy enemy in reader.enemyList)
             {
                 if (enemy is Grunt)
@@ -99,6 +99,16 @@ namespace majorProject
                     enemy.init(enemyText, enemyShot, constants);
                     enemyList.Add(enemy);
                 }
+                else if (enemy is Boss)
+                {
+                    boss = (Boss)enemy;
+                    boss.init(enemyText, enemyShot, constants);
+                }
+            }
+
+            foreach (Boss boss in tmpRemoveLst)
+            {
+                enemyList.Remove(boss);
             }
 
             // load background song
@@ -136,20 +146,12 @@ namespace majorProject
                 backgroundTexture = singlePix;
             }
             //create player
-            humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME, constants.HUMAN_NEUTRAL_FRAME, constants.MAX_HUMAN_FRAMES, constants.HUMAN_SPRITE_WIDTH, constants.HUMAN_SPRITE_HEIGHT);
+            humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME, 
+                constants.HUMAN_NEUTRAL_FRAME, constants.MAX_HUMAN_FRAMES, constants.HUMAN_SPRITE_WIDTH, 
+                constants.HUMAN_SPRITE_HEIGHT);
            
-            human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y, constants.MAX_HUMAN_SPEED);
-
-            //for (int i = 0; i <= 800; i = i + 40)
-            //{
-            //    Grunt enemy = new Grunt(enemyText, 34, 38, i, i / 2, 20);
-            //    enemyList.Add(enemy);
-            //}
-
-            //Grunt enemy = new Grunt(enemyText, 34, 38, 200, 200, 20, 0.1);
-            //enemyList.Add(enemy);
-
-            //Load effects
+            human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y, 
+                constants.MAX_HUMAN_SPEED);
             
     
             base.Initialize();
@@ -192,15 +194,70 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardState state = Keyboard.GetState();
+
             if (displayMenu)
             {
+                if (state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
+                {
+                    move = true;
+                }
+
+                if (state.IsKeyUp(Keys.Space))
+                {
+                    select = true;
+                }
+
+                if (state.IsKeyDown(Keys.Down))
+                {
+                    if (selected < maxSelection && move)
+                    {
+                        selected++;
+                        move = false;
+                    }
+                }
+                else if (state.IsKeyDown(Keys.Up))
+                {
+                    if (selected > minSelection && move)
+                    {
+                        selected--;
+                        move = false;
+                    }
+                }
+                if (state.IsKeyDown(Keys.Space) && select)
+                {
+                    select = false;
+                    if (selected == 0)
+                    {
+                        displayMenu = false;
+                    }
+                    else if (selected == 1)
+                    {
+                        displayMenu = false;
+                        subMenu = true;
+                    }
+                }
+            }else if (subMenu)
+            {
+                if (state.IsKeyDown(Keys.Space) && select)
+                {
+                    select = false;
+                    subMenu = false;
+                    displayMenu = true;
+                }
+
+                if (state.IsKeyUp(Keys.Space))
+                {
+                    select = true;
+                }
             }
             else
             {
-                if (MediaPlayer.State == MediaState.Stopped)
+                if (MediaPlayer.State == MediaState.Stopped && bsong != null)
                 {
                     MediaPlayer.Play(bsong);
                 }
+
                 // update enemies
                 updateEnemies(gameTime);
                 updateBullets();
@@ -241,54 +298,16 @@ namespace majorProject
             batch.DrawString(font, "Shoot:", new Vector2(200, 350), Color.Green);
             batch.DrawString(font, "z", new Vector2(400, 350), Color.Green);
 
-            if (state.IsKeyDown(Keys.Space) && select)
-            {
-                select = false;
-                subMenu = false;
-                displayMenu = true;
-            }
-
-            if (state.IsKeyUp(Keys.Space))
-            {
-                select = true;
-            }
+            
         }
 
         protected void drawMenu(SpriteBatch batch)
         {
-            int maxSelection = 2;
-            int minSelection = 0;
-
-            KeyboardState state = Keyboard.GetState();
-
-            if (state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
-            {
-                move = true;
-            }
-
-            if (state.IsKeyUp(Keys.Space))
-            {
-                select = true;
-            }
-
-            if (state.IsKeyDown(Keys.Down))
-            {
-                if(selected < maxSelection && move)
-                {
-                    selected++;
-                    move = false;
-                }
-            }else if (state.IsKeyDown(Keys.Up))
-            {
-                if (selected > minSelection && move)
-                {
-                    selected--;
-                    move = false;
-                }
-            }
+            
 
             spriteBatch.DrawString(titleFont, "Danmaku", new Vector2(200 , 100), Color.Green);
             spriteBatch.DrawString(font, "Version: Alpha 1.0", new Vector2(200, 210), Color.Green);
+            spriteBatch.DrawString(font, "Press SPACE to select", new Vector2(200, 500), Color.Green);
 
             if (selected == 0)
             {
@@ -306,24 +325,12 @@ namespace majorProject
                 spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.Green);
                 spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.Green);
                 spriteBatch.DrawString(font, "Quit", new Vector2(200, 400), Color.White);
-                if (state.IsKeyDown(Keys.Space))
+                if (!select)
                 {
                     this.Exit();
                 }
             }
-            if (state.IsKeyDown(Keys.Space) && select)
-            {
-                select = false;
-                if (selected == 0)
-                {
-                    displayMenu = false;
-                }
-                else if (selected == 1)
-                {
-                    displayMenu = false;
-                    subMenu = true;
-                }
-            }
+            
         }
 
         /// <summary>
@@ -354,6 +361,12 @@ namespace majorProject
                     {
                         shot.draw(spriteBatch);
                     }
+                }
+
+                if (boss.appearTime >= gameTime.TotalGameTime.TotalSeconds)
+                {
+                    boss.yPos = 400;
+                    boss.draw(spriteBatch);
                 }
 
                 foreach (Enemy enemy in activeList)
@@ -471,6 +484,11 @@ namespace majorProject
                 enemyList.Remove(enemy);
             }
 
+            //Handle boss
+            if (gameTime.TotalGameTime.TotalSeconds >= boss.appearTime)
+            {
+                boss.update(human, shotList);
+            }
             // check to see if each enemy is alive
             foreach (Enemy enemy in activeList)
             {
@@ -488,28 +506,7 @@ namespace majorProject
                     }
 
                     // update shots
-                    ArrayList shotRemoveList = new ArrayList();
-                    
-                    /*foreach (EnemyShot shot in enemy.shotList)
-                    {
-                        for (int i = 0; i < shotList.Length; i++)
-                        {
-                            if (shotList[i] == null)
-                            {
-                                shotList[i] = shot;
-                                break;
-                            }
-                        }
-
-                        shotRemoveList.Add(shot);
-                    }*/
-
-                    /*foreach (EnemyShot shot in shotRemoveList)
-                    {
-                        enemy.shotList.Remove(shot);
-                    }*/
-
-                    
+                    ArrayList shotRemoveList = new ArrayList();  
                 }
             }
         }

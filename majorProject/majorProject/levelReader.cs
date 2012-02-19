@@ -100,13 +100,13 @@ namespace majorProject
                 // Third will be the appear x
                 int appx = Convert.ToInt32(output[2]);
 
-                //Third will the the tar x
+                // Forth will the the tar x
                 int xpos = Convert.ToInt32(output[3]);
 
-                // Forth will be the tar y
+                // Fifth will be the tar y
                 int ypos = Convert.ToInt32(output[4]);
 
-                // Fifth will be the moveSpeed
+                // Sixth will be the moveSpeed
                 int speed = Convert.ToInt32(output[5]);
 
                 if (type == "Grunt")
@@ -121,6 +121,14 @@ namespace majorProject
                     grunt.moveSpeed = speed;
                     //TODO figure out weird null exception
                     enemyList.Add(grunt);
+                }
+                else if (type == "Boss")
+                {
+                    int health = Convert.ToInt32(output[6]);
+
+                    Boss boss = new Boss(appx,-10,1000,xpos,ypos);
+                    boss.appearTime = appearTime;
+                    enemyList.Add(boss);
                 }
                 /*
                  * Additional types go here

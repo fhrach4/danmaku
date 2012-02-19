@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="boss.cs" />
     <Compile Include="constants.cs" />
     <Compile Include="control.cs" />
     <Compile Include="enemy.cs" />
