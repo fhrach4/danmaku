@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 //XNA imports
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -60,7 +63,7 @@ namespace majorProject
 
             if (action == 0)
             {
-                //Do stuff
+                base.moveTo(300, 300);
             }
             else if (action == 1)
             {
@@ -71,15 +74,19 @@ namespace majorProject
                 //Do differant stuff
             }
 
+            Console.WriteLine("Boss Health: " + Convert.ToString(health));
+
             if (complete)
             {
                 action++;
             }
+        }
 
-            if (!alive)
-            {
-                //death code here
-            }
+        public override void die(Expolsion explosion, SpriteBatch batch)
+        {
+            base.die(explosion, batch);
+            xPos = -100;
+            yPos = -100;
         }
     }
 }

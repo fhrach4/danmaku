@@ -23,6 +23,10 @@ namespace majorProject
         private int maxSelection = 2;
         private int minSelection = 0;
 
+        // Time variables
+        private float offset;
+        private float time;
+
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -194,6 +198,11 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (!boss.alive)
+            {
+                levelComplete = true;
+            }
+
             KeyboardState state = Keyboard.GetState();
 
             if (displayMenu)
@@ -339,6 +348,13 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            if (offset == null)
+            {
+                offset = (float)gameTime.TotalGameTime.Seconds;
+            }
+
+            time = (float)gameTime.TotalGameTime.Seconds - offset;
+
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             if (subMenu)
@@ -364,7 +380,7 @@ namespace majorProject
                 }
 
                 //
-                if (boss.appearTime >= gameTime.TotalGameTime.TotalSeconds)
+                if (boss.appearTime <= time)
                 {
                     boss.yPos = 400;
                     boss.draw(spriteBatch);
@@ -374,7 +390,7 @@ namespace majorProject
                 {
                     if (enemy != null)
                     {
-                        if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                        if (time >= enemy.appearTime)
                         {
                             enemy.start = true;
                             enemy.draw(spriteBatch);
@@ -385,7 +401,7 @@ namespace majorProject
                 //handle player movement
                 if (!human.respawn)
                 {
-                    Vector2 humanPos = human.updateState(gameTime, activeList);
+                    Vector2 humanPos = human.updateState(gameTime, activeList, boss);
                     human.drawShots(spriteBatch);
                     human.sprite.draw(spriteBatch, humanPos);
 
@@ -401,7 +417,7 @@ namespace majorProject
                 {
                     human.respawnUpdate();
                     human.drawShots(spriteBatch);
-                    Vector2 humanPos = human.updateState(gameTime, activeList);
+                    Vector2 humanPos = human.updateState(gameTime, activeList, boss);
                     human.sprite.drawInvincible(spriteBatch, humanPos);
                 }
 
@@ -411,6 +427,7 @@ namespace majorProject
                 updateEffects(spriteBatch);
                 removeEnemies(spriteBatch);
 
+                
                 //hit box for debugging
                 spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
                 // hit box for enemies
@@ -421,6 +438,9 @@ namespace majorProject
                         spriteBatch.Draw(singlePix, enemy.hitBox, Color.Yellow);
                     }
                 }
+
+                spriteBatch.Draw(singlePix, boss.hitBox, Color.Green);
+           
             }
 
             spriteBatch.End();
@@ -459,7 +479,7 @@ namespace majorProject
             ArrayList localRemove = new ArrayList();
             foreach (Enemy enemy in enemyList)
             {
-                if (gameTime.TotalGameTime.TotalSeconds >= enemy.appearTime)
+                if (time >= enemy.appearTime)
                 {
                     // check for open spot in active list
                     for (int i = 0; i < activeList.Length; i++)
@@ -486,10 +506,11 @@ namespace majorProject
             }
 
             //Handle boss
-            if (gameTime.TotalGameTime.TotalSeconds >= boss.appearTime)
+            if (time >= boss.appearTime)
             {
                 boss.update(human, shotList);
             }
+
             // check to see if each enemy is alive
             foreach (Enemy enemy in activeList)
             {
@@ -518,12 +539,12 @@ namespace majorProject
         /// <param name="batch">current sprite batch</param>
         protected void removeEnemies(SpriteBatch batch)
         {
+            Expolsion exp = new Expolsion(explosionTexture, 128, 128, 20);
 
             //remove each enemy in the remove list from the main enemy list
             foreach (Enemy enemy in removeList)
             {
                 //create a new explosion and add it to the explosion list
-                Expolsion exp = new Expolsion(explosionTexture, 128, 128, 20);
                 explosionList.Add(exp);
                 enemy.die(exp, batch);
 
@@ -535,8 +556,14 @@ namespace majorProject
                         activeList[i] = null;
                     }
                 }
+
+
             }
 
+            if (!boss.alive)
+            {
+                boss.die(exp, batch);
+            }
             removeList.Clear();
             
         }

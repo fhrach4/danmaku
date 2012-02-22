@@ -116,7 +116,7 @@ namespace majorProject
         /// <param name="time">The current gametime</param>
         /// <param name="enemyList">The current list onf enemies</param>
         /// <returns>new position of the player</returns>
-        public Vector2 updateState(GameTime time, Enemy[] enemyList)
+        public Vector2 updateState(GameTime time, Enemy[] enemyList, Boss boss)
         {
             Vector2 update;
             //get a list of pressed keys
@@ -132,6 +132,12 @@ namespace majorProject
                         hit = true;
                         enemy.alive = false;
                     }
+                }
+
+                if (boss != null && hitBox.Intersects(boss.hitBox))
+                {
+                    boss.health = boss.health - 50;
+                    hit = true;
                 }
             }
 

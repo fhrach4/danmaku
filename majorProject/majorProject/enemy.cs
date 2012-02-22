@@ -145,7 +145,7 @@ namespace majorProject
         /// </summary>
         /// <param name="explosion"></param>
         /// <param name="batch"></param>
-        public void die(Expolsion explosion, SpriteBatch batch)
+        public virtual void die(Expolsion explosion, SpriteBatch batch)
         {
             explosion.xPos = xPos;
             explosion.yPos = yPos;

@@ -64,8 +64,16 @@ namespace majorProject
         /// </summary>
         public virtual void update()
         {
-            yPos = yPos - maxSpeed;
-            hitBox.Y = yPos;
+            if (!hit)
+            {
+                yPos = yPos - maxSpeed;
+                hitBox.Y = yPos;
+            }
+            else
+            {
+                xPos = -100;
+                yPos = -100;
+            }
         }
 
         /// <summary>

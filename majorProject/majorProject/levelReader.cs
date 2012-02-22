@@ -109,6 +109,7 @@ namespace majorProject
                 // Sixth will be the moveSpeed
                 int speed = Convert.ToInt32(output[5]);
 
+                // switch to switch statement
                 if (type == "Grunt")
                 {
                     //Create a blank grunt
