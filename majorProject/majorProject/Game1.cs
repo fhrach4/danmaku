@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,12 +21,15 @@ namespace majorProject
         private int selected = 0;
         private bool move = true;
         private bool select = true;
+        private bool gameOver = false;
+        private bool win = false;
         private int maxSelection = 2;
         private int minSelection = 0;
 
         // Time variables
         private float offset;
         private float time;
+        private Stopwatch gameOverTimer = new Stopwatch();
 
         //Globals
         public GraphicsDeviceManager graphics;
@@ -87,7 +91,7 @@ namespace majorProject
             LoadContent();
             Constants constants = new Constants();
             activeList = new Enemy[20];
-            shotList = new EnemyShot[100];
+            shotList = new EnemyShot[100000];
 
             // Create Level Reader
             LevelReader reader = new LevelReader();
@@ -203,6 +207,12 @@ namespace majorProject
                 levelComplete = true;
             }
 
+            if (human.lives < 0)
+            {
+                gameOver = true;
+                gameOverTimer.Start();
+            }
+
             KeyboardState state = Keyboard.GetState();
 
             if (displayMenu)
@@ -260,6 +270,17 @@ namespace majorProject
                     select = true;
                 }
             }
+            else if (gameOver)
+            {
+                if (gameOverTimer.ElapsedMilliseconds > 5000)
+                {
+                    //TODO write code to reset level
+                    gameOver = false;
+                    displayMenu = true;
+                    gameOverTimer.Reset();
+                }
+            }
+            //TODO write win code
             else
             {
                 if (MediaPlayer.State == MediaState.Stopped && bsong != null)
@@ -348,13 +369,7 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            if (offset == null)
-            {
-                offset = (float)gameTime.TotalGameTime.Seconds;
-            }
-
-            time = (float)gameTime.TotalGameTime.Seconds - offset;
-
+            
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             if (subMenu)
@@ -365,11 +380,27 @@ namespace majorProject
             {
                 drawMenu(spriteBatch);
             }
-            else
+            else if(!win)
             {
+                // correct clock only if offset is not set
+                if (offset == null)
+                {
+                    offset = (float)gameTime.TotalGameTime.Seconds;
+                }
+
+                time = (float)gameTime.TotalGameTime.Seconds - offset;
+
                 //Draw background
                 spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
                 //draw enemies
+
+                // if gameover, draw to screen
+                if (gameOver)
+                {
+                    human.xPos = -200;
+                    human.yPos = -200;
+                    spriteBatch.DrawString(titleFont, "GAME OVER", new Vector2(150, 150), Color.White);
+                }
 
                 foreach (EnemyShot shot in shotList)
                 {
@@ -428,6 +459,7 @@ namespace majorProject
                 removeEnemies(spriteBatch);
 
                 
+                /*
                 //hit box for debugging
                 spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
                 // hit box for enemies
@@ -440,8 +472,8 @@ namespace majorProject
                 }
 
                 spriteBatch.Draw(singlePix, boss.hitBox, Color.Green);
-           
-            }
+                */           
+            } 
 
             spriteBatch.End();
             base.Draw(gameTime);

@@ -89,7 +89,7 @@ namespace majorProject
             {
                 if(moveTo(tarx, tary))
                  {
-                    moveID++;
+                    //moveID++;
                     shoot(ref shotList);
                  }
             }else if(moveID == 1)
