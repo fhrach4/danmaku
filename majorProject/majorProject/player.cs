@@ -332,5 +332,31 @@ namespace majorProject
                 //TODO:GAME OVER CODE
             }
         }
+
+        public int getQuadrant()
+        {
+            if (xPos < 400)
+            {
+                if (yPos < 300)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 3;
+                }
+            }
+            else
+            {
+                if (yPos < 300)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 4;
+                }
+            }
+        }
     }
 }

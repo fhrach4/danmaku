@@ -69,7 +69,7 @@ namespace majorProject
         /// </summary>
         /// <param name="player">the player to check the collision against</param>
         /// <returns>True if there is a collision, otherwise false</returns>
-         public bool collidsWith(Player player)
+         public bool collidesWith(Player player)
          {
              //get the distance to the sides of the player's hitbox
              int xDif1 = player.hitBox.X - (xPos + (int)origin.X);

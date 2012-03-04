@@ -37,7 +37,7 @@ namespace majorProject
 
         //Effects
         public ArrayList explosionList = new ArrayList();
-        
+
 
         // Music
         public Song bsong;
@@ -50,7 +50,12 @@ namespace majorProject
         private Enemy[] activeList;
         public ArrayList removeList = new ArrayList();
 
-        private EnemyShot[] shotList;
+        // Bullet Lists
+        private EnemyShot[] shotListA;      // Handles the bullets from (0,0) to (400,300)      [Q2]
+        private EnemyShot[] shotListB;      // Handles the bulltes from (0,300) to (400,600)    [Q1]
+        private EnemyShot[] shotListC;      // Handles the bullets from (400,0) to (800,300)    [Q3]
+        private EnemyShot[] shotListD;      // Handles the bullets from (400,300) to (600,600)  [Q4]
+        private EnemyShot[] shotListE;      // Handles bullets that are close to the edge of a quadrant
 
         // Sprites
         Texture2D enemyText;
@@ -91,7 +96,11 @@ namespace majorProject
             LoadContent();
             Constants constants = new Constants();
             activeList = new Enemy[20];
-            shotList = new EnemyShot[100000];
+            shotListA = new EnemyShot[100000];
+            shotListB = new EnemyShot[100000];
+            shotListC = new EnemyShot[100000];
+            shotListD = new EnemyShot[100000];
+            shotListE = new EnemyShot[100000];
 
             // Create Level Reader
             LevelReader reader = new LevelReader();
@@ -122,7 +131,7 @@ namespace majorProject
             // load background song
             if (reader.levelSong != "none")
             {
-                Uri uri = new Uri(reader.levelSong,UriKind.Relative);
+                Uri uri = new Uri(reader.levelSong, UriKind.Relative);
                 try
                 {
                     bsong = Song.FromUri(reader.levelSong, uri);
@@ -130,7 +139,7 @@ namespace majorProject
                 }
                 catch (System.ArgumentException)
                 {
-                    Console.Error.WriteLine("Error loading file: " + (string)reader.levelSong + " ... Ignoring");            
+                    Console.Error.WriteLine("Error loading file: " + (string)reader.levelSong + " ... Ignoring");
                 }
             }
 
@@ -154,14 +163,14 @@ namespace majorProject
                 backgroundTexture = singlePix;
             }
             //create player
-            humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME, 
-                constants.HUMAN_NEUTRAL_FRAME, constants.MAX_HUMAN_FRAMES, constants.HUMAN_SPRITE_WIDTH, 
+            humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME,
+                constants.HUMAN_NEUTRAL_FRAME, constants.MAX_HUMAN_FRAMES, constants.HUMAN_SPRITE_WIDTH,
                 constants.HUMAN_SPRITE_HEIGHT);
-           
-            human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y, 
+
+            human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y,
                 constants.MAX_HUMAN_SPEED);
-            
-    
+
+
             base.Initialize();
         }
 
@@ -256,7 +265,8 @@ namespace majorProject
                         subMenu = true;
                     }
                 }
-            }else if (subMenu)
+            }
+            else if (subMenu)
             {
                 if (state.IsKeyDown(Keys.Space) && select)
                 {
@@ -295,14 +305,109 @@ namespace majorProject
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     this.Exit();
 
-                // TODO: Add your update logic here
-                for (int i = 0; i < shotList.Length; i++)
+                // sort bullets before collision detection
+                sortBullets();
+
+                // Figure out which quadrant player is in and test bullets as well.
+                int playerQuad = human.getQuadrant();
+
+                if (playerQuad == 1)
                 {
-                    if (shotList[i] != null)
+                    // if in Q1, check against shotListB and shotList E
+                    for (int i = 0; i < shotListB.Length; i++)
                     {
-                        if (shotList[i].collidsWith(human) && human.respawn == false)
+                        if (shotListB[i] != null)
                         {
-                            human.hit = true;
+                            if (shotListB[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < shotListE.Length; i++)
+                    {
+                        if (shotListE[i] != null)
+                        {
+                            if (shotListE[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+                }
+                else if (playerQuad == 2)
+                {
+                    // if in Q2, check against shotListA and shotList E
+                    for (int i = 0; i < shotListA.Length; i++)
+                    {
+                        if (shotListA[i] != null)
+                        {
+                            if (shotListA[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < shotListE.Length; i++)
+                    {
+                        if (shotListE[i] != null)
+                        {
+                            if (shotListE[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+                }
+                else if (playerQuad == 3)
+                {
+                    // if in Q3, check against shotListC and shotList E
+                    for (int i = 0; i < shotListC.Length; i++)
+                    {
+                        if (shotListC[i] != null)
+                        {
+                            if (shotListC[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < shotListE.Length; i++)
+                    {
+                        if (shotListE[i] != null)
+                        {
+                            if (shotListE[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // if in Q4, check against shotListD and shotList E
+                    for (int i = 0; i < shotListD.Length; i++)
+                    {
+                        if (shotListD[i] != null)
+                        {
+                            if (shotListD[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < shotListE.Length; i++)
+                    {
+                        if (shotListE[i] != null)
+                        {
+                            if (shotListE[i].collidesWith(human) && human.respawn == false)
+                            {
+                                human.hit = true;
+                            }
                         }
                     }
                 }
@@ -328,14 +433,14 @@ namespace majorProject
             batch.DrawString(font, "Shoot:", new Vector2(200, 350), Color.Green);
             batch.DrawString(font, "z", new Vector2(400, 350), Color.Green);
 
-            
+
         }
 
         protected void drawMenu(SpriteBatch batch)
         {
-            
 
-            spriteBatch.DrawString(titleFont, "Danmaku", new Vector2(200 , 100), Color.Green);
+
+            spriteBatch.DrawString(titleFont, "Danmaku", new Vector2(200, 100), Color.Green);
             spriteBatch.DrawString(font, "Version: Alpha 1.0", new Vector2(200, 210), Color.Green);
             spriteBatch.DrawString(font, "Press SPACE to select", new Vector2(200, 500), Color.Green);
 
@@ -350,7 +455,8 @@ namespace majorProject
                 spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.Green);
                 spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.White);
                 spriteBatch.DrawString(font, "Quit", new Vector2(200, 400), Color.Green);
-            }else if (selected == 2)
+            }
+            else if (selected == 2)
             {
                 spriteBatch.DrawString(font, "Start", new Vector2(200, 300), Color.Green);
                 spriteBatch.DrawString(font, "Controls", new Vector2(200, 350), Color.Green);
@@ -360,7 +466,7 @@ namespace majorProject
                     this.Exit();
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -369,7 +475,7 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
+
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             if (subMenu)
@@ -380,7 +486,7 @@ namespace majorProject
             {
                 drawMenu(spriteBatch);
             }
-            else if(!win)
+            else if (!win)
             {
                 // correct clock only if offset is not set
                 if (offset == null)
@@ -402,7 +508,39 @@ namespace majorProject
                     spriteBatch.DrawString(titleFont, "GAME OVER", new Vector2(150, 150), Color.White);
                 }
 
-                foreach (EnemyShot shot in shotList)
+                foreach (EnemyShot shot in shotListA)
+                {
+                    if (shot != null)
+                    {
+                        shot.draw(spriteBatch);
+                    }
+                }
+
+                foreach (EnemyShot shot in shotListB)
+                {
+                    if (shot != null)
+                    {
+                        shot.draw(spriteBatch);
+                    }
+                }
+
+                foreach (EnemyShot shot in shotListC)
+                {
+                    if (shot != null)
+                    {
+                        shot.draw(spriteBatch);
+                    }
+                }
+
+                foreach (EnemyShot shot in shotListD)
+                {
+                    if (shot != null)
+                    {
+                        shot.draw(spriteBatch);
+                    }
+                }
+
+                foreach (EnemyShot shot in shotListE)
                 {
                     if (shot != null)
                     {
@@ -458,7 +596,7 @@ namespace majorProject
                 updateEffects(spriteBatch);
                 removeEnemies(spriteBatch);
 
-                
+
                 /*
                 //hit box for debugging
                 spriteBatch.Draw(singlePix, human.hitBox, Color.Red);
@@ -472,8 +610,8 @@ namespace majorProject
                 }
 
                 spriteBatch.Draw(singlePix, boss.hitBox, Color.Green);
-                */           
-            } 
+                */
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -487,24 +625,102 @@ namespace majorProject
 
         protected void updateBullets()
         {
-            for (int i = 0; i < shotList.Length; i++)
+            // shotListA
+            for (int i = 0; i < shotListA.Length; i++)
             {
-                EnemyShot shot = shotList[i];
+                EnemyShot shot = shotListA[i];
                 if (shot != null)
                 {
                     shot.update();
 
                     if (shot.isOutOfPlay())
                     {
-                        shotList[i] = null;
+                        shotListA[i] = null;
                     }
                     else
                     {
-                        shotList[i] = shot;
+                        shotListA[i] = shot;
+                    }
+                }
+            }
+
+            // shotListB
+            for (int i = 0; i < shotListB.Length; i++)
+            {
+                EnemyShot shot = shotListB[i];
+                if (shot != null)
+                {
+                    shot.update();
+
+                    if (shot.isOutOfPlay())
+                    {
+                        shotListB[i] = null;
+                    }
+                    else
+                    {
+                        shotListB[i] = shot;
+                    }
+                }
+            }
+
+            // shotListC
+            for (int i = 0; i < shotListC.Length; i++)
+            {
+                EnemyShot shot = shotListC[i];
+                if (shot != null)
+                {
+                    shot.update();
+
+                    if (shot.isOutOfPlay())
+                    {
+                        shotListC[i] = null;
+                    }
+                    else
+                    {
+                        shotListC[i] = shot;
+                    }
+                }
+            }
+
+            // shotListD
+            for (int i = 0; i < shotListD.Length; i++)
+            {
+                EnemyShot shot = shotListC[i];
+                if (shot != null)
+                {
+                    shot.update();
+
+                    if (shot.isOutOfPlay())
+                    {
+                        shotListD[i] = null;
+                    }
+                    else
+                    {
+                        shotListD[i] = shot;
+                    }
+                }
+            }
+
+            // shtoList E
+            for (int i = 0; i < shotListE.Length; i++)
+            {
+                EnemyShot shot = shotListE[i];
+                if (shot != null)
+                {
+                    shot.update();
+
+                    if (shot.isOutOfPlay())
+                    {
+                        shotListE[i] = null;
+                    }
+                    else
+                    {
+                        shotListE[i] = shot;
                     }
                 }
             }
         }
+
         protected void updateEnemies(GameTime gameTime)
         {
             // Add enemies to the active list
@@ -526,7 +742,7 @@ namespace majorProject
                     // add to local remove list if unable to place
                     //if (!placed)
                     //{
-                        localRemove.Add(enemy);
+                    localRemove.Add(enemy);
                     //}
                 }
             }
@@ -540,7 +756,7 @@ namespace majorProject
             //Handle boss
             if (time >= boss.appearTime)
             {
-                boss.update(human, shotList);
+                boss.update(human, shotListE);
             }
 
             // check to see if each enemy is alive
@@ -550,7 +766,7 @@ namespace majorProject
                 if (enemy != null)
                 {
                     // update the enemy
-                    enemy.update(human, shotList);
+                    enemy.update(human, shotListE);
 
                     // if enemy is not alive, have it set to be removed
                     if (!enemy.alive)
@@ -558,9 +774,6 @@ namespace majorProject
                         //enemyList.Remove(enemy);
                         removeList.Add(enemy);
                     }
-
-                    // update shots
-                    ArrayList shotRemoveList = new ArrayList();  
                 }
             }
         }
@@ -597,7 +810,7 @@ namespace majorProject
                 boss.die(exp, batch);
             }
             removeList.Clear();
-            
+
         }
 
         /// <summary>
@@ -620,6 +833,166 @@ namespace majorProject
             foreach (Expolsion exp in expRemoveList)
             {
                 explosionList.Remove(exp);
+            }
+        }
+
+        protected void sortBullets()
+        {
+            // For shotListA
+            foreach (EnemyShot shot in shotListA)
+            {
+                if (shot != null)
+                {
+                    // if shot is near edge of quadrant
+                    if (shot.xPos > 400 - 30 || shot.yPos > 300 - 30)
+                    {
+                        // find open slot in Shotlist E
+                        for (int i = 0; i < shotListE.Length; i++)
+                        {
+                            if (shotListE[i] == null)
+                            {
+                                shotListE[i] = shot;
+                                shotListA[i] = null;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // For shotListB
+            foreach (EnemyShot shot in shotListB)
+            {
+                if (shot != null)
+                {
+                    // if shot is near edge of quadrant
+                    if (shot.xPos < 400 + 30 || shot.yPos > 300 - 30)
+                    {
+                        // find open slot in Shotlist E
+                        for (int i = 0; i < shotListE.Length; i++)
+                        {
+                            if (shotListE[i] == null)
+                            {
+                                shotListE[i] = shot;
+                                shotListB[i] = null;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // For shotListC
+            foreach (EnemyShot shot in shotListC)
+            {
+                if (shot != null)
+                {
+                    // if shot is near edge of quadrant
+                    if (shot.xPos < 400 + 30 || shot.yPos < 300 + 30)
+                    {
+                        // find open slot in Shotlist E
+                        for (int i = 0; i < shotListE.Length; i++)
+                        {
+                            if (shotListE[i] == null)
+                            {
+                                shotListE[i] = shot;
+                                shotListC[i] = null;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // for shotListD
+            foreach (EnemyShot shot in shotListD)
+            {
+                if (shot != null)
+                {
+                    // if shot is near edge of quadrant
+                    if (shot.xPos < 400 + 30 || shot.yPos < 300 + 30)
+                    {
+                        // find open slot in Shotlist E
+                        for (int i = 0; i < shotListE.Length; i++)
+                        {
+                            if (shotListE[i] == null)
+                            {
+                                shotListE[i] = shot;
+                                shotListA[i] = null;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // For shotListE
+            foreach (EnemyShot shot in shotListE)
+            {
+                if (shot != null)
+                {
+
+                    if (shot.xPos < 400 - 30)
+                    {
+                        // Will be in either Q2 or Q3
+                        if (shot.yPos < 300 - 30)
+                        {
+                            // Move to Q2/shotListA
+                            for (int i = 0; i < shotListA.Length; i++)
+                            {
+                                if (shotListA[i] == null)
+                                {
+                                    shotListA[i] = shot;
+                                    shotListE[i] = null;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (shot.yPos > 300 + 30)
+                        {
+                            // Move to Q3/shotListC
+                            for (int i = 0; i < shotListC.Length; i++)
+                            {
+                                if (shotListC[i] == null)
+                                {
+                                    shotListC[i] = shot;
+                                    shotListE[i] = null;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (shot.xPos > 400 + 30)
+                    {
+                        // Will be in either Q1 or Q4
+                        if (shot.yPos < 300 - 30)
+                        {
+                            // Move to Q1/shotListB
+                            for (int i = 0; i < shotListC.Length; i++)
+                            {
+                                if (shotListB[i] == null)
+                                {
+                                    shotListB[i] = shot;
+                                    shotListE[i] = null;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (shot.yPos > 300 + 30)
+                        {
+                            // Move to Q4/shotListD
+                            for (int i = 0; i < shotListD.Length; i++)
+                            {
+                                if (shotListD[i] == null)
+                                {
+                                    shotListD[i] = shot;
+                                    shotListE[i] = null;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
