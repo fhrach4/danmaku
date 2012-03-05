@@ -96,11 +96,11 @@ namespace majorProject
             LoadContent();
             Constants constants = new Constants();
             activeList = new Enemy[20];
-            shotListA = new EnemyShot[100000];
-            shotListB = new EnemyShot[100000];
-            shotListC = new EnemyShot[100000];
-            shotListD = new EnemyShot[100000];
-            shotListE = new EnemyShot[100000];
+            shotListA = new EnemyShot[10000];
+            shotListB = new EnemyShot[10000];
+            shotListC = new EnemyShot[10000];
+            shotListD = new EnemyShot[10000];
+            shotListE = new EnemyShot[10000];
 
             // Create Level Reader
             LevelReader reader = new LevelReader();
@@ -304,9 +304,6 @@ namespace majorProject
                 // Allows the game to exit
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     this.Exit();
-
-                // sort bullets before collision detection
-                sortBullets();
 
                 // Figure out which quadrant player is in and test bullets as well.
                 int playerQuad = human.getQuadrant();
@@ -637,10 +634,6 @@ namespace majorProject
                     {
                         shotListA[i] = null;
                     }
-                    else
-                    {
-                        shotListA[i] = shot;
-                    }
                 }
             }
 
@@ -655,10 +648,6 @@ namespace majorProject
                     if (shot.isOutOfPlay())
                     {
                         shotListB[i] = null;
-                    }
-                    else
-                    {
-                        shotListB[i] = shot;
                     }
                 }
             }
@@ -675,17 +664,13 @@ namespace majorProject
                     {
                         shotListC[i] = null;
                     }
-                    else
-                    {
-                        shotListC[i] = shot;
-                    }
                 }
             }
 
             // shotListD
             for (int i = 0; i < shotListD.Length; i++)
             {
-                EnemyShot shot = shotListC[i];
+                EnemyShot shot = shotListD[i];
                 if (shot != null)
                 {
                     shot.update();
@@ -693,10 +678,6 @@ namespace majorProject
                     if (shot.isOutOfPlay())
                     {
                         shotListD[i] = null;
-                    }
-                    else
-                    {
-                        shotListD[i] = shot;
                     }
                 }
             }
@@ -713,12 +694,10 @@ namespace majorProject
                     {
                         shotListE[i] = null;
                     }
-                    else
-                    {
-                        shotListE[i] = shot;
-                    }
                 }
             }
+
+            sortBullets();
         }
 
         protected void updateEnemies(GameTime gameTime)
@@ -844,7 +823,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos > 400 - 30 || shot.yPos > 300 - 30)
+                    if (shot.xPos < 400 - 30 || shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -866,7 +845,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 + 30 || shot.yPos > 300 - 30)
+                    if (shot.xPos > 400 + 30 || shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -888,7 +867,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 + 30 || shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 30 || shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -910,7 +889,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 + 30 || shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 30 || shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -918,7 +897,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListA[i] = null;
+                                shotListD[i] = null;
                                 break;
                             }
                         }
@@ -931,11 +910,10 @@ namespace majorProject
             {
                 if (shot != null)
                 {
-
-                    if (shot.xPos < 400 - 30)
+                    if (shot.xPos <= 400 - 30)
                     {
                         // Will be in either Q2 or Q3
-                        if (shot.yPos < 300 - 30)
+                        if (shot.yPos <= 300 - 30)
                         {
                             // Move to Q2/shotListA
                             for (int i = 0; i < shotListA.Length; i++)
@@ -948,7 +926,7 @@ namespace majorProject
                                 }
                             }
                         }
-                        else if (shot.yPos > 300 + 30)
+                        else if (shot.yPos >= 300 + 30)
                         {
                             // Move to Q3/shotListC
                             for (int i = 0; i < shotListC.Length; i++)
@@ -962,13 +940,13 @@ namespace majorProject
                             }
                         }
                     }
-                    else if (shot.xPos > 400 + 30)
+                    else if (shot.xPos >= 400 + 30)
                     {
                         // Will be in either Q1 or Q4
-                        if (shot.yPos < 300 - 30)
+                        if (shot.yPos <= 300 - 30)
                         {
                             // Move to Q1/shotListB
-                            for (int i = 0; i < shotListC.Length; i++)
+                            for (int i = 0; i < shotListB.Length; i++)
                             {
                                 if (shotListB[i] == null)
                                 {
@@ -978,7 +956,7 @@ namespace majorProject
                                 }
                             }
                         }
-                        else if (shot.yPos > 300 + 30)
+                        else if (shot.yPos >= 300 + 30)
                         {
                             // Move to Q4/shotListD
                             for (int i = 0; i < shotListD.Length; i++)
