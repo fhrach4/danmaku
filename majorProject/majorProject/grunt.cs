@@ -140,7 +140,9 @@ namespace majorProject
         public void shoot(ref EnemyShot[] shotlist)
         {
             //rotAngle = 2;
-            EnemyShot shot = new EnemyShot(shotSprite, 4, (int)rotAngle, constants.ENEMY_SHOT_MAXSPEED  - 1,
+            // NOTE: radius should be set to about 1/2 the size of the bullet sprite, any less and the player may be able to
+            // pass through the bullet on the y axis
+            EnemyShot shot = new EnemyShot(shotSprite, 15, (int)rotAngle, constants.ENEMY_SHOT_MAXSPEED  - 1,
                 xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_HEIGHT);
             for (int i = 0; i < shotlist.Length; i++)
             {

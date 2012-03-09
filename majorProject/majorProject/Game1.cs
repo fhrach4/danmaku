@@ -682,7 +682,7 @@ namespace majorProject
                 }
             }
 
-            // shtoList E
+            // shotList E
             for (int i = 0; i < shotListE.Length; i++)
             {
                 EnemyShot shot = shotListE[i];
@@ -845,7 +845,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos > 400 + 30 || shot.yPos > 300 - 30)
+                    if (shot.xPos > 400 + 40|| shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -854,6 +854,7 @@ namespace majorProject
                             {
                                 shotListE[i] = shot;
                                 shotListB[i] = null;
+                                //Console.WriteLine("Thrashed to E from B " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
                         }
@@ -867,7 +868,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30 || shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 40|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -886,10 +887,14 @@ namespace majorProject
             // for shotListD
             foreach (EnemyShot shot in shotListD)
             {
+                if (shotListD[4] != null)
+                {
+                    break;
+                }
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30 || shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 40|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -898,6 +903,7 @@ namespace majorProject
                             {
                                 shotListE[i] = shot;
                                 shotListD[i] = null;
+                                Console.WriteLine("Thrashed to E from D " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
                         }
@@ -910,10 +916,10 @@ namespace majorProject
             {
                 if (shot != null)
                 {
-                    if (shot.xPos <= 400 - 30)
+                    if (shot.xPos <= 400 - 50)
                     {
                         // Will be in either Q2 or Q3
-                        if (shot.yPos <= 300 - 30)
+                        if (shot.yPos <= 300 - 50)
                         {
                             // Move to Q2/shotListA
                             for (int i = 0; i < shotListA.Length; i++)
@@ -926,7 +932,7 @@ namespace majorProject
                                 }
                             }
                         }
-                        else if (shot.yPos >= 300 + 30)
+                        else if (shot.yPos >= 300 + 50)
                         {
                             // Move to Q3/shotListC
                             for (int i = 0; i < shotListC.Length; i++)
@@ -940,10 +946,10 @@ namespace majorProject
                             }
                         }
                     }
-                    else if (shot.xPos >= 400 + 30)
+                    else if (shot.xPos >= 400 + 50)
                     {
                         // Will be in either Q1 or Q4
-                        if (shot.yPos <= 300 - 30)
+                        if (shot.yPos <= 300 - 50)
                         {
                             // Move to Q1/shotListB
                             for (int i = 0; i < shotListB.Length; i++)
@@ -956,7 +962,7 @@ namespace majorProject
                                 }
                             }
                         }
-                        else if (shot.yPos >= 300 + 30)
+                        else if (shot.yPos >= 300 + 50)
                         {
                             // Move to Q4/shotListD
                             for (int i = 0; i < shotListD.Length; i++)
@@ -965,6 +971,7 @@ namespace majorProject
                                 {
                                     shotListD[i] = shot;
                                     shotListE[i] = null;
+                                    //Console.WriteLine("Thrashed to D from E" + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                     break;
                                 }
                             }

@@ -103,7 +103,10 @@ namespace majorProject
 
              double line = Math.Pow(xDif, 2) + Math.Pow(yDif, 2);
 
-             if (line < radius * radius * radius)
+
+             //Console.WriteLine("Collision Line len: " + line + " / " + radius * radius);
+
+             if (line < radius * radius)
              {
                  return true;
              }
