@@ -219,15 +219,29 @@ namespace majorProject
         public void keyboardMovement(KeyboardState KBstate)
         {
             //if up key is hit
-                if (KBstate.IsKeyDown((Keys)input.up) && currentYSpeed >= maxSpeed * -1)
+                if (KBstate.IsKeyDown((Keys)input.up))
                 {
-                    currentYSpeed = maxSpeed * -1;
+                    if (yPos < 0)
+                    {
+                        currentYSpeed = 0;
+                    }
+                    else
+                    {
+                        currentYSpeed = maxSpeed * -1;
+                    }
                 }
 
                 //if down key is hit
-                if (KBstate.IsKeyDown((Keys)input.down) && currentYSpeed <= maxSpeed)
+                if (KBstate.IsKeyDown((Keys)input.down))
                 {
-                    currentYSpeed = maxSpeed;
+                    if (yPos > 600 - sprite.spriteHeight)
+                    {
+                        currentYSpeed = 0;
+                    }
+                    else
+                    {
+                        currentYSpeed = maxSpeed;
+                    }
                 }
 
                 // if neither up nor down are hit
@@ -237,16 +251,29 @@ namespace majorProject
                 }
 
                 // if left key is hit
-                if (KBstate.IsKeyDown((Keys)input.left) && currentXSpeed >= maxSpeed * -1)
+                if (KBstate.IsKeyDown((Keys)input.left))
                 {
-
-                    currentXSpeed = maxSpeed * -1;
+                    if (xPos < 0)
+                    {
+                        currentXSpeed = 0;
+                    }
+                    else
+                    {
+                        currentXSpeed = maxSpeed * -1;
+                    }
                 }
 
                 // if right key is hit
-                if (KBstate.IsKeyDown((Keys)input.right) && currentXSpeed <= maxSpeed)
+                if (KBstate.IsKeyDown((Keys)input.right))
                 {
-                    currentXSpeed = maxSpeed;
+                    if (xPos > 800 - sprite.spriteWidth)
+                    {
+                        currentXSpeed = 0;
+                    }
+                    else
+                    {
+                        currentXSpeed = maxSpeed;
+                    }
                 }
 
                 // if neither left nor right are hit
@@ -259,7 +286,7 @@ namespace majorProject
                     }
                 }
 
-                // change speed based off focus state
+                // change speed based off focus state and move
                 if (KBstate.IsKeyDown((Keys)input.focus))
                 {
                     xPos = xPos + currentXSpeed / 3;
@@ -270,6 +297,8 @@ namespace majorProject
                     xPos = xPos + currentXSpeed;
                     yPos = yPos + currentYSpeed;
                 }
+
+
         }
 
         /// <summary>
