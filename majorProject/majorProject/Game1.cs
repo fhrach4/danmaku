@@ -689,12 +689,13 @@ namespace majorProject
                 if (shot != null)
                 {
                     shot.update();
-
+                    
                     if (shot.isOutOfPlay())
                     {
                         shotListE[i] = null;
                     }
                 }
+
             }
 
             sortBullets();
@@ -735,7 +736,7 @@ namespace majorProject
             //Handle boss
             if (time >= boss.appearTime)
             {
-                boss.update(human, shotListE);
+                boss.update(human, ref shotListE);
             }
 
             // check to see if each enemy is alive
@@ -745,7 +746,7 @@ namespace majorProject
                 if (enemy != null)
                 {
                     // update the enemy
-                    enemy.update(human, shotListE);
+                    enemy.update(human, ref shotListE);
 
                     // if enemy is not alive, have it set to be removed
                     if (!enemy.alive)
@@ -845,7 +846,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos > 400 + 40|| shot.yPos > 300 - 30)
+                    if (shot.xPos > 400 + 30|| shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -868,7 +869,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 40|| shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 30|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -894,7 +895,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 40|| shot.yPos < 300 + 30)
+                    if (shot.xPos < 400 - 30|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)

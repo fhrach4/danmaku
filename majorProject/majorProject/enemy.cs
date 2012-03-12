@@ -95,7 +95,7 @@ namespace majorProject
         /// Updates the enemy's position, damage, and alive statues
         /// </summary>
         /// <param name="human"></param>
-        public virtual void update(Player human, EnemyShot[] shotList)
+        public virtual void update(Player human, ref EnemyShot[] shotList)
         {
             foreach (Shot shot in human.shotList)
             {

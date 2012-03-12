@@ -52,11 +52,11 @@ namespace majorProject
             this.tary = tary;
         }
 
-        public override void update(Player human, EnemyShot[] shotList)
+        public override void update(Player human, ref EnemyShot[] shotList)
         {
             bool complete = false;
 
-            base.update(human, shotList);
+            base.update(human, ref shotList);
 
             if (action == 0)
             {

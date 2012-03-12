@@ -1,7 +1,9 @@
 D:\frank4\Pictures\Eclipse 2010\Photo0074.jpg
 E:\Music\Touhou\Original Soundtracks\TH07  Perfect Cherry Blossom\10. Mystic Oriental Dream - Ancient Temple [Stage 5].mp3
-Grunt;1;500;500;200;5
-Grunt;1;600;600;200;5
-Grunt;4;600;600;200;5
-Grunt;4;500;500;200;5
-Boss;99;400;400;100;3;1
+Grunt;1;100;100;100;5
+Grunt;2;150;150;270;5
+Grunt;2;050;050;170;5
+Grunt;4;300;300;200;5
+Grunt;5;350;350;170;5
+Grunt;5;450;450;170;5
+Boss;99;400;400;1;3;1

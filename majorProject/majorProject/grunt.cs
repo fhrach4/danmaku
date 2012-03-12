@@ -57,7 +57,7 @@ namespace majorProject
             this.constants = constants;
         }
 
-        public override void update(Player human, EnemyShot[] shotList)
+        public override void update(Player human, ref EnemyShot[] shotList)
         {
             foreach (Shot shot in human.shotList)
             {
@@ -90,7 +90,7 @@ namespace majorProject
                 if(moveTo(tarx, tary))
                  {
                     moveID++;
-                    shoot(ref shotList);
+                    shoot(shotList);
                  }
             }else if(moveID == 1)
             {
@@ -104,7 +104,7 @@ namespace majorProject
             }
             else if (moveID == 2)
             {
-                if (moveTo(tarx, -110))
+                if (moveTo(tarx,  -110))
                 {
                     moveID++;
                 }
@@ -137,7 +137,7 @@ namespace majorProject
             }
         }
 
-        public void shoot(ref EnemyShot[] shotlist)
+        public void shoot(EnemyShot[] shotlist)
         {
             //rotAngle = 2;
             // NOTE: radius should be set to about 1/2 the size of the bullet sprite, any less and the player may be able to
