@@ -14,6 +14,10 @@ namespace majorProject
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+      
+        // debug
+        int drawCycles = 0;
+        int updateCycles = 0;
         //menu variables
         private bool displayMenu = true;
         private bool subMenu = false;
@@ -30,6 +34,7 @@ namespace majorProject
         private float offset;
         private float time;
         private Stopwatch gameOverTimer = new Stopwatch();
+        private bool isOffsetSet = false;
 
         //Globals
         public GraphicsDeviceManager graphics;
@@ -93,9 +98,10 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            this.IsFixedTimeStep = false;
             LoadContent();
             Constants constants = new Constants();
-            activeList = new Enemy[20];
+            activeList = new Enemy[100];
             shotListA = new EnemyShot[10000];
             shotListB = new EnemyShot[10000];
             shotListC = new EnemyShot[10000];
@@ -160,7 +166,7 @@ namespace majorProject
             }
             else
             {
-                backgroundTexture = singlePix;
+                backgroundTexture = null;
             }
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME,
@@ -211,6 +217,7 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            updateCycles++;
             if (!boss.alive)
             {
                 levelComplete = true;
@@ -413,11 +420,14 @@ namespace majorProject
             // TODO: add code to advance level
             if (levelComplete)
             {
-                MediaPlayer.Stop();
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
                 this.Exit();
             }
 
-            base.Update(gameTime);
+            //base.Update(gameTime);
         }
 
         protected void drawSubMenu(SpriteBatch batch)
@@ -472,7 +482,9 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
+            drawCycles++;
+            //Console.Out.WriteLine("Upate Cycles: " + updateCycles);
+            //Console.Out.WriteLine("Draw Cycles : " + drawCycles);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             if (subMenu)
@@ -486,24 +498,22 @@ namespace majorProject
             else if (!win)
             {
                 // correct clock only if offset is not set
-                if (offset == null)
+                if (isOffsetSet == false)
                 {
                     offset = (float)gameTime.TotalGameTime.Seconds;
+                    isOffsetSet = true;
                 }
 
                 time = (float)gameTime.TotalGameTime.Seconds - offset;
 
                 //Draw background
-                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
+                if (backgroundTexture != null)
+                {
+                    spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
+                }
                 //draw enemies
 
-                // if gameover, draw to screen
-                if (gameOver)
-                {
-                    human.xPos = -200;
-                    human.yPos = -200;
-                    spriteBatch.DrawString(titleFont, "GAME OVER", new Vector2(150, 150), Color.White);
-                }
+                
 
                 foreach (EnemyShot shot in shotListA)
                 {
@@ -548,7 +558,6 @@ namespace majorProject
                 //
                 if (boss.appearTime <= time)
                 {
-                    boss.yPos = 400;
                     boss.draw(spriteBatch);
                 }
 
@@ -608,6 +617,14 @@ namespace majorProject
 
                 spriteBatch.Draw(singlePix, boss.hitBox, Color.Green);
                 */
+            }
+
+            // if gameover, draw to screen
+            if (gameOver)
+            {
+                human.xPos = -200;
+                human.yPos = -200;
+                spriteBatch.DrawString(titleFont, "GAME OVER", new Vector2(150, 150), Color.White);
             }
 
             spriteBatch.End();
@@ -746,6 +763,10 @@ namespace majorProject
                 if (enemy != null)
                 {
                     // update the enemy
+                    if (enemy.yPos == 170)
+                    {
+                        int i = 0;
+                    }
                     enemy.update(human, ref shotListE);
 
                     // if enemy is not alive, have it set to be removed
@@ -819,12 +840,13 @@ namespace majorProject
         protected void sortBullets()
         {
             // For shotListA
-            foreach (EnemyShot shot in shotListA)
+            for (int index = 0; index < shotListA.Length; index++)
             {
+                EnemyShot shot = shotListA[index];
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30 || shot.yPos > 300 - 30)
+                    if (shot.xPos > 400 - 30 || shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -832,7 +854,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListA[i] = null;
+                                shotListA[index] = null;
                                 break;
                             }
                         }
@@ -841,12 +863,14 @@ namespace majorProject
             }
 
             // For shotListB
-            foreach (EnemyShot shot in shotListB)
+            for (int index = 0; index < shotListB.Length; index++)
             {
+                EnemyShot shot = shotListB[index];
+
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos > 400 + 30|| shot.yPos > 300 - 30)
+                    if (shot.xPos < 400 + 30|| shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -854,7 +878,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListB[i] = null;
+                                shotListB[index] = null;
                                 //Console.WriteLine("Thrashed to E from B " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
@@ -864,12 +888,13 @@ namespace majorProject
             }
 
             // For shotListC
-            foreach (EnemyShot shot in shotListC)
+            for (int index = 0; index < shotListC.Length; index++)
             {
+                EnemyShot shot = shotListC[index];
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30|| shot.yPos < 300 + 30)
+                    if (shot.xPos > 400 - 30|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -877,7 +902,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListC[i] = null;
+                                shotListC[index] = null;
                                 break;
                             }
                         }
@@ -886,12 +911,10 @@ namespace majorProject
             }
 
             // for shotListD
-            foreach (EnemyShot shot in shotListD)
+            for (int index = 0; index < shotListD.Length; index++)
             {
-                if (shotListD[4] != null)
-                {
-                    break;
-                }
+                EnemyShot shot = shotListD[index];
+
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
@@ -903,7 +926,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListD[i] = null;
+                                shotListD[index] = null;
                                 Console.WriteLine("Thrashed to E from D " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
@@ -913,8 +936,9 @@ namespace majorProject
             }
 
             // For shotListE
-            foreach (EnemyShot shot in shotListE)
+            for (int index = 0; index < shotListE.Length; index++)
             {
+                EnemyShot shot = shotListE[index];
                 if (shot != null)
                 {
                     if (shot.xPos <= 400 - 50)
@@ -928,7 +952,7 @@ namespace majorProject
                                 if (shotListA[i] == null)
                                 {
                                     shotListA[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -941,7 +965,7 @@ namespace majorProject
                                 if (shotListC[i] == null)
                                 {
                                     shotListC[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -958,7 +982,7 @@ namespace majorProject
                                 if (shotListB[i] == null)
                                 {
                                     shotListB[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -971,7 +995,7 @@ namespace majorProject
                                 if (shotListD[i] == null)
                                 {
                                     shotListD[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     //Console.WriteLine("Thrashed to D from E" + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                     break;
                                 }

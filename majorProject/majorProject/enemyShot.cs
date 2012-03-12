@@ -20,9 +20,9 @@ namespace majorProject
     class EnemyShot : Shot
     {
         // public variables
-        public int xSpeed;
-        public int ySpeed;
-        public int angle;
+        public double xSpeed;
+        public double ySpeed;
+        public double angle;
         public int radius;
 
         // protected variables
@@ -37,17 +37,14 @@ namespace majorProject
         /// <param name="maxSpeed">the maximum traveling speed of the shot</param>
         /// <param name="xPos">The starting x position</param>
         /// <param name="yPos">The starting y position</param>
-        public EnemyShot(Texture2D sprite, int radius, int angle, int maxSpeed, int xPos, int yPos, int spriteHeight, int spriteWidth)
+        public EnemyShot(Texture2D sprite, int radius, double angle, int maxSpeed, int xPos, int yPos, int spriteHeight, int spriteWidth)
         {
             this.sprite = sprite;
             this.radius = radius;
             this.angle = angle;
-            ySpeed = (int)(maxSpeed * Math.Cos(angle));
-            xSpeed = (int)(maxSpeed * Math.Sin(angle));
-            //ySpeed = (int)(maxSpeed * angle);
-            //xSpeed = (int)(maxSpeed * angle);
-            //ySpeed = 2;
-            //xSpeed = 0;
+            angle = angle * (Math.PI / 180);
+            ySpeed = maxSpeed * Math.Sin(angle);
+            xSpeed = maxSpeed * Math.Cos(angle);
             this.xPos = xPos;
             this.yPos = yPos;
             this.spriteHeight = spriteHeight;
@@ -60,8 +57,8 @@ namespace majorProject
         /// </summary>
          public override void update()
         {
-            xPos = xPos + xSpeed;
-            yPos = yPos + ySpeed;
+            xPos = xPos + (xSpeed/10);
+            yPos = yPos + (ySpeed/10);
         }
 
         /// <summary>
@@ -72,11 +69,11 @@ namespace majorProject
          public bool collidesWith(Player player)
          {
              //get the distance to the sides of the player's hitbox
-             int xDif1 = player.hitBox.X - (xPos + (int)origin.X);
-             int xDif2 = (player.hitBox.X + player.hitBox.Width) - (xPos + (int)origin.X);
+             int xDif1 = player.hitBox.X - ((int)xPos + (int)origin.X);
+             int xDif2 = (player.hitBox.X + player.hitBox.Width) - ((int)xPos + (int)origin.X);
 
-             int yDif1 = player.hitBox.Y - (yPos + (int)origin.Y);
-             int yDif2 = (player.hitBox.Y + player.hitBox.Width) - (yPos + (int)origin.Y);
+             int yDif1 = player.hitBox.Y - ((int)yPos + (int)origin.Y);
+             int yDif2 = (player.hitBox.Y + player.hitBox.Width) - ((int)yPos + (int)origin.Y);
              
              // choose the smallest distance for x and y
              int xDif;
@@ -122,8 +119,8 @@ namespace majorProject
         /// <param name="batch"></param>
          public override void draw(SpriteBatch batch)
          {
-             int drawx = xPos;
-             int drawy = yPos;
+             int drawx = (int)xPos;
+             int drawy = (int)yPos;
              Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
              batch.Draw(sprite, drawrect, Color.White);
          }

@@ -162,8 +162,8 @@ namespace majorProject
 
             float angle = 0;
             //get angle to human need to fix
-            int a = Math.Abs(xPos + (spriteWidth / 2) - (human.xPos + human.sprite.spriteWidth / 2));
-            int b = Math.Abs(yPos + (spriteHeight / 2) - (human.yPos + human.sprite.spriteHeight / 2));
+            int a = Math.Abs(xPos + (spriteWidth / 2) - ((int)human.xPos + human.sprite.spriteWidth / 2));
+            int b = Math.Abs(yPos + (spriteHeight / 2) - ((int)human.yPos + human.sprite.spriteHeight / 2));
 
             double c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
             angle = (float)Math.Sin(a / c);

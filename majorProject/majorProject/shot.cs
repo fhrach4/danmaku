@@ -27,8 +27,8 @@ namespace majorProject
 
         //Public values
         public int damage;
-        public int xPos;
-        public int yPos;
+        public double xPos;
+        public double yPos;
         public bool hit = false;
         public Rectangle hitBox;
 
@@ -67,12 +67,12 @@ namespace majorProject
             if (!hit)
             {
                 yPos = yPos - maxSpeed;
-                hitBox.Y = yPos;
+                hitBox.Y = (int)yPos;
             }
             else
             {
-                xPos = -100;
-                yPos = -100;
+                xPos = -1000;
+                yPos = -1000;
             }
         }
 
@@ -98,8 +98,8 @@ namespace majorProject
         /// <param name="batch">Current Sprite Batch</param>
         public virtual void draw(SpriteBatch batch)
         {
-            int drawx = xPos;
-            int drawy = yPos;
+            int drawx = (int)xPos;
+            int drawy = (int)yPos;
             Rectangle drawrect = new Rectangle(drawx, drawy, spriteWidth, spriteHeight);
             batch.Draw(sprite, drawrect, Color.White);
         }

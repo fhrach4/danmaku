@@ -143,7 +143,7 @@ namespace majorProject
 
             if (hit)
             {
-                update = new Vector2(xPos, yPos);
+                update = new Vector2(xPos,yPos);
                 respawn = true;
                 respawnTimer.Start();
                 lives--;
