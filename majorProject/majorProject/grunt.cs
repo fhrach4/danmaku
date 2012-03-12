@@ -90,7 +90,7 @@ namespace majorProject
                 if(moveTo(tarx, tary))
                  {
                     moveID++;
-                    shoot(shotList);
+                    shoot(ref shotList);
                  }
             }else if(moveID == 1)
             {
@@ -137,7 +137,7 @@ namespace majorProject
             }
         }
 
-        public void shoot(EnemyShot[] shotlist)
+        public void shoot(ref EnemyShot[] shotlist)
         {
             //rotAngle = 2;
             // NOTE: radius should be set to about 1/2 the size of the bullet sprite, any less and the player may be able to
