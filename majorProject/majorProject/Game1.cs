@@ -839,8 +839,9 @@ namespace majorProject
         protected void sortBullets()
         {
             // For shotListA
-            foreach (EnemyShot shot in shotListA)
+            for (int index = 0; index < shotListA.Length; index++)
             {
+                EnemyShot shot = shotListA[index];
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
@@ -852,7 +853,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListA[i] = null;
+                                shotListA[index] = null;
                                 break;
                             }
                         }
@@ -861,8 +862,10 @@ namespace majorProject
             }
 
             // For shotListB
-            foreach (EnemyShot shot in shotListB)
+            for (int index = 0; index < shotListB.Length; index++)
             {
+                EnemyShot shot = shotListB[index];
+
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
@@ -874,7 +877,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListB[i] = null;
+                                shotListB[index] = null;
                                 //Console.WriteLine("Thrashed to E from B " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
@@ -884,8 +887,9 @@ namespace majorProject
             }
 
             // For shotListC
-            foreach (EnemyShot shot in shotListC)
+            for (int index = 0; index < shotListC.Length; index++)
             {
+                EnemyShot shot = shotListC[index];
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
@@ -897,7 +901,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListC[i] = null;
+                                shotListC[index] = null;
                                 break;
                             }
                         }
@@ -906,12 +910,10 @@ namespace majorProject
             }
 
             // for shotListD
-            foreach (EnemyShot shot in shotListD)
+            for (int index = 0; index < shotListD.Length; index++)
             {
-                if (shotListD[4] != null)
-                {
-                    break;
-                }
+                EnemyShot shot = shotListD[index];
+
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
@@ -923,7 +925,7 @@ namespace majorProject
                             if (shotListE[i] == null)
                             {
                                 shotListE[i] = shot;
-                                shotListD[i] = null;
+                                shotListD[index] = null;
                                 Console.WriteLine("Thrashed to E from D " + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                 break;
                             }
@@ -933,8 +935,9 @@ namespace majorProject
             }
 
             // For shotListE
-            foreach (EnemyShot shot in shotListE)
+            for (int index = 0; index < shotListE.Length; index++)
             {
+                EnemyShot shot = shotListE[index];
                 if (shot != null)
                 {
                     if (shot.xPos <= 400 - 50)
@@ -948,7 +951,7 @@ namespace majorProject
                                 if (shotListA[i] == null)
                                 {
                                     shotListA[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -961,7 +964,7 @@ namespace majorProject
                                 if (shotListC[i] == null)
                                 {
                                     shotListC[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -978,7 +981,7 @@ namespace majorProject
                                 if (shotListB[i] == null)
                                 {
                                     shotListB[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     break;
                                 }
                             }
@@ -991,7 +994,7 @@ namespace majorProject
                                 if (shotListD[i] == null)
                                 {
                                     shotListD[i] = shot;
-                                    shotListE[i] = null;
+                                    shotListE[index] = null;
                                     //Console.WriteLine("Thrashed to D from E" + "<" + System.DateTime.Now.TimeOfDay + "> " + shot.GetHashCode());
                                     break;
                                 }
