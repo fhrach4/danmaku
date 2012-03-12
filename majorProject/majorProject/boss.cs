@@ -188,15 +188,15 @@ namespace majorProject
                 if (shotTimer.ElapsedMilliseconds >= 1000)
                 {
                     // burst 1
-                    EnemyShot shot1 = new EnemyShot(shotSprite, 10, 70, constants.ENEMY_SHOT_MAXSPEED * 2,
+                    EnemyShot shot1 = new EnemyShot(shotSprite, 13, 70, constants.ENEMY_SHOT_MAXSPEED * 2,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot2 = new EnemyShot(shotSprite, 10, 80, constants.ENEMY_SHOT_MAXSPEED * 2,
+                    EnemyShot shot2 = new EnemyShot(shotSprite, 13, 80, constants.ENEMY_SHOT_MAXSPEED * 2,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot3 = new EnemyShot(shotSprite, 10, 90, constants.ENEMY_SHOT_MAXSPEED * 2,
+                    EnemyShot shot3 = new EnemyShot(shotSprite, 13, 90, constants.ENEMY_SHOT_MAXSPEED * 2,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot4 = new EnemyShot(shotSprite, 10, 100, constants.ENEMY_SHOT_MAXSPEED * 2,
+                    EnemyShot shot4 = new EnemyShot(shotSprite, 13, 100, constants.ENEMY_SHOT_MAXSPEED * 2,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot5 = new EnemyShot(shotSprite, 10, 110, constants.ENEMY_SHOT_MAXSPEED * 2,
+                    EnemyShot shot5 = new EnemyShot(shotSprite, 13, 110, constants.ENEMY_SHOT_MAXSPEED * 2,
                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
 
                     EnemyShot[] temp = new EnemyShot[5] { shot1, shot2, shot3, shot4, shot5 };
@@ -218,19 +218,19 @@ namespace majorProject
                 if (burstTimer.ElapsedMilliseconds >= 2000)
                 {
                     // burst 2
-                    EnemyShot shot1 = new EnemyShot(shotSprite, 10, 65, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot1 = new EnemyShot(shotSprite, 13, 65, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot2 = new EnemyShot(shotSprite, 10, 75, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot2 = new EnemyShot(shotSprite, 13, 75, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot3 = new EnemyShot(shotSprite, 10, 85, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot3 = new EnemyShot(shotSprite, 13, 85, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot4 = new EnemyShot(shotSprite, 10, 95, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot4 = new EnemyShot(shotSprite, 13, 95, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot5 = new EnemyShot(shotSprite, 10, 105, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot5 = new EnemyShot(shotSprite, 13, 105, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot6 = new EnemyShot(shotSprite, 10, 115, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot6 = new EnemyShot(shotSprite, 13, 115, constants.ENEMY_SHOT_MAXSPEED * 3,
                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot7 = new EnemyShot(shotSprite, 10, 125, constants.ENEMY_SHOT_MAXSPEED * 3,
+                    EnemyShot shot7 = new EnemyShot(shotSprite, 13, 125, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
 
                     EnemyShot[] temp = new EnemyShot[7] { shot1, shot2, shot3, shot4, shot5, shot6, shot7};

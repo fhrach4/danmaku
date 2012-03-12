@@ -29,12 +29,14 @@ namespace majorProject
         private bool win = false;
         private int maxSelection = 2;
         private int minSelection = 0;
+        private bool advance = false;
 
         // Time variables
         private float offset;
         private float time;
         private Stopwatch gameOverTimer = new Stopwatch();
         private bool isOffsetSet = false;
+        private Stopwatch victoryTimer = new Stopwatch();
 
         //Globals
         public GraphicsDeviceManager graphics;
@@ -70,7 +72,6 @@ namespace majorProject
         Texture2D backgroundTexture;
         Texture2D explosionTexture;
 
-
         Boss boss;
         AnimatedSprite humanAnimatedTexture;
 
@@ -88,6 +89,41 @@ namespace majorProject
             graphics.PreferredBackBufferHeight = 600;
             Window.Title = ("Major Project");
             Content.RootDirectory = "Content";
+        }
+
+        public void reset()
+        {
+            Initialize();
+
+            // debug
+            drawCycles = 0;
+            updateCycles = 0;
+
+            //menu variables
+            displayMenu = true;
+            subMenu = false;
+            selected = 0;
+            move = true;
+            select = true;
+            gameOver = false;
+            win = false;
+            maxSelection = 2;
+            minSelection = 0;
+            advance = false;
+
+            // Time variables
+            gameOverTimer = new Stopwatch();
+            isOffsetSet = false;
+            victoryTimer = new Stopwatch();
+
+            //Effects
+            explosionList = new ArrayList();
+
+            //enemy list
+            enemyList = new ArrayList();
+            removeList = new ArrayList();
+
+            levelComplete = false;
         }
 
         /// <summary>
@@ -220,7 +256,22 @@ namespace majorProject
             updateCycles++;
             if (!boss.alive)
             {
-                levelComplete = true;
+                advance = true;
+                victoryTimer.Start();
+            }
+
+            if (advance)
+            {
+                // stop music
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+
+                if (victoryTimer.ElapsedMilliseconds >= 5000)
+                {
+                    levelComplete = true;
+                }
             }
 
             if (human.lives < 0)
@@ -292,8 +343,13 @@ namespace majorProject
                 if (gameOverTimer.ElapsedMilliseconds > 5000)
                 {
                     //TODO write code to reset level
+                    if (MediaPlayer.State == MediaState.Playing)
+                    {
+                        MediaPlayer.Stop();
+                    }
+
                     gameOver = false;
-                    displayMenu = true;
+                    reset();
                     gameOverTimer.Reset();
                 }
             }
@@ -424,7 +480,8 @@ namespace majorProject
                 {
                     MediaPlayer.Stop();
                 }
-                this.Exit();
+                displayMenu = true;
+                reset();
             }
 
             //base.Update(gameTime);
@@ -495,8 +552,9 @@ namespace majorProject
             {
                 drawMenu(spriteBatch);
             }
-            else if (!win)
+            else if (!win && !advance)
             {
+                #region
                 // correct clock only if offset is not set
                 if (isOffsetSet == false)
                 {
@@ -617,6 +675,12 @@ namespace majorProject
 
                 spriteBatch.Draw(singlePix, boss.hitBox, Color.Green);
                 */
+                #endregion
+            }
+
+            if (advance)
+            {
+                spriteBatch.DrawString(titleFont, "Victory!", new Vector2(150, 150), Color.White);
             }
 
             // if gameover, draw to screen
@@ -809,6 +873,7 @@ namespace majorProject
             if (!boss.alive)
             {
                 boss.die(exp, batch);
+                advance = true;
             }
             removeList.Clear();
 
