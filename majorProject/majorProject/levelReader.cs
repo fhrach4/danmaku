@@ -127,7 +127,7 @@ namespace majorProject
                 {
                     int health = Convert.ToInt32(output[6]);
 
-                    Boss boss = new Boss(appx,-10,10000,xpos,ypos);
+                    Boss boss = new Boss(appx,-10,3000,xpos,ypos);
                     //Boss boss = new Boss(appx, -10, 1000, 100, 100);
                     boss.appearTime = appearTime;
                     enemyList.Add(boss);

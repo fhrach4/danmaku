@@ -97,7 +97,7 @@ namespace majorProject
                 }
             }
 
-            Console.WriteLine("Boss Health: " + Convert.ToString(health));
+            //Console.WriteLine("Boss Health: " + Convert.ToString(health));
         }
 
         private bool phase1(ref EnemyShot[] shotList)

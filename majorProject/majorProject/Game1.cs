@@ -37,7 +37,7 @@ namespace majorProject
         private Stopwatch gameOverTimer = new Stopwatch();
         private bool isOffsetSet = false;
         private Stopwatch victoryTimer = new Stopwatch();
-
+        private int minutes = 0;
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -124,6 +124,8 @@ namespace majorProject
             removeList = new ArrayList();
 
             levelComplete = false;
+
+            isOffsetSet = false;
         }
 
         /// <summary>
@@ -353,7 +355,6 @@ namespace majorProject
                     gameOverTimer.Reset();
                 }
             }
-            //TODO write win code
             else
             {
                 if (MediaPlayer.State == MediaState.Stopped && bsong != null)
@@ -484,7 +485,7 @@ namespace majorProject
                 reset();
             }
 
-            //base.Update(gameTime);
+            base.Update(gameTime);
         }
 
         protected void drawSubMenu(SpriteBatch batch)
@@ -562,8 +563,8 @@ namespace majorProject
                     isOffsetSet = true;
                 }
 
-                time = (float)gameTime.TotalGameTime.Seconds - offset;
-
+                time = (float)gameTime.TotalGameTime.Seconds - offset + ((float)gameTime.TotalGameTime.TotalMinutes * 60);
+                Console.WriteLine(time);
                 //Draw background
                 if (backgroundTexture != null)
                 {
