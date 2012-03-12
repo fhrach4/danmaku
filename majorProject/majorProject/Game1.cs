@@ -14,6 +14,10 @@ namespace majorProject
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+      
+        // debug
+        int drawCycles = 0;
+        int updateCycles = 0;
         //menu variables
         private bool displayMenu = true;
         private bool subMenu = false;
@@ -30,6 +34,7 @@ namespace majorProject
         private float offset;
         private float time;
         private Stopwatch gameOverTimer = new Stopwatch();
+        private bool isOffsetSet = false;
 
         //Globals
         public GraphicsDeviceManager graphics;
@@ -93,14 +98,15 @@ namespace majorProject
         /// </summary>
         protected override void Initialize()
         {
+            this.IsFixedTimeStep = false;
             LoadContent();
             Constants constants = new Constants();
-            activeList = new Enemy[20];
-            shotListA = new EnemyShot[10000];
-            shotListB = new EnemyShot[10000];
-            shotListC = new EnemyShot[10000];
-            shotListD = new EnemyShot[10000];
-            shotListE = new EnemyShot[10000];
+            activeList = new Enemy[100];
+            shotListA = new EnemyShot[1000];
+            shotListB = new EnemyShot[1000];
+            shotListC = new EnemyShot[1000];
+            shotListD = new EnemyShot[1000];
+            shotListE = new EnemyShot[1000];
 
             // Create Level Reader
             LevelReader reader = new LevelReader();
@@ -160,7 +166,7 @@ namespace majorProject
             }
             else
             {
-                backgroundTexture = singlePix;
+                backgroundTexture = null;
             }
             //create player
             humanAnimatedTexture = new AnimatedSprite(humanTexture, constants.HUMAN_NEUTRAL_FRAME,
@@ -211,6 +217,7 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            updateCycles++;
             if (!boss.alive)
             {
                 levelComplete = true;
@@ -413,11 +420,14 @@ namespace majorProject
             // TODO: add code to advance level
             if (levelComplete)
             {
-                MediaPlayer.Stop();
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
                 this.Exit();
             }
 
-            base.Update(gameTime);
+            //base.Update(gameTime);
         }
 
         protected void drawSubMenu(SpriteBatch batch)
@@ -472,7 +482,9 @@ namespace majorProject
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
+            drawCycles++;
+            //Console.Out.WriteLine("Upate Cycles: " + updateCycles);
+            //Console.Out.WriteLine("Draw Cycles : " + drawCycles);
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             if (subMenu)
@@ -486,15 +498,19 @@ namespace majorProject
             else if (!win)
             {
                 // correct clock only if offset is not set
-                if (offset == null)
+                if (isOffsetSet == false)
                 {
                     offset = (float)gameTime.TotalGameTime.Seconds;
+                    isOffsetSet = true;
                 }
 
                 time = (float)gameTime.TotalGameTime.Seconds - offset;
 
                 //Draw background
-                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
+                if (backgroundTexture != null)
+                {
+                    spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, 800, 600), Color.White);
+                }
                 //draw enemies
 
                 // if gameover, draw to screen
@@ -746,6 +762,10 @@ namespace majorProject
                 if (enemy != null)
                 {
                     // update the enemy
+                    if (enemy.yPos == 170)
+                    {
+                        int i = 0;
+                    }
                     enemy.update(human, ref shotListE);
 
                     // if enemy is not alive, have it set to be removed
@@ -824,7 +844,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30 || shot.yPos > 300 - 30)
+                    if (shot.xPos > 400 - 30 || shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -846,7 +866,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos > 400 + 30|| shot.yPos > 300 - 30)
+                    if (shot.xPos < 400 + 30|| shot.yPos > 300 - 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
@@ -869,7 +889,7 @@ namespace majorProject
                 if (shot != null)
                 {
                     // if shot is near edge of quadrant
-                    if (shot.xPos < 400 - 30|| shot.yPos < 300 + 30)
+                    if (shot.xPos > 400 - 30|| shot.yPos < 300 + 30)
                     {
                         // find open slot in Shotlist E
                         for (int i = 0; i < shotListE.Length; i++)
