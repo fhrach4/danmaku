@@ -8,3 +8,4 @@ Content\titleFont.xnb
 Content\font.xnb
 Content\explosionsf.xnb
 Content\hitsf.xnb
+Content\playerdie.xnb

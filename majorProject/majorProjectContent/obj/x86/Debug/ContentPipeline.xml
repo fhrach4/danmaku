@@ -91,6 +91,15 @@
       <Output>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\hitsf.xnb</Output>
       <Time>2012-03-12T21:52:12.6087198-04:00</Time>
     </Item>
+    <Item>
+      <Source>playerdie.wav</Source>
+      <Name>playerdie</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>e:\Documents\Visual Studio 2010\Projects\majorProject\majorProject\majorProject\bin\x86\Debug\Content\playerdie.xnb</Output>
+      <Time>2012-03-13T11:55:05.1948577-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -46,6 +46,9 @@ namespace majorProject
         public int currentXSpeed;
         public int currentYSpeed;
 
+        //sfx
+        protected SoundEffect playerDie;
+
         //collision variables
         public Rectangle hitBox;
         private int hitBoxOffset;
@@ -80,7 +83,7 @@ namespace majorProject
         /// <param name="xPos">The starting x position of the player</param>
         /// <param name="yPos">The starting y position of the player</param>
         /// <param name="maxSpeed">The maximum moving speed of the player</param>
-        public Player(AnimatedSprite sprite,Texture2D shotSprite, int xPos, int yPos, int maxSpeed)
+        public Player(AnimatedSprite sprite,Texture2D shotSprite, int xPos, int yPos, int maxSpeed, SoundEffect die)
         {
             //set location variables
             this.xPos = xPos;
@@ -103,6 +106,8 @@ namespace majorProject
 
             // set lives
             this.lives = 3;
+
+            this.playerDie = die;
 
             // start timer
             shotTimer.Start();
@@ -322,6 +327,7 @@ namespace majorProject
         {
             explosion.xPos = xPos;
             explosion.yPos = yPos;
+            playerDie.Play();
         }
         
         /// <summary>

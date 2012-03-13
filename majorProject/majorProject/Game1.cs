@@ -55,6 +55,7 @@ namespace majorProject
         // sfx
         public SoundEffect explosionSf;
         public SoundEffect hitSf;
+        public SoundEffect playerDie;
 
         //player
         Player human;
@@ -220,7 +221,7 @@ namespace majorProject
                 constants.HUMAN_SPRITE_HEIGHT);
 
             human = new Player(humanAnimatedTexture, shotTexture, constants.HUMAN_START_X, constants.HUMAN_START_Y,
-                constants.MAX_HUMAN_SPEED);
+                constants.MAX_HUMAN_SPEED, playerDie);
 
 
             base.Initialize();
@@ -249,6 +250,7 @@ namespace majorProject
             //Load sfx
             explosionSf = Content.Load<SoundEffect>("explosionsf");
             hitSf = Content.Load<SoundEffect>("hitsf");
+            playerDie = Content.Load<SoundEffect>("playerdie");
             
         }
 
@@ -519,7 +521,7 @@ namespace majorProject
 
 
             spriteBatch.DrawString(titleFont, "Danmaku", new Vector2(200, 100), Color.Green);
-            spriteBatch.DrawString(font, "Version: Alpha 1.0", new Vector2(200, 210), Color.Green);
+            spriteBatch.DrawString(font, "Version: Alpha 1.1", new Vector2(200, 210), Color.Green);
             spriteBatch.DrawString(font, "Press SPACE to select", new Vector2(200, 500), Color.Green);
 
             if (selected == 0)
