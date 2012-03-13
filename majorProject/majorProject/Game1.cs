@@ -19,6 +19,7 @@ namespace majorProject
         // debug
         int drawCycles = 0;
         int updateCycles = 0;
+
         //menu variables
         private bool displayMenu = true;
         private bool subMenu = false;
@@ -38,9 +39,11 @@ namespace majorProject
         private Stopwatch gameOverTimer = new Stopwatch();
         private bool isOffsetSet = false;
         private Stopwatch victoryTimer = new Stopwatch();
+
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
+        private LevelReader reader = new LevelReader();
 
         //Effects
         public ArrayList explosionList = new ArrayList();
@@ -97,8 +100,6 @@ namespace majorProject
 
         public void reset()
         {
-            Initialize();
-
             // debug
             drawCycles = 0;
             updateCycles = 0;
@@ -130,6 +131,9 @@ namespace majorProject
             levelComplete = false;
 
             isOffsetSet = false;
+
+            reader.getNextLevel(0);
+            Initialize();
         }
 
         /// <summary>
@@ -151,7 +155,7 @@ namespace majorProject
             shotListE = new EnemyShot[10000];
 
             // Create Level Reader
-            LevelReader reader = new LevelReader();
+            reader.getNextLevel(0);
 
             // Load Background
 

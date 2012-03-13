@@ -14,7 +14,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 
 namespace majorProject
 {
@@ -29,8 +28,9 @@ namespace majorProject
         public string background;               //background stored as string to load in Load in Game1.cs
         public string levelSong;                //song stored as string to load in Game1.cs
         public List<Enemy> enemyList = new List<Enemy>();
+        public string[] files;
 
-        int currentLevel;
+        public int currentLevel;
 
         /// <summary>
         /// Cretes a new instance of a LevelReader, and loads the ements of the first level
@@ -40,7 +40,7 @@ namespace majorProject
             this.currentLevel = 0;
             // Get working directory and populate file array
             string workingDirectory = Directory.GetCurrentDirectory();
-            string[] files = Directory.GetFiles(workingDirectory);
+            files = Directory.GetFiles(workingDirectory);
 
             // set regular expression to check for only files that end in '.lvl'
             //TODO get help with regex
@@ -59,7 +59,7 @@ namespace majorProject
             // load items for first level
             if (levelFiles.Count > 0)
             {
-                getNextLevel();
+                getNextLevel(currentLevel);
             }
             else
             {
@@ -71,7 +71,7 @@ namespace majorProject
         /// Gets the next level
         /// </summary>
         /// <returns></returns>
-        public void getNextLevel()
+        public void getNextLevel(int currentLevel)
         {
             // get current level from the ArrayList of levels and increment the currentLevel
             string level = (string)levelFiles[currentLevel];
