@@ -217,87 +217,19 @@ namespace majorProject
 
                 if (burstTimer.ElapsedMilliseconds >= 2000)
                 {
+                    List<EnemyShot> shots= new List<EnemyShot>();
                     // burst 2
-                    EnemyShot shot1 = new EnemyShot(shotSprite, 13, 5, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot2 = new EnemyShot(shotSprite, 13, 15, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot3 = new EnemyShot(shotSprite, 13, 25, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot4 = new EnemyShot(shotSprite, 13, 35, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot5 = new EnemyShot(shotSprite, 13, 45, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot6 = new EnemyShot(shotSprite, 13, 55, constants.ENEMY_SHOT_MAXSPEED * 3,
-                       xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot7 = new EnemyShot(shotSprite, 13, 65, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot8 = new EnemyShot(shotSprite, 13, 75, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot9 = new EnemyShot(shotSprite, 13, 85, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot10 = new EnemyShot(shotSprite, 13, 95, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot11 = new EnemyShot(shotSprite, 13, 105, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot12 = new EnemyShot(shotSprite, 13, 115, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot13 = new EnemyShot(shotSprite, 13, 125, constants.ENEMY_SHOT_MAXSPEED * 3,
-                       xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot14 = new EnemyShot(shotSprite, 13, 135, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot15 = new EnemyShot(shotSprite, 13, 145, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot16 = new EnemyShot(shotSprite, 13, 155, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot17 = new EnemyShot(shotSprite, 13, 165, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot18 = new EnemyShot(shotSprite, 13, 175, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot19 = new EnemyShot(shotSprite, 13, 185, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot20 = new EnemyShot(shotSprite, 13, 195, constants.ENEMY_SHOT_MAXSPEED * 3,
-                       xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot21 = new EnemyShot(shotSprite, 13, 205, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot22 = new EnemyShot(shotSprite, 13, 215, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot23 = new EnemyShot(shotSprite, 13, 225, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot24 = new EnemyShot(shotSprite, 13, 235, constants.ENEMY_SHOT_MAXSPEED * 3,
-                       xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot25 = new EnemyShot(shotSprite, 13, 245, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot26 = new EnemyShot(shotSprite, 13, 255, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot27 = new EnemyShot(shotSprite, 13, 265, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot28 = new EnemyShot(shotSprite, 13, 275, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot29 = new EnemyShot(shotSprite, 13, 285, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot30 = new EnemyShot(shotSprite, 13, 295, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot31 = new EnemyShot(shotSprite, 13, 305, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot32 = new EnemyShot(shotSprite, 13, 315, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot33 = new EnemyShot(shotSprite, 13, 325, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot34 = new EnemyShot(shotSprite, 13, 335, constants.ENEMY_SHOT_MAXSPEED * 3,
-                       xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot35 = new EnemyShot(shotSprite, 13, 345, constants.ENEMY_SHOT_MAXSPEED * 3,
-                        xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
-                    EnemyShot shot36 = new EnemyShot(shotSprite, 13, 355, constants.ENEMY_SHOT_MAXSPEED * 3,
+
+                    for (int i = 5; i < 360; i += 10)
+                    {
+                        EnemyShot shot = new EnemyShot(shotSprite, 13, i, constants.ENEMY_SHOT_MAXSPEED * 3,
                         xPos, yPos, constants.ENEMY_SHOT_HEIGHT, constants.ENEMY_SHOT_WIDTH);
 
-                  
+                        shots.Add(shot);
+                    }
 
-                    EnemyShot[] temp = new EnemyShot[36] { shot1, shot2, shot3, shot4, shot5, shot6, shot7, shot8, shot9, shot10,
-                    shot11, shot12, shot13, shot14, shot15, shot16, shot17, shot18, shot19, shot20, shot21, shot22, shot23, shot24,
-                    shot25, shot26, shot27, shot28, shot29, shot30, shot31, shot32, shot33, shot34, shot35, shot36};
-
-                    foreach (EnemyShot shot in temp)
+                    
+                    foreach (EnemyShot shot in shots)
                     {
                         for (int i = 0; i < shotList.Length; i++)
                         {
