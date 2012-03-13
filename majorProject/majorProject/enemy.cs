@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace majorProject
 {
@@ -43,6 +44,8 @@ namespace majorProject
         public int moveSpeed;
         public ArrayList shotList = new ArrayList();
         protected Constants constants;
+        protected SoundEffect explosionSf;
+        protected SoundEffect hitSf;
         
         /// <summary>
         /// Blank constructor
@@ -58,7 +61,8 @@ namespace majorProject
         /// <param name="spriteHeight">the height of the sprite</param>
         /// <param name="xPos">The starting x position of the sprite</param>
         /// <param name="yPos">The starting y position of the sprite</param>
-        public Enemy(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, int moveSpeed)
+        public Enemy(Texture2D sprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, int moveSpeed,
+            SoundEffect explosionSf)
         {
             this.sprite = sprite;
             this.spriteHeight = spriteHeight;
@@ -72,6 +76,12 @@ namespace majorProject
             this.aimTolerance = 0;
             this.maxRotSpeed = 0.5;
             this.moveSpeed = moveSpeed;
+            this.explosionSf = explosionSf;
+        }
+
+        public void setExplosionSf(SoundEffect exp)
+        {
+            explosionSf = exp;
         }
 
         /// <summary>
@@ -81,7 +91,8 @@ namespace majorProject
         /// <param name="shotSprite">The sprite to be used for shots</param>
         /// <param name="spriteHeight">The sprite height</param>
         /// <param name="spriteWidth">The sprite width</param>
-        public void init(Texture2D sprite, Texture2D shotSprite, Constants constants)
+        public void init(Texture2D sprite, Texture2D shotSprite, SoundEffect explosionSf, SoundEffect hitSf,
+            Constants constants)
         {
             this.sprite = sprite;
             this.shotSprite = shotSprite;
@@ -89,6 +100,8 @@ namespace majorProject
             this.spriteHeight = constants.GRUNT_SPRITE_HEIGHT;
             this.spriteWidth = constants.GRUNT_SPRITE_WIDTH;
             this.hitBox = new Rectangle(xPos, yPos, spriteWidth, spriteHeight);
+            this.explosionSf = explosionSf;
+            this.hitSf = hitSf;
         }
 
         /// <summary>
@@ -112,6 +125,7 @@ namespace majorProject
 
                     // regester that the shot has connected
                     shot.hit = true;
+                    hitSf.Play();
                 }
             }
         }
@@ -149,6 +163,10 @@ namespace majorProject
         {
             explosion.xPos = xPos;
             explosion.yPos = yPos;
+            if (this.yPos >= -5)
+            {
+                explosionSf.Play();
+            }
         }
 
         /// <summary>

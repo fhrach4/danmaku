@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace majorProject
 {
@@ -39,7 +40,8 @@ namespace majorProject
         {
         }
 
-        public Grunt(Texture2D sprite, Texture2D shotSprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health, double maxRotSpeed, Constants constants)
+        public Grunt(Texture2D sprite, Texture2D shotSprite, int spriteWidth, int spriteHeight, int xPos, int yPos, int health,
+            SoundEffect expolsionSf, double maxRotSpeed, Constants constants)
         {
             this.alive = true;
             this.sprite = sprite;
@@ -55,6 +57,8 @@ namespace majorProject
             this.maxRotSpeed = 0.1;
             this.shotSpeed = 3;
             this.constants = constants;
+
+            this.explosionSf = explosionSf;
         }
 
         public override void update(Player human, ref EnemyShot[] shotList)

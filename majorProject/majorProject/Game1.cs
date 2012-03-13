@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace majorProject
 {
@@ -37,7 +38,6 @@ namespace majorProject
         private Stopwatch gameOverTimer = new Stopwatch();
         private bool isOffsetSet = false;
         private Stopwatch victoryTimer = new Stopwatch();
-        private int minutes = 0;
         //Globals
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -48,6 +48,10 @@ namespace majorProject
 
         // Music
         public Song bsong;
+
+        // sfx
+        public SoundEffect explosionSf;
+        public SoundEffect hitSf;
 
         //player
         Player human;
@@ -157,13 +161,13 @@ namespace majorProject
             {
                 if (enemy is Grunt)
                 {
-                    enemy.init(enemyText, enemyShot, constants);
+                    enemy.init(enemyText, enemyShot, explosionSf, hitSf, constants);
                     enemyList.Add(enemy);
                 }
                 else if (enemy is Boss)
                 {
                     boss = (Boss)enemy;
-                    boss.init(enemyText, enemyShot, constants);
+                    boss.init(enemyText, enemyShot, explosionSf, hitSf, constants);
                 }
             }
 
@@ -237,6 +241,11 @@ namespace majorProject
             shotTexture = Content.Load<Texture2D>("shot1");
             humanTexture = Content.Load<Texture2D>("player");
             explosionTexture = Content.Load<Texture2D>("explosion");
+
+            //Load sfx
+            explosionSf = Content.Load<SoundEffect>("explosionsf");
+            hitSf = Content.Load<SoundEffect>("hitsf");
+            
         }
 
         /// <summary>
@@ -559,12 +568,13 @@ namespace majorProject
                 // correct clock only if offset is not set
                 if (isOffsetSet == false)
                 {
-                    offset = (float)gameTime.TotalGameTime.Seconds;
+                    offset = (float)gameTime.TotalGameTime.TotalSeconds;
                     isOffsetSet = true;
                 }
 
-                time = (float)gameTime.TotalGameTime.Seconds - offset + ((float)gameTime.TotalGameTime.TotalMinutes * 60);
-                Console.WriteLine(time);
+                //time = (float)gameTime.TotalGameTime.Seconds - offset + ((float)gameTime.TotalGameTime.TotalMinutes * 60);
+                time = (float)gameTime.TotalGameTime.TotalSeconds - offset;
+                //Console.WriteLine(time);
                 //Draw background
                 if (backgroundTexture != null)
                 {

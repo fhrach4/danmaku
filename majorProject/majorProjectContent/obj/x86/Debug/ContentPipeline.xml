@@ -73,6 +73,24 @@
       <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\font.xnb</Output>
       <Time>2012-02-17T22:03:08.9401924-05:00</Time>
     </Item>
+    <Item>
+      <Source>explosionsf.wav</Source>
+      <Name>explosionsf</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\explosionsf.xnb</Output>
+      <Time>2012-03-12T19:48:30.0071089-04:00</Time>
+    </Item>
+    <Item>
+      <Source>hitsf.wav</Source>
+      <Name>hitsf</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\frank4\Documents\Visual Studio 2010\Projects\majorproject\majorProject\majorProject\bin\x86\Debug\Content\hitsf.xnb</Output>
+      <Time>2012-03-12T20:54:10.1504722-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
